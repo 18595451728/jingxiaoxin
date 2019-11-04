@@ -127,18 +127,29 @@
         loop: true,
         prevButton:'.swiper-button-prev',
         nextButton:'.swiper-button-next',
-        on: {
-          slideChange: function () {
-            that.bannerIndex = this.activeIndex % 4
-            console.log(that.bannerIndex)
-            if(that.prev_is_hover){
-              that.prevover()
-            }
-            if(that.next_is_hover){
-              that.nextover()
-            }
-          }
+        onSlideChangeEnd:function (e) {
+          console.log(e.activeIndex)
+              that.bannerIndex = e.activeIndex % 4
+              console.log(that.bannerIndex)
+              if(that.prev_is_hover){
+                that.prevover()
+              }
+              if(that.next_is_hover){
+                that.nextover()
+              }
         }
+        // on: {
+        //   slideChange: function () {
+        //     that.bannerIndex = this.activeIndex % 4
+        //     console.log(that.bannerIndex)
+        //     if(that.prev_is_hover){
+        //       that.prevover()
+        //     }
+        //     if(that.next_is_hover){
+        //       that.nextover()
+        //     }
+        //   }
+        // }
       })
     },
     methods: {
