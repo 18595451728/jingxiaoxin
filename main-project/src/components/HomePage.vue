@@ -116,7 +116,7 @@
     data: function () {
       return {
         banners: ['/static/images/banner1.jpg', '/static/images/banner2.jpg', '/static/images/banner3.jpg','/static/images/banner4.jpg'],
-        bannerIndex: '',
+        bannerIndex: 0,
         next_is_hover:!1,
         prev_is_hover:!1
       }
@@ -125,13 +125,10 @@
       var that = this
       var ns = new Swiper('.banner', {
         loop: true,
-        pagination: '.swiper-pagination',
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
         on: {
-          slideChangeTransitionEnd: function () {
+          slideChange: function () {
             that.bannerIndex = this.activeIndex % 4
             console.log(that.bannerIndex)
             if(that.prev_is_hover){
@@ -150,6 +147,7 @@
         if(this.bannerIndex-2<0){
           this.bannerIndex = this.bannerIndex+this.banners.length
         }
+
         var nextswiper = document.getElementsByClassName('swiper-button-prev')[0]
         nextswiper.style.width = '265px'
         nextswiper.style.background = 'url("'+this.banners[this.bannerIndex-2]+'") no-repeat'
@@ -166,6 +164,7 @@
         if(this.bannerIndex == this.banners.length){
           this.bannerIndex = 0
         }
+        console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '265px'
         nextswiper.style.background = 'url("'+this.banners[this.bannerIndex]+'") no-repeat'

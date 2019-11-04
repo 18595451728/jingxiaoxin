@@ -16,7 +16,7 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
                                     <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="/NewsDetail" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
                                     <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="/NewsDetail" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
                                     <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="/NewsDetail" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
                                     <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="/NewsDetail" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
                         </div>
@@ -63,10 +63,10 @@
 </template>
 
 <script>
-    import Nav from './Nav'
-    import Bside from './Bside'
-    import Swiper from 'swiper'
-    import 'swiper/dist/css/swiper.min.css'
+  import Nav from './Nav'
+  import Bside from './Bside'
+  import Swiper from 'swiper'
+  import 'swiper/dist/css/swiper.min.css'
   export default {
     name: 'News',
     components:{
@@ -123,38 +123,39 @@
     .product{
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 150px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 220px);
         z-index: 999;
     }
+    .swiper-slide{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .s-con{
-        width: 1400px;
-        height: 816px;
-        position: absolute;
-        left: calc(50% - 700px);
-        top: calc(50% - 408px);
+        width: 73%;
+        height: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     .p-list{
-        width: 575px;
-        height: 625px;
+        width: 41%;
+        height: 83.4%;
         background: #e7e7e7;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .p-white{
-        width: 498px;
-        height: 690px;
+        width: 86.66%;
+        height: 110%;
         background: #f3f3f3;
         position: relative;
     }
     .p-white>img{
         width: 100%;
-        height: 384px;
     }
     .p-con{
         padding: 0 42px;

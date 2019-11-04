@@ -8,7 +8,7 @@
             <router-link to="/Product" tag="div">产品中心</router-link>
             <router-link to="/Case" tag="div">项目案例</router-link>
             <router-link to="/News" tag="div">新闻资讯</router-link>
-            <router-link to="/" tag="div">招聘城市合伙人</router-link>
+            <router-link to="/Partner" tag="div">招聘城市合伙人</router-link>
             <router-link to="/AboutUs" tag="div">关于我们</router-link>
             <div><img src="/static/images/search.png" alt=""></div>
             <div><img src="/static/images/cart.png" alt=""></div>

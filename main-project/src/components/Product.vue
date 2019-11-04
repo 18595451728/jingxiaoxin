@@ -15,8 +15,8 @@
                                     <p><span>THE</span>[净小新家用净水器]</p>
                                     <img src="/static/images/product.png" alt="">
                                     <div class="fnc">
-                                        <router-link to="" tag="div" class="tryuse">申请试用</router-link>
-                                        <router-link to="" tag="div" class="toBuy">点击购买</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="toBuy">点击购买</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -28,8 +28,8 @@
                                     <p><span>THE</span>[净小新家用净水器]</p>
                                     <img src="/static/images/product.png" alt="">
                                     <div class="fnc">
-                                        <router-link to="" tag="div" class="tryuse">申请试用</router-link>
-                                        <router-link to="" tag="div" class="toBuy">点击购买</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="toBuy">点击购买</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -45,8 +45,8 @@
                                     <p><span>THE</span>[净小新家用净水器]</p>
                                     <img src="/static/images/product.png" alt="">
                                     <div class="fnc">
-                                        <router-link to="" tag="div" class="tryuse">申请试用</router-link>
-                                        <router-link to="" tag="div" class="toBuy">点击购买</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="toBuy">点击购买</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -58,8 +58,8 @@
                                     <p><span>THE</span>[净小新家用净水器]</p>
                                     <img src="/static/images/product.png" alt="">
                                     <div class="fnc">
-                                        <router-link to="" tag="div" class="tryuse">申请试用</router-link>
-                                        <router-link to="" tag="div" class="toBuy">点击购买</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link to="/ProductDetail" tag="div" class="toBuy">点击购买</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -190,6 +190,7 @@
         color: white;
         font-size: 16px;
         text-align: center;
+        cursor: pointer;
     }
     .fnc>div:first-child{
         background: #8f8f8f;

@@ -36,4 +36,12 @@ ul{
   a{
     text-decoration: none;
   }
+
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+
 </style>

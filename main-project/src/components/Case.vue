@@ -68,7 +68,7 @@
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
   export default {
-    name: 'News',
+    name: 'Case',
     components:{
       Bside,
       Nav
@@ -123,38 +123,39 @@
     .product{
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 150px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 220px);
         z-index: 999;
+    }
+    .swiper-slide{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .s-con{
         width: 73%;
-        height: 816px;
-        position: absolute;
-        left: calc(50% - 700px);
-        top: calc(50% - 408px);
+        height: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     .p-list{
-        width: 575px;
-        height: 625px;
+        width: 41%;
+        height: 83.4%;
         background: #e7e7e7;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .p-white{
-        width: 498px;
-        height: 690px;
+        width: 86.66%;
+        height: 110%;
         background: #f3f3f3;
         position: relative;
     }
     .p-white>img{
         width: 100%;
-        height: 384px;
     }
     .p-con{
         padding: 0 42px;
