@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <Login v-if="tologin"></Login>
+        <Login v-on:closeLogin="fromChild" v-if="tologin"></Login>
         <div class="banner swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="item in banners">
@@ -122,7 +122,7 @@
         bannerIndex: 0,
         next_is_hover:!1,
         prev_is_hover:!1,
-        tologin:!1
+        tologin:!0
       }
     },
     mounted () {
@@ -190,6 +190,10 @@
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '130px'
         nextswiper.style.background = 'rgba(165,165,165,.47)'
+      },
+      fromChild(e){
+        console.log(e)
+        this.tologin = e
       }
     }
 

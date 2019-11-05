@@ -2,24 +2,31 @@
     <div class="all">
         <div class="main-con">
             <div class="l-head">
-                <div :class="{active:is_login}" @click="changeLogin(0)">登入</div>
+                <div :class="{active:is_login}" @click="changeLogin(0)">登录</div>
                 <div :class="{active:!is_login}" @click="changeLogin(1)">注册</div>
             </div>
             <div class="l-body">
                 <div class="login-div" v-if="is_login">
-                    <div class="username"><span :class="{active:focus=='username'}">账号</span><input @focus="changeFocus('username')" @blur="changeFocus()" type="text" placeholder="18595451728"></div>
-                    <div class="password"><span :class="{active:focus=='password'}">密码</span><input @focus="changeFocus('password')" @blur="changeFocus()" type="text" placeholder="18595451728"></div>
+                    <div class="username"><span :class="{active:focus=='username'}">账号</span><input @focus="changeFocus('username')" @blur="changeFocus()" type="text" placeholder="123456"></div>
+                    <div class="password"><span :class="{active:focus=='password'}">密码</span><input @focus="changeFocus('password')" @blur="changeFocus()" type="text" placeholder=""></div>
                     <div class="changeword">
-                        <div class="remember">
-                            <p><img src="/static/images/remember.png" alt=""></p><p>记住密码</p>
+                        <div class="remember" @click="rememberword">
+                            <p><img src="/static/images/remember.png" alt="" v-show="remember"></p>
+                            <p>记住密码</p>
                         </div>
-                        <div class="forget">忘记密码?</div>
+                        <router-link tag="div" to="" class="forget">忘记密码?</router-link>
                     </div>
+                    <div class="login" @click="tologin()">登录</div>
                 </div>
-                <div class="reg-div" v-else>22</div>
+                <div class="reg-div login-div" v-else>
+                    <div class="telephone"><span :class="{active:focus=='telephone'}">账号</span><input @focus="changeFocus('telephone')" @blur="changeFocus()" type="text" placeholder=""></div>
+                    <div class="password"><input type="text" placeholder="验证码"></div>
+                    <div class="getCode"><div>发送验证码</div></div>
+                    <div class="login" @click="toReg()">注册</div>
+                </div>
             </div>
         </div>
-        <div class="close"><span>关闭</span><img src="/static/images/close.png" alt=""></div>
+        <div class="close"><span>关闭</span><img src="/static/images/close.png" @click="closeLogin" alt=""></div>
     </div>
 </template>
 
@@ -43,6 +50,13 @@
       },
       changeFocus(e){
         this.focus =e
+      },
+      rememberword(){
+        this.remember = !this.remember
+      },
+      tologin(){},
+      closeLogin(){
+        this.$emit('closeLogin',!1)
       }
     }
   }
@@ -90,12 +104,20 @@
         cursor: pointer;
     }
     .l-head>div.active{
-        background: #333;
+        background: #252525;
         color: #fff;
+    }
+    .login-div::after{
+        height: 0;
+        content: "";
+        visibility: hidden;
+        display: block;
+        clear: both;
     }
     .login-div>div{
         margin-top: 24px;
         width: 100%;
+        height: 54px;
         line-height: 54px;
         border: 1px solid #e6e6e6;
         -webkit-box-sizing: border-box;
@@ -116,9 +138,13 @@
     .login-div input{
         width: 80%;
         margin-left: 10px;
+        line-height: 54px;
     }
-    .changeword{
+    .login-div>div.changeword{
         display: flex;
+        background: none;
+        border: none;
+        line-height: 100%;
     }
     .changeword>div{
         flex: 1;
@@ -126,8 +152,51 @@
     }
     .remember{
         display: flex;
+        align-items: center;
+        color: #999999;
+        cursor: pointer;
+    }
+
+    .remember p:first-child{
+        width: 16px;
+        height: 16px;
+        border: 1px solid #999999;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        position: relative;
+        margin-right: 12px;
+
     }
     .remember img{
-        margin-left: 12px;
+        position: absolute;
+    }
+    .forget{
+        color: #0099cc;
+        cursor: pointer;
+    }
+    .login-div>div.login{
+        display: block;
+        cursor: pointer;
+        background: #252525;
+        color: white;
+        font-size: 14px;
+        text-align: center;
+    }
+    .login-div>div.getCode{
+        display: block;
+        height: 54px;
+        background: none;
+        border: none;
+        padding: 0;
+    }
+    .getCode div{
+        width: 156px;
+        line-height: 54px;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+        background: #0099cc;
+        float: right;
     }
 </style>
