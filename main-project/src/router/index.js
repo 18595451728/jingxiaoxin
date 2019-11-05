@@ -13,6 +13,7 @@ import ProductDetail from '@/components/ProductDetail'
 import ShopCart from '@/components/ShopCart'
 import Payment from '@/components/Payment'
 import Afterpay from '@/components/Afterpay'
+import Probation from '@/components/Probation'
 import UserMessage from '@/components/Mine/UserMessage'
 import Myorder from '@/components/Mine/Myorder'
 import Mycoupon from '@/components/Mine/Mycoupon'
@@ -68,6 +69,11 @@ export default new Router({
       path: '/Afterpay',
       name: 'Afterpay',
       component: Afterpay
+    },
+    {
+      path: '/Probation',
+      name: 'Probation',
+      component: Probation
     },
     {
       path: '/Case',

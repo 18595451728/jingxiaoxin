@@ -1,6 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
+        <Login v-if="tologin"></Login>
         <div class="banner swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="item in banners">
@@ -105,20 +106,23 @@
 
 <script>
   import Nav from './Nav'
+  import Login from './Mine/Login'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
 
   export default {
     name: 'HomePage',
     components: {
-      Nav
+      Nav,
+      Login
     },
     data: function () {
       return {
         banners: ['/static/images/banner1.jpg', '/static/images/banner2.jpg', '/static/images/banner3.jpg','/static/images/banner4.jpg'],
         bannerIndex: 0,
         next_is_hover:!1,
-        prev_is_hover:!1
+        prev_is_hover:!1,
+        tologin:!1
       }
     },
     mounted () {

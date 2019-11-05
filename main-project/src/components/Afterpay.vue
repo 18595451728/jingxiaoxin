@@ -37,7 +37,7 @@
                 </div>
             </div>
             <p class="allprice">总价：￥2000</p>
-            <div class="back">返回</div>
+            <router-link tag="div" to="/Mine/Myorder?mine_status=1" class="back">返回</router-link>
         </div>
 
     </div>

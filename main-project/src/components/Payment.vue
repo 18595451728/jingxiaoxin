@@ -52,7 +52,7 @@
                     <p>小计$ 126.00</p>
                     <p>总计$ <span>126.00</span></p>
                 </div>
-                <div class="t-bottom">结算</div>
+                <router-link tag="div" to="/Afterpay" class="t-bottom">结算</router-link>
             </div>
         </div>
 
@@ -273,5 +273,6 @@
         text-align: center;
         color: white;
         background: #333;
+        cursor: pointer;
     }
 </style>

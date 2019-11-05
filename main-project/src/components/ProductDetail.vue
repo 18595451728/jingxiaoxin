@@ -50,8 +50,8 @@
                         </div>
                     </div>
                     <div class="buy-btn">
-                        <router-link tag="div" to="">申请试用</router-link>
-                        <router-link tag="div" to="">立即购买</router-link>
+                        <router-link tag="div" to="/Probation">申请试用</router-link>
+                        <router-link tag="div" to="/Payment">立即购买</router-link>
                     </div>
                     <div class="comment">
                         <p class="c-title">用户评论</p>
