@@ -39,7 +39,7 @@
             u='/Mine/Myorder'
             break;
           case 2 :
-            u=''
+            u='/Mine/Address'
             break;
           case 3 :
             u='/Mine/Mycoupon'

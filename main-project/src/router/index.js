@@ -10,16 +10,17 @@ import Case from '@/components/Case'
 import NewsDetail from '@/components/NewsDetail'
 import Partner from '@/components/Partner'
 import ProductDetail from '@/components/ProductDetail'
+import ShopCart from '@/components/ShopCart'
+import Payment from '@/components/Payment'
+import Afterpay from '@/components/Afterpay'
 import UserMessage from '@/components/Mine/UserMessage'
 import Myorder from '@/components/Mine/Myorder'
 import Mycoupon from '@/components/Mine/Mycoupon'
+import Address from '@/components/Mine/Address'
+import Logistics from '@/components/Mine/Logistics'
+import Refund from '@/components/Mine/Refund'
 
 Vue.use(Router)
-const routerPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(error=> error)
-}
-
 export default new Router({
   // mode:'history',
   routes: [
@@ -52,6 +53,21 @@ export default new Router({
       path: '/News',
       name: 'News',
       component: News
+    },
+    {
+      path: '/ShopCart',
+      name: 'ShopCart',
+      component: ShopCart
+    },
+    {
+      path: '/Payment',
+      name: 'Payment',
+      component: Payment
+    },
+    {
+      path: '/Afterpay',
+      name: 'Afterpay',
+      component: Afterpay
     },
     {
       path: '/Case',
@@ -87,6 +103,21 @@ export default new Router({
       path: '/Mine/Mycoupon',
       name: 'Mycoupon',
       component: Mycoupon
+    },
+    {
+      path: '/Mine/Address',
+      name: 'Address',
+      component: Address
+    },
+    {
+      path: '/Mine/Logistics',
+      name: 'Logistics',
+      component: Logistics
+    },
+    {
+      path: '/Mine/Refund',
+      name: 'Refund',
+      component: Refund
     }
   ]
 })

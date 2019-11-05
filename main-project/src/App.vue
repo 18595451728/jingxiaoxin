@@ -43,5 +43,14 @@ ul{
   input::-webkit-outer-spin-button {
     -webkit-appearance: none;
   }
+  textarea::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  textarea::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  textarea{
+    resize: none;
+  }
 
 </style>

@@ -11,13 +11,13 @@
                 <div class="o-list" v-for="item in 10">
                     <div class="l-top"><p>2019-10-22  订单号：4738678647926</p><p>待付款</p></div>
                     <div class="l-con">
-                        <div class="l-left">
+                        <router-link tag="div" to="/Mine/Logistics" class="l-left">
                             <img src="/static/images/goodimg.png" alt="">
                             <div class="l-art">
                                 <div class="a-top"><span class="goodsname">净小新净水器</span><span>颜色：高级灰</span><span>尺寸：1500mm</span></div>
                                 <div class="a-bottom">￥45.05</div>
                             </div>
-                        </div>
+                        </router-link>
                         <div class="l-right">
                             <div class="b-top">
                                 <div></div>
@@ -128,6 +128,7 @@
         justify-content: space-between;
         align-items: center;
         width: 55%;
+        cursor: pointer;
     }
     .l-left>img{
         width: 20%;
