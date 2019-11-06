@@ -4,6 +4,18 @@
         <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" alt=""><span>支付</span></div>
         <div class="main-con">
+            <div class="address">
+                <div class="a-title">地址</div>
+                <div class="lineOne">
+                    <div><input type="text" placeholder="姓名"></div>
+                    <div><input type="text" placeholder="浙江省杭州市"><img src="/static/images/arrow-bottom.png" alt=""></div>
+                </div>
+                <div class="lineOne lineTwo">
+                    <div><input type="text" placeholder="详细地址"></div>
+                    <div><input type="text" placeholder="电话号"></div>
+                </div>
+                <div class="save">保存</div>
+            </div>
             <div class="cart">
                 <div class="cart-title">
                     <div>产品名称</div>
@@ -101,7 +113,7 @@
     }
     .main-con{
         width: 1170px;
-        margin: 70px auto;
+        margin: 50px auto;
     }
     .main-con::after{
         height: 0;
@@ -109,6 +121,54 @@
         display: block;
         visibility: hidden;
         clear: both;
+    }
+    .a-title{
+        width: 45%;
+        line-height: 55px;
+        border-bottom: 1px solid #cfcfcf;
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #000;
+    }
+    .lineOne{
+        display: flex;
+        align-items: center;
+    }
+    .lineOne>div{
+        width: 45%;
+        border: 1px solid #cfcfcf;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0 22px;
+        color: #999999;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .lineOne input{
+        width: 80%;
+        line-height: 53px;
+    }
+    .lineOne>div:first-child{
+        margin-right: 10%;
+    }
+    .lineTwo{
+        margin-top: 25px;
+    }
+    .save{
+        width: 170px;
+        height: 55px;
+        border: 1px solid #cfcfcf;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        line-height: 53px;
+        text-align: center;
+        font-size: 14px;
+        color: #000;
+        margin: 45px 0 60px;
     }
     .cart{
         border: 1px solid #dadada;
@@ -274,5 +334,13 @@
         color: white;
         background: #333;
         cursor: pointer;
+    }
+    @media screen and (max-width: 1200px){
+        .main-con{
+            width: 90%;
+        }
+        .pays>div{
+            width: 30%;
+        }
     }
 </style>

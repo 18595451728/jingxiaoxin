@@ -125,13 +125,14 @@
     }
     .l-left{
         display: flex;
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         align-items: center;
         width: 55%;
         cursor: pointer;
     }
     .l-left>img{
-        width: 20%;
+        width: 86px;
+        margin-right: 65px;
     }
 
     .a-top{
@@ -194,5 +195,16 @@
     }
     .b-bottom>div:last-child{
         background: #0099cc;
+    }
+    @media screen and (max-width: 1400px) {
+        .l-left{
+            width: 70%;
+        }
+        .main-con{
+            width: 92%;
+        }
+        .l-left>img{
+            margin-right: 40px;
+        }
     }
 </style>

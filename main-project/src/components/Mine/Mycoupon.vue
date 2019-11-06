@@ -15,7 +15,7 @@
                                 <p>￥<span>30</span></p>
                                 <div>
                                     <p>优惠券</p>
-                                    <p>未使用</p>
+                                    <p>{{item==3?'已使用':'未使用'}}</p>
                                 </div>
                             </div>
                             <div class="c-bottom">限2019-07-23当天使用</div>
@@ -59,7 +59,7 @@
 
 <style scoped>
     .main-con{
-        width: 72.9%;
+        width: 1350px;
         margin: 50px auto;
         display: flex;
         justify-content: space-between;
@@ -162,5 +162,19 @@
     }
     .coupon.grey .c-bottom{
         color: #a2a2a2;
+    }
+    @media screen and (max-width: 1400px) {
+        .main-con{
+            width: 90%;
+        }
+        .coupon{
+            width: 49%;
+        }
+        .coupon:nth-child(3n){
+            margin-right: 2%;
+        }
+        .coupon:nth-child(2n){
+            margin-right: 0;
+        }
     }
 </style>

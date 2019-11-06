@@ -10,8 +10,9 @@
             <router-link to="/News" tag="div">新闻资讯</router-link>
             <router-link to="/Partner" tag="div">招聘城市合伙人</router-link>
             <router-link to="/AboutUs" tag="div">关于我们</router-link>
-            <div><img src="/static/images/search.png" alt=""></div>
-            <div><img src="/static/images/cart.png" alt=""></div>
+            <router-link to="" tag="div"><img src="/static/images/search.png" alt=""></router-link>
+            <router-link to="/ShopCart" tag="div"><img src="/static/images/cart.png" alt=""></router-link>
+            <router-link to="/Mine/UserMessage?mine_status=0" tag="div"><img src="/static/images/user.png" alt=""></router-link>
         </div>
     </div>
 </template>
@@ -58,10 +59,24 @@ export default {
     }
     @media screen and (max-width: 1400px){
         .navlist>div{
-            padding: 0 20px;
+            padding: 0 15px;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
+        }
+    }
+
+    @media screen and (max-width: 1200px){
+        .navlist>div{
+            padding: 0 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    }
+    @media screen and (max-width: 1200px){
+        .navlist>div{
+            font-size: 15px;
         }
     }
 </style>

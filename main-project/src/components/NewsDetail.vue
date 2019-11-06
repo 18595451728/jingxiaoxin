@@ -59,6 +59,9 @@
     display: block;
     clear: both;
 }
+.detail>img{
+    width: 100%;
+}
     .d-name{
         text-align: center;
         margin: 65px 0 20px;
@@ -89,5 +92,10 @@
     }
     .pages>div{
         cursor: pointer;
+    }
+    @media screen and (max-width: 1500px){
+        .detail{
+            width: 80%;
+        }
     }
 </style>

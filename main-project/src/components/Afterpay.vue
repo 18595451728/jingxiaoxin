@@ -221,4 +221,9 @@
         float: right;
         cursor: pointer;
     }
+    @media screen and (max-width: 1200px){
+        .main-con{
+            width: 90%;
+        }
+    }
 </style>

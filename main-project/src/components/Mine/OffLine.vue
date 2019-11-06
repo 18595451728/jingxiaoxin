@@ -5,57 +5,39 @@
         <div class="emei"><img src="/static/images/back.png" alt=""><span>我的订单</span></div>
         <div class="main-con">
             <div class="refund">
-                <div class="backmes">
-                    <p>退款商品：</p>
-                    <img src="/static/images/goodimg.png" alt="">
-                    <p><span>净小新净水器</span>    颜色：高级灰   尺寸：1500mm</p>
+                <div class="voucher">
+                    <div>上传凭证</div>
+                    <p>请认准以下账户打款，然后填写打款人的户名和账户，并拍照上传转账凭证收款账户</p>
                 </div>
-                <div class="backser">
-                    <p>服务类型：</p>
+                <div class="account">
+                    <div>收款账户</div>
+                    <p>户名：净小新净水器</p>
+                    <p>账户：123231245253432525325</p>
+                    <p>开户银行：中国工商银行杭州开元银行</p>
+                </div>
+                <div class="PayInfo">
+                    <p>支付信息</p>
                     <div>
-                        <p><span :class="{active:service==0}" @click="changeService(0)"></span>仅退款</p>
-                        <p><span :class="{active:service==1}" @click="changeService(1)"></span>退货退款</p>
+                        <p>*支付金额：</p>
+                        <div class="kuang"><input type="text"></div>
                     </div>
-                </div>
-                <div class="backser">
-                    <p>货物状态：</p>
                     <div>
-                        <p><span :class="{active:backstatus==0}" @click="changeStatus(0)"></span>未收到货</p>
-                        <p><span :class="{active:backstatus==1}" @click="changeStatus(1)"></span>已收到货</p>
+                        <p>*账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：</p>
+                        <div class="kuang"><input type="text"></div>
                     </div>
-                </div>
-                <div class="backreason">
-                    <p>退货原因：</p>
                     <div>
-                        <input type="text" placeholder="请选择" readonly>
-                        <img src="/static/images/arrow-bottom.png" alt="">
+                        <p>*姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
+                        <div class="kuang"><input type="text"></div>
                     </div>
-                </div>
-                <div class="backprice">
-                    <p>退货金额：</p>
                     <div>
-                        <p>￥</p>
-                        <input type="text" placeholder="117">
+                        <p></p>
+                        <div class="upload">
+                            <img src="/static/images/add.png" alt="">
+                            <p>上传凭证</p>
+                            <p>（最多10张）</p>
+                        </div>
                     </div>
-                </div>
-                <div class="backdes">
-                    <p>退款说明：</p>
-                    <div>
-                        <textarea name="desc" id="desc" placeholder="退款说明"></textarea>
-                        <p>200</p>
-                    </div>
-                </div>
-                <div class="backimgs">
-                    <p>上传照片：</p>
-                    <div>
-                        <img src="/static/images/add.png" alt="">
-                        <p>上传凭证</p>
-                        <p>（最多10张）</p>
-                    </div>
-                </div>
-                <div class="send">
-                    <p style="opacity: 0">巴拉巴拉：</p>
-                    <div>提交</div>
+                    <div class="send">提交</div>
                 </div>
             </div>
             <div class="orderdetail">
@@ -91,7 +73,7 @@
   import Nav from '../Nav'
   import Bside from '../Bside'
   export default {
-    name: 'Refund',
+    name: 'OffLine',
     components:{
       Nav,
       Bside
@@ -149,7 +131,7 @@
         -webkit-box-shadow: 0 0 59px rgba(0,0,0,.08);
         -moz-box-shadow: 0 0 59px rgba(0,0,0,.08);
         box-shadow: 0 0 59px rgba(0,0,0,.08);
-        padding: 25px 0 0 40px;
+        padding: 25px 40px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -159,144 +141,100 @@
         overflow:-moz-scrollbars-none;
     }
     .refund::-webkit-scrollbar{width:0px}
-    .refund>div{
-        display: flex;
-        margin-bottom: 35px;
-    }
-    .refund>div>p{
-        font-size: 14px;
-        color: #000;
-        margin-right: 20px;
-    }
-    .backmes p{
-        margin-top: 30px;
-        font-size: 14px;
-        color: #000;
-
-    }
-    .backmes p span{
-        font-size: 16px;
-        margin-right: 15px;
-    }
-    .backmes p:last-child{
-        margin-left: 7.2%;
-    }
-    .backser div p{
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        color: #000;
-    }
-    .backser div p:first-child{
-        margin-bottom: 18px;
-    }
-    .backser div p span{
-        width: 22px;
-        height: 22px;
-        border: 1px solid #cecece;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        margin-right: 15px;
-        position: relative;
-        cursor: pointer;
-    }
-    .backser div p span.active::after{
-        display: block;
-        content: "";
-        width: 10px;
-        height: 10px;
-        background: #000;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        position: absolute;
-        left: 6px;
-        top: 6px;
-    }
-    .backreason>p{
-        margin-top: 15px;
-    }
-    .backreason>div{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 38%;
-        border: 1px solid #bfbfbf;
-        height: 60px;
-        padding: 0 20px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .backreason>div img{
-        cursor: pointer;
-    }
-    .backprice>p{
-        margin-top: 15px;
-    }
-    .backprice>div{
-        display: flex;
-        align-items: center;
-        width: 38%;
-        border: 1px solid #bfbfbf;
-        height: 60px;
-        padding: 0 20px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .backdes>p{
-        margin-top: 15px;
-    }
-    .backdes>div{
-        border: 1px solid #bfbfbf;
-        width: 68.67%;
-        padding: 20px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        height: 154px;
-        position: relative;
-    }
-    .backdes textarea{
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    .voucher{
         width: 100%;
-        height: 100%;
+        padding: 25px 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border-bottom: 2px solid #e8e8e8;
     }
-    .backdes>div p{
-        position: absolute;
-        right: 20px;
-        bottom: 20px;
+    .voucher div{
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #000000;
+    }
+    .voucher p{
         font-size: 14px;
         color: #ababab;
     }
-    .backimgs>p{
-        margin-top: 15px;
+    .account{
+        padding: 33px 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border-bottom: 2px solid #e8e8e8;
     }
-
-    .backimgs>div{
+    .account div{
+        font-size: 16px;
+        color: #000000;
+        margin-bottom: 23px;
+    }
+    .account p{
+        font-size: 14px;
+        color: #3c3c3c;
+        margin: 23px 0 10px;
+    }
+    .PayInfo{
+        padding: 33px 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .PayInfo>p{
+        font-size: 16px;
+        color: #000;
+        margin-bottom: 28px;
+    }
+    .PayInfo>div{
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .PayInfo>div>p{
+        width: 80px;
+        font-size: 14px;
+        color: #545454;
+    }
+    .kuang{
+        width: 48%;
+        border: 1px solid #cfcfcf;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0 2%;
+    }
+    .kuang input{
+        line-height: 53px;
+        width: 80%;
+    }
+    .upload{
         width: 120px;
         height: 120px;
         text-align: center;
         border: 1px solid #bfbfbf;
         cursor: pointer;
+        margin-top: 20px;
+        margin-bottom: 75px;
     }
-    .backimgs div p{
+    .upload p{
         color: #ababab;
         font-size: 14px;
     }
-    .backimgs div img{
+    .upload img{
         margin: 25px 0 10px;
     }
-    .send>div{
-        width: 26%;
-        line-height: 52px;
+    .PayInfo>div.send{
+        display: block;
+        width: 215px;
+        line-height: 50px;
+        border: 1px solid #0099cc;
         background: #0099cc;
+        color: white;
         text-align: center;
         font-size: 14px;
-        color: white;
         cursor: pointer;
+        margin-left: 80px;
     }
     .orderdetail{
         width: 28%;
@@ -374,12 +312,10 @@
     .allprice p:first-child{
         width: 100px;
     }
-
-
     @media screen and (max-width: 1400px){
         .main-con{
-            width: 94%;
-            left: 3%;
+            width: 90%;
+            left: 5%;
         }
         .orderdetail {
             width: 31%;
@@ -390,8 +326,8 @@
         .orderdetail {
             width: 34%;
         }
-        .refund{
-        width: 63%;
+        .loginstics{
+            width: 62.5%;
         }
     }
 </style>

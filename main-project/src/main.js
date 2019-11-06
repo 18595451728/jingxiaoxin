@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
-
+import axios from 'axios'
+require('animate.css/animate.min.css')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

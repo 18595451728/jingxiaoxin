@@ -198,6 +198,25 @@
     .fnc>div:last-child{
         background: #333;
     }
+    @media screen and (max-width: 1200px){
+        .white-con p{
+            font-size: 25px;
+        }
+        .white-con p span{
+            font-size: 35px;
+        }
+        .fnc>div{
+            line-height: 40px;
+        }
+    }
+    @media screen and (max-width: 1100px){
+        .white-con p{
+            font-size: 22px;
+        }
+        .white-con p span{
+            font-size: 32px;
+        }
+    }
 </style>
 <style>
     .swiper-container-vertical>.swiper-pagination-bullets{

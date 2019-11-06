@@ -10,6 +10,7 @@ import Case from '@/components/Case'
 import NewsDetail from '@/components/NewsDetail'
 import Partner from '@/components/Partner'
 import ProductDetail from '@/components/ProductDetail'
+import ProductShow from '@/components/ProductShow'
 import ShopCart from '@/components/ShopCart'
 import Payment from '@/components/Payment'
 import Afterpay from '@/components/Afterpay'
@@ -20,6 +21,7 @@ import Mycoupon from '@/components/Mine/Mycoupon'
 import Address from '@/components/Mine/Address'
 import Logistics from '@/components/Mine/Logistics'
 import Refund from '@/components/Mine/Refund'
+import OffLine from '@/components/Mine/OffLine'
 
 Vue.use(Router)
 export default new Router({
@@ -94,6 +96,10 @@ export default new Router({
       path: '/ProductDetail',
       name: 'ProductDetail',
       component: ProductDetail
+    },{
+      path: '/ProductShow',
+      name: 'ProductShow',
+      component: ProductShow
     },
     {
       path: '/Mine/UserMessage',
@@ -124,6 +130,11 @@ export default new Router({
       path: '/Mine/Refund',
       name: 'Refund',
       component: Refund
+    },
+    {
+      path: '/Mine/OffLine',
+      name: 'OffLine',
+      component: OffLine
     }
   ]
 })

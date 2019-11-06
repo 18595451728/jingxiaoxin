@@ -57,4 +57,12 @@
         color: #a6a6a6;
         cursor: pointer;
     }
+    @media screen and (max-width: 1200px){
+        .f-nav div{
+            padding: 0 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    }
 </style>

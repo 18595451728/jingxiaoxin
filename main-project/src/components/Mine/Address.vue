@@ -121,6 +121,7 @@
     }
     .address{
         width: 23.5%;
+        line-height: 30px;
     }
     .addAddress{
         float: right;
@@ -129,5 +130,16 @@
         font-size: 16px;
         color: #0099cc;
         cursor: pointer;
+    }
+    @media screen and (max-width: 1400px) {
+        .main-con{
+            width: 85%;
+        }
+        table tbody{
+            font-size: 14px;
+        }
+        .address{
+            line-height: 25px;
+        }
     }
 </style>

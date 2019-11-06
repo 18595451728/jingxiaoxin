@@ -73,7 +73,7 @@
         align-items: center;
     }
     .m-right>div{
-        width: 60%;
+        width: 663px;
     }
     .user_top{
         width: 100%;
@@ -144,7 +144,7 @@
         justify-content: center;
     }
     .user_bottom>div{
-        width: 21.53%;
+        width: 140px;
         line-height: 50px;
         text-align: center;
         color: white;
@@ -157,5 +157,10 @@
     .user_bottom>div:last-child{
         background: #0099cc;
         margin-left: 28px;
+    }
+    @media screen and (max-width: 1400px){
+        .m-right>div{
+            width: 90%;
+        }
     }
 </style>

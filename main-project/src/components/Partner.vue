@@ -125,7 +125,7 @@
     .partner_right{
         width: 57.5%;
         margin-left: -7.5%;
-        height: 91.3%;
+        height: 88%;
         margin-top: 30px;
         background: #fff;
         -webkit-box-shadow: 3px 3px 40px rgba(130,130,130,.34);
@@ -199,5 +199,35 @@
         color: white;
         background: #333333;
         margin: 55px 0 20px;
+    }
+    @media screen and (max-width: 1300px){
+        .partner_main{
+            width: 95%;
+        }
+        .partner_title{
+            font-size: 24px;
+        }
+        .each_mes div{
+            padding: 0 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    }
+    @media screen and (max-width: 1200px){
+        .partner_right{
+            height: 83%;
+        }
+    }
+    @media screen and (max-width: 1100px){
+        .partner_right{
+            height: 76%;
+        }
+        .partner_list{
+            margin-bottom: 10px;
+        }
+        .partner_btn{
+            margin: 20px 0 10px;
+        }
     }
 </style>

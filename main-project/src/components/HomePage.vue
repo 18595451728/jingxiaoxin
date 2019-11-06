@@ -162,7 +162,7 @@
         if(this.bannerIndex-2<0){
           this.bannerIndex = this.bannerIndex+this.banners.length
         }
-
+        console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-prev')[0]
         nextswiper.style.width = '265px'
         nextswiper.style.background = 'url("'+this.banners[this.bannerIndex-2]+'") no-repeat'
@@ -182,7 +182,7 @@
         console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '265px'
-        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex]+'") no-repeat'
+        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex % 4]+'") no-repeat'
         nextswiper.style.backgroundSize = '100% 100%'
       },
       nextout () {
@@ -290,7 +290,7 @@
     }
 
     .p-name{
-        width: 300px;
+        width: 100%;
         font-size: 35px;
         color: #505345;
         line-height: 85px;
@@ -304,7 +304,7 @@
     .p-desc{
         font-size: 16px;
         color: #505345;
-        width: 370px;
+        width: 80%;
         margin: 0 auto;
         line-height: 28px;
     }
@@ -320,7 +320,7 @@
         position: absolute;
         left: 0;
         top: 0;
-        width: 560px;
+        width: 40%;
         height: 100%;
         display: flex;
         align-items: center;
@@ -337,7 +337,7 @@
         box-sizing: border-box;
     }
     .footer-main{
-        width: 83%;
+        width: 1550px;
         display: flex;
         justify-content: space-between;
         margin: 0 auto;
@@ -371,5 +371,31 @@
         line-height: 60px;
         font-size: 16px;
         color: #fff;
+    }
+    @media screen and (max-width: 1600px){
+        .footer-main{
+            width: 90%;
+        }
+    }
+    @media screen and (max-width: 1400px){
+        .p-name{
+            margin: 0 auto 30px;
+        }
+    }
+    @media screen and (max-width: 1200px){
+        .p-name{
+            margin: 0 auto 15px;
+            line-height: 50px;
+            font-size: 30px;
+        }
+        .p-desc{
+            font-size: 14px;
+        }
+        .f-left{
+            width: 35%;
+        }
+        .f-right{
+            width: 60%;
+        }
     }
 </style>

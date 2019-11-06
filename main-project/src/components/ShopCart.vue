@@ -71,7 +71,6 @@
 </script>
 
 <style scoped>
-
     .emei{
         width: 100%;
         line-height: 70px;
@@ -227,5 +226,17 @@
         box-sizing: border-box;
         font-size: 14px;
         cursor: pointer;
+    }
+    @media screen and (max-width: 1200px){
+        .main-con{
+            width: 95%;
+        }
+        .c-right>div.num>div{
+            width: 100px;
+            line-height: 30px;
+        }
+        .add,.reduce{
+            width: 30px;
+        }
     }
    </style>

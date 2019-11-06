@@ -123,4 +123,12 @@
     .list1>div.active span{
         background: #0099cc;
     }
+    @media screen and (max-width: 1400px){
+        .mine-left{
+            width: 250px;
+        }
+        .list1>div span{
+            margin-right: 85px;
+        }
+    }
 </style>

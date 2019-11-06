@@ -120,4 +120,13 @@
         margin-top: 25px;
         cursor: pointer;
     }
+
+    @media screen and (max-width: 1200px){
+        .t-name{
+            font-size: 25px;
+        }
+        .t-desc{
+            font-size: 16px;
+        }
+    }
 </style>

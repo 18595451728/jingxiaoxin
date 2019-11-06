@@ -407,4 +407,27 @@
         font-size: 12px;
         color: #9d9d9d;
     }
+    @media screen and (max-width: 1400px){
+        .detail{
+            width: 90%;
+            left: 5%;
+        }
+    }
+    @media screen and (max-width: 1200px){
+        .d-left{
+            width: 38.5%;
+        }
+        .d-right{
+            width: 57%;
+        }
+        .detail{
+            width: 90%;
+            left: 5%;
+        }
+    }
+    @media screen and (max-width: 1100px){
+        .r-con{
+            width: 85%;
+        }
+    }
 </style>

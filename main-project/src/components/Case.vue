@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>项目案例</span></div>
+        <div class="emei"><img src="/static/images/back.png" alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -164,6 +164,13 @@
         box-sizing: border-box;
 
     }
+    .p-con::after{
+        content: "";
+        height: 0;
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
     .n-name{
         font-size: 16px;
         color: #6c6c6c;
@@ -187,6 +194,28 @@
         float: right;
         margin-top: 45px;
         cursor: pointer;
+    }
+    @media screen and (max-width: 1400px) {
+        .lookmore{
+            width: 180px;
+            line-height: 50px;
+        }
+        .p-list{
+            height: 73.5%;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .lookmore{
+            width: 180px;
+            line-height: 50px;
+        }
+    }
+    @media screen and (max-width: 1100px) {
+        .lookmore{
+            width: 140px;
+            line-height: 40px;
+            margin-top: 35px;
+        }
     }
 </style>
 <style>

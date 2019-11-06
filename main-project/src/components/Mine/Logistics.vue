@@ -85,10 +85,10 @@
         margin-left: 43px;
     }
     .main-con{
-        width: 73%;
+        width: 1400px;
         height: calc(100% - 220px);
         position: absolute;
-        left: 13.5%;
+        left: calc(50% - 700px);
         top: 150px;
         padding-top: 60px;
         -webkit-box-sizing: border-box;
@@ -206,5 +206,23 @@
     }
     .allprice p:first-child{
         width: 100px;
+    }
+    @media screen and (max-width: 1400px){
+        .main-con{
+            width: 90%;
+            left: 5%;
+        }
+        .orderdetail {
+            width: 31%;
+        }
+    }
+    @media screen and (max-width: 1200px){
+
+        .orderdetail {
+            width: 34%;
+        }
+        .loginstics{
+            width: 62.5%;
+        }
     }
 </style>

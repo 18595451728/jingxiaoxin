@@ -189,6 +189,7 @@
         background: none;
         border: none;
         padding: 0;
+        cursor: pointer;
     }
     .getCode div{
         width: 156px;
@@ -198,5 +199,8 @@
         font-size: 14px;
         background: #0099cc;
         float: right;
+    }
+    .password input{
+        margin-left: 0;
     }
 </style>
