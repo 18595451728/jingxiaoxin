@@ -14,27 +14,40 @@
                         <div class="partner_list">
                             <div class="each_mes">
                                 <p>姓名*</p>
-                                <div :class="{active:focus=='user_name'}"><input type="text" @focus="changeFocus('user_name')" ref="user_name"><img src="/static/images/sure.png" alt=""></div>
+                                <div :class="{active:focus=='user_name'}"><input type="text"
+                                                                                 @focus="changeFocus('user_name')"
+                                                                                 @blur="nameBlur()" ref="user_name"><img
+                                        src="/static/images/sure.png" v-if="confirmName" alt=""></div>
                             </div>
                             <div class="each_mes">
                                 <p>邮箱</p>
-                                <div :class="{active:focus=='email'}"><input type="text" @focus="changeFocus('email')" ref="email"><img src="/static/images/sure.png" alt=""></div>
+                                <div :class="{active:focus=='email'}"><input type="text" @focus="changeFocus('email')"
+                                                                             @blur="emailBlur()" ref="email"><img
+                                        src="/static/images/sure.png" v-if="confirmEmail" alt=""></div>
                             </div>
                         </div>
                         <div class="partner_list">
                             <div class="each_mes">
                                 <p>电话*</p>
-                                <div :class="{active:focus=='tel'}"><input type="text" @focus="changeFocus('tel')" ref="tel"><img src="/static/images/sure.png" alt=""></div>
+                                <div :class="{active:focus=='tel'}"><input type="text" @focus="changeFocus('tel')"
+                                                                           @blur="telBlur()" ref="tel"><img
+                                        src="/static/images/sure.png" v-if="confirmTel" alt=""></div>
                             </div>
                         </div>
                         <div class="partner_list">
                             <div class="each_mes">
                                 <p>地址*</p>
-                                <div :class="{active:focus=='address'}"><input type="text" @focus="changeFocus('address')" ref="address"><img src="/static/images/arrow-bottom.png" alt=""></div>
+                                <div :class="{active:focus=='address'}"><input type="text"
+                                                                               @focus="changeFocus('address')"
+                                                                               ref="address"><img
+                                        src="/static/images/arrow-bottom.png" alt=""></div>
                             </div>
                             <div class="each_mes">
                                 <p>详细地址*</p>
-                                <div :class="{active:focus=='detail_address'}"><input type="text" @focus="changeFocus('detail_address')" ref="detail_address"><img src="/static/images/sure.png" alt=""></div>
+                                <div :class="{active:focus=='detail_address'}"><input type="text" @blur="addressBlur()"
+                                                                                      @focus="changeFocus('detail_address')"
+                                                                                      ref="detail_address"><img
+                                        src="/static/images/sure.png" v-if="confirmAddress" alt=""></div>
                             </div>
                         </div>
                         <div class="partner_list">
@@ -43,7 +56,7 @@
                                 <textarea name="leave_message" id="leave_message"></textarea>
                             </div>
                         </div>
-                        <div class="partner_btn">
+                        <div class="partner_btn" @click="send">
                             提交审核
                         </div>
                     </div>
@@ -56,30 +69,104 @@
 <script>
   import Nav from './Nav'
   import Bside from './Bside'
+
   export default {
     name: 'Partner',
-    components:{
+    components: {
       Bside,
       Nav
     },
-    data:function () {
+    data: function () {
       return {
-        focus:''
+        focus: '',
+        confirmName: !1,
+        confirmEmail: !1,
+        confirmTel: !1,
+        confirmAddress: !1,
       }
     },
     mounted () {
     },
-    methods:{
-      changeFocus:function (e) {
+    methods: {
+      changeFocus: function (e) {
         console.log(e)
         this.focus = e
+      },
+      nameBlur: function () {
+        var name = this.$refs.user_name.value
+        console.log(name)
+        if (name && name.replace(/(^\s*)|(\s*$)/g, '') && name.replace(/(^\s*)|(\s*$)/g, '') != '') {
+          this.confirmName = !0
+        } else {
+          this.$layer.msg('姓名不能为空')
+          this.confirmName = !1
+        }
+      },
+      emailBlur: function () {
+        var email = this.$refs.email.value
+        console.log(email)
+        if (email && email != '') {
+          var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+          if (reg.test(email)) {
+            this.confirmEmail = !0
+          } else {
+            this.$layer.msg('邮箱格式错误')
+          }
+        } else {
+          this.$layer.msg('邮箱不能为空')
+          this.confirmEmail = !1
+        }
+      },
+      telBlur: function () {
+        var tel = this.$refs.tel.value
+        console.log(tel)
+        if (tel && tel != '') {
+          var reg = /^1[3456789]\d{9}$/
+          if (reg.test(tel)) {
+            this.confirmTel = !0
+          } else {
+            this.$layer.msg('手机号格式错误')
+          }
+        } else {
+          this.$layer.msg('手机号不能为空')
+          this.confirmTel = !1
+        }
+      },
+      addressBlur: function () {
+        var detail_address = this.$refs.detail_address.value
+        console.log(detail_address)
+        if (detail_address && detail_address.replace(/(^\s*)|(\s*$)/g, '') && detail_address.replace(/(^\s*)|(\s*$)/g, '') != '') {
+          this.confirmAddress = !0
+        } else {
+          this.$layer.msg('详细地址不能为空')
+          this.confirmAddress = !1
+        }
+      },
+      send () {
+        var that = this
+        that.$axios.post('/Partner/apply', {
+          token:'',
+          name:'123',
+          tel:'19913245678',
+          phone:'',
+          email:'',
+          address:'',
+          suggest:''
+        }).then(res => {
+          console.log(res)
+          if(res.data.status){
+
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
       }
     }
   }
 </script>
 
 <style scoped>
-    .emei{
+    .emei {
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;
@@ -92,67 +179,79 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei span{
+
+    .emei span {
         margin-left: 43px;
     }
-    .partner{
+
+    .partner {
         width: 100%;
         height: calc(100% - 220px);
         position: absolute;
         left: 0;
         top: 150px;
     }
-    .partner_main{
+
+    .partner_main {
         width: 1200px;
         height: 100%;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
     }
-    .partner_left{
+
+    .partner_left {
         width: 50%;
         text-align: center;
     }
-    .partner_title{
+
+    .partner_title {
         font-size: 30px;
         color: #8f8f8f;
         line-height: 60px;
         margin: 35px 0 10px;
     }
-    .partner_left img{
+
+    .partner_left img {
         width: 100%;
     }
-    .partner_right{
+
+    .partner_right {
         width: 57.5%;
         margin-left: -7.5%;
         height: 88%;
         margin-top: 30px;
         background: #fff;
-        -webkit-box-shadow: 3px 3px 40px rgba(130,130,130,.34);
-        -moz-box-shadow: 3px 3px 40px rgba(130,130,130,.34);
-        box-shadow: 3px 3px 40px rgba(130,130,130,.34);
+        -webkit-box-shadow: 3px 3px 40px rgba(130, 130, 130, .34);
+        -moz-box-shadow: 3px 3px 40px rgba(130, 130, 130, .34);
+        box-shadow: 3px 3px 40px rgba(130, 130, 130, .34);
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .partner_right_main{
+
+    .partner_right_main {
         width: 78.7%;
     }
-    .partner_list{
+
+    .partner_list {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
     }
-    .each_mes{
+
+    .each_mes {
         width: 47.2%;
     }
-    .each_mes p{
+
+    .each_mes p {
         font-size: 14px;
         color: #000000;
         line-height: 35px;
     }
-    .each_mes div{
+
+    .each_mes div {
         width: 100%;
         height: 45px;
         line-height: 45px;
@@ -166,21 +265,26 @@
         box-sizing: border-box;
         border: 2px solid #ececec;
     }
-    .each_mes div.active{
+
+    .each_mes div.active {
         border: 2px solid #333333;
     }
-    .each_mes div input{
+
+    .each_mes div input {
         height: 45px;
     }
+
     .leave_message {
         width: 100%;
     }
-    .leave_message p{
+
+    .leave_message p {
         font-size: 14px;
         color: #000000;
         line-height: 35px;
     }
-    .leave_message textarea{
+
+    .leave_message textarea {
         resize: none;
         width: 100%;
         height: 104px;
@@ -191,7 +295,8 @@
         box-sizing: border-box;
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
     }
-    .partner_btn{
+
+    .partner_btn {
         width: 46.44%;
         text-align: center;
         line-height: 50px;
@@ -199,34 +304,42 @@
         color: white;
         background: #333333;
         margin: 55px 0 20px;
+        cursor: pointer;
     }
-    @media screen and (max-width: 1300px){
-        .partner_main{
+
+    @media screen and (max-width: 1300px) {
+        .partner_main {
             width: 95%;
         }
-        .partner_title{
+
+        .partner_title {
             font-size: 24px;
         }
-        .each_mes div{
+
+        .each_mes div {
             padding: 0 10px;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
         }
     }
-    @media screen and (max-width: 1200px){
-        .partner_right{
+
+    @media screen and (max-width: 1200px) {
+        .partner_right {
             height: 83%;
         }
     }
-    @media screen and (max-width: 1100px){
-        .partner_right{
+
+    @media screen and (max-width: 1100px) {
+        .partner_right {
             height: 76%;
         }
-        .partner_list{
+
+        .partner_list {
             margin-bottom: 10px;
         }
-        .partner_btn{
+
+        .partner_btn {
             margin: 20px 0 10px;
         }
     }

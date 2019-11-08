@@ -8,48 +8,14 @@
         </div>
         <div class="product swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
+                <div class="swiper-slide" v-for="item in cases">
                     <div class="s-con">
-                        <div class="p-list">
+                        <div class="p-list" v-for="items in item">
                             <div class="p-white">
-                                <img src="/static/images/shanhai.png" alt="">
+                                <img :src="items.pic" alt="">
                                 <div class="p-con">
-                                    <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
-                                    <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-list">
-                            <div class="p-white">
-                                <img src="/static/images/shanhai.png" alt="">
-                                <div class="p-con">
-                                    <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
-                                    <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="s-con">
-                        <div class="p-list">
-                            <div class="p-white">
-                                <img src="/static/images/shanhai.png" alt="">
-                                <div class="p-con">
-                                    <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
-                                    <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
-                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-list">
-                            <div class="p-white">
-                                <img src="/static/images/shanhai.png" alt="">
-                                <div class="p-con">
-                                    <p class="n-name"><span>「新闻资讯」</span>更好的设计</p>
-                                    <p class="n-detail">这一季在延续MASTER系列一贯以来的中西合璧设计理念，在服装工艺和廓形结构上革新了更多细节设计，对于中国文化元素的化用也不再仅局限于意象挪用与符号堆砌，从而呈现出中式传统图腾与美式嘻哈廓形更为紧密相融的设计。</p>
+                                    <p class="n-name"><span>「新闻资讯」</span>{{items.title}}</p>
+                                    <p class="n-detail">{{items.describe}}</p>
                                     <router-link to="" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
@@ -67,34 +33,59 @@
   import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
+
   export default {
     name: 'Case',
-    components:{
+    components: {
       Bside,
       Nav
     },
-    data:function () {
+    data: function () {
       return {
-
+        cases:[]
       }
     },
     mounted () {
-      var ns = new Swiper('.product', {
-        // loop: true,
-        direction :'vertical',
-        pagination: {
-          el: '.swiper-pagination',
-        },
+      var that = this
+      this.$axios.post('/Content/cases', {
+        page: 1,
+        list_row: 10
+      }).then(res => {
+        console.log(res)
+        if(res.data.status==1){
+          var list = res.data.data.news, len = Math.ceil(list.length / 2)
+          var newArray = []
+          for (var i = 0; i < len; i++) { //每组两个数据  总共 len 组
+            var arr = []
+            for (var j = 0; j < 2; j++) {
+              if(i*2+j != list.length){
+                arr[j] = list[i*2+j]
+              }
+            }
+            newArray.push(arr)
+          }
+          console.log(newArray)
+
+          that.cases = newArray
+
+          that.$nextTick(function () {
+            var ns = new Swiper('.product', {
+              // loop: true,
+              direction: 'vertical',
+              pagination: {
+                el: '.swiper-pagination',
+              },
+            })
+          })
+        }
       })
     },
-    methods:{
-
-    }
+    methods: {}
   }
 </script>
 
 <style scoped>
-    .emei{
+    .emei {
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;
@@ -107,10 +98,12 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei span{
+
+    .emei span {
         margin-left: 43px;
     }
-    .bgzi{
+
+    .bgzi {
         position: absolute;
         left: 0;
         top: 80px;
@@ -120,7 +113,8 @@
         align-items: center;
         justify-content: center;
     }
-    .product{
+
+    .product {
         position: absolute;
         left: 0;
         top: 150px;
@@ -128,19 +122,22 @@
         height: calc(100% - 220px);
         z-index: 999;
     }
-    .swiper-slide{
+
+    .swiper-slide {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .s-con{
+
+    .s-con {
         width: 73%;
         height: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .p-list{
+
+    .p-list {
         width: 41%;
         height: 83.4%;
         background: #e7e7e7;
@@ -148,43 +145,51 @@
         align-items: center;
         justify-content: center;
     }
-    .p-white{
+
+    .p-white {
         width: 86.66%;
         height: 110%;
         background: #f3f3f3;
         position: relative;
     }
-    .p-white>img{
+
+    .p-white > img {
         width: 100%;
     }
-    .p-con{
+
+    .p-con {
         padding: 0 42px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
 
     }
-    .p-con::after{
+
+    .p-con::after {
         content: "";
         height: 0;
         display: block;
         visibility: hidden;
         clear: both;
     }
-    .n-name{
+
+    .n-name {
         font-size: 16px;
         color: #6c6c6c;
         margin: 35px 0 15px;
     }
-    .n-name span{
+
+    .n-name span {
         color: #252525;
     }
-    .n-detail{
+
+    .n-detail {
         font-size: 14px;
         color: #696969;
         line-height: 23px;
     }
-    .lookmore{
+
+    .lookmore {
         background: #333333;
         color: white;
         text-align: center;
@@ -195,23 +200,27 @@
         margin-top: 45px;
         cursor: pointer;
     }
+
     @media screen and (max-width: 1400px) {
-        .lookmore{
+        .lookmore {
             width: 180px;
             line-height: 50px;
         }
-        .p-list{
+
+        .p-list {
             height: 73.5%;
         }
     }
+
     @media screen and (max-width: 1200px) {
-        .lookmore{
+        .lookmore {
             width: 180px;
             line-height: 50px;
         }
     }
+
     @media screen and (max-width: 1100px) {
-        .lookmore{
+        .lookmore {
             width: 140px;
             line-height: 40px;
             margin-top: 35px;
@@ -219,19 +228,22 @@
     }
 </style>
 <style>
-    .swiper-container-vertical>.swiper-pagination-bullets{
+    .swiper-container-vertical > .swiper-pagination-bullets {
         right: 100px;
     }
-    .swiper-pagination-bullet{
+
+    .swiper-pagination-bullet {
         width: 16px;
         height: 16px;
         background: #d5d5d5;
         opacity: 1;
     }
-    .swiper-container-vertical>.swiper-pagination-bullets .swiper-pagination-bullet{
+
+    .swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
         margin: 34px 0;
     }
-    .swiper-pagination-bullet-active{
+
+    .swiper-pagination-bullet-active {
         background: #333333;
     }
 </style>

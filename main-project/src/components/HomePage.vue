@@ -5,7 +5,7 @@
         <div class="banner swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="item in banners">
-                    <img :src="item" alt="">
+                    <img :src="item.banner_pic" alt="">
                 </div>
             </div>
             <div class="swiper-button-next" @mouseover="nextover" @mouseout="nextout">
@@ -23,20 +23,20 @@
         </div>
         <div class="home-con">
             <div class="home-pro">
-                <img src="/static/images/homepro.png" alt="">
+                <img :src="product.pic" alt="">
                <router-link tag="div" to="/Product" class="h-con">
                    <div>
-                       <div class="p-name">产品中心</div>
-                       <div class="p-desc">产品技术不是证书与标签，而是您喝下那杯水的感受，我们所有的努力，只为您手中这杯健康好水</div>
+                       <div class="p-name">{{product.title}}</div>
+                       <div class="p-desc">{{product.describe}}</div>
                    </div>
                </router-link>
             </div>
             <div class="home-abo">
-                <img src="/static/images/homeabo.png" alt="">
+                <img :src="about.pic" alt="">
                 <router-link tag="div" to="/AboutUs" class="a-con">
                     <div>
-                        <div class="p-name">关于净小新</div>
-                        <div class="p-desc">产品技术不是证书与标签，而是您喝下那杯水的感受，我们所有的努力，只为您手中这杯健康好水</div>
+                        <div class="p-name">{{about.title}}</div>
+                        <div class="p-desc">{{about.describe}}</div>
                     </div>
                 </router-link>
             </div>
@@ -119,21 +119,33 @@
     data: function () {
       return {
         banners: ['/static/images/banner1.jpg', '/static/images/banner2.jpg', '/static/images/banner3.jpg','/static/images/banner4.jpg'],
+        product:'',
+        about:'',
         bannerIndex: 0,
         next_is_hover:!1,
         prev_is_hover:!1,
-        tologin:!0
+        tologin:!1
       }
     },
     mounted () {
       var that = this
-      var ns = new Swiper('.banner', {
-        loop: true,
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        onSlideChangeEnd:function (e) {
-          console.log(e.activeIndex)
-              that.bannerIndex = e.activeIndex % 4
+
+
+      this.$axios.post('/Index/homePage', {}).then(function (res) {
+        console.log(res.data.data)
+        var data =res.data.data
+        that.banners=data.banner
+        that.about=data.about
+        that.product=data.product
+
+        that.$nextTick(function () {
+          var ns = new Swiper('.banner', {
+            loop: true,
+            prevButton:'.swiper-button-prev',
+            nextButton:'.swiper-button-next',
+            onSlideChangeStart:function (e) {
+              console.log(e.activeIndex,that.banners.length)
+              that.bannerIndex = e.activeIndex % that.banners.length
               console.log(that.bannerIndex)
               if(that.prev_is_hover){
                 that.prevover()
@@ -141,20 +153,27 @@
               if(that.next_is_hover){
                 that.nextover()
               }
-        }
-        // on: {
-        //   slideChange: function () {
-        //     that.bannerIndex = this.activeIndex % 4
-        //     console.log(that.bannerIndex)
-        //     if(that.prev_is_hover){
-        //       that.prevover()
-        //     }
-        //     if(that.next_is_hover){
-        //       that.nextover()
-        //     }
-        //   }
-        // }
+            }
+            // on: {
+            //   slideChange: function () {
+            //     that.bannerIndex = this.activeIndex % 4
+            //     console.log(that.bannerIndex)
+            //     if(that.prev_is_hover){
+            //       that.prevover()
+            //     }
+            //     if(that.next_is_hover){
+            //       that.nextover()
+            //     }
+            //   }
+            // }
+          })
+        })
+
       })
+
+
+
+
     },
     methods: {
       prevover () {
@@ -165,7 +184,7 @@
         console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-prev')[0]
         nextswiper.style.width = '265px'
-        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex-2]+'") no-repeat'
+        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex-2].banner_pic+'") no-repeat'
         nextswiper.style.backgroundSize = '100% 100%'
       },
       prevout () {
@@ -182,7 +201,7 @@
         console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '265px'
-        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex % 4]+'") no-repeat'
+        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex % this.banners.length].banner_pic+'") no-repeat'
         nextswiper.style.backgroundSize = '100% 100%'
       },
       nextout () {

@@ -5,27 +5,16 @@
         <div class="emei"><img src="/static/images/back.png" alt=""><span>关于我们</span></div>
         <div class="main-con">
             <div class="slogen">
-                <p>喝水不用小心</p>
-                <p>就用净小新</p>
+                <p>{{content.title}}</p>
+                <p>{{content.sub_title}}</p>
             </div>
             <img src="/static/images/a-pic.png" alt="">
             <div class="a-art">
-                <div class="a-title">杭州再想科技有限公司</div>
-                <p>
-                    净水器的功能就是过滤水中的漂浮物、重金属、细菌、病毒、余氯、泥沙、铁锈、微生物等都去除掉，它具备精度高的过滤技术，家庭使用的净水器五级过滤技术第一级为滤芯又称PP棉滤芯（PPF），第二级颗粒活性碳（UDF）滤芯，第三级为精密压缩活性炭（CTO）滤芯。</p>
-            </div>
-        </div><div class="main-con">
-            <div class="slogen">
-                <p>喝水不用小心</p>
-                <p>就用净小新</p>
-            </div>
-            <img src="/static/images/a-pic.png" alt="">
-            <div class="a-art">
-                <div class="a-title">杭州再想科技有限公司</div>
-                <p>
-                    净水器的功能就是过滤水中的漂浮物、重金属、细菌、病毒、余氯、泥沙、铁锈、微生物等都去除掉，它具备精度高的过滤技术，家庭使用的净水器五级过滤技术第一级为滤芯又称PP棉滤芯（PPF），第二级颗粒活性碳（UDF）滤芯，第三级为精密压缩活性炭（CTO）滤芯。</p>
+                <div class="a-title">{{content.name}}</div>
+                <p>{{content.describe}}</p>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -38,6 +27,20 @@
     components: {
       Nav,
       Bside
+    },
+    data:function () {
+      return {
+        content:''
+      }
+    },
+    mounted(){
+      var  that =this
+      that.$axios.post('/Content/about',{}).then(res=>{
+        console.log(res)
+        if(res.data.status==1){
+          that.content = res.data.data
+        }
+      })
     }
   }
 </script>
