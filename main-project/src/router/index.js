@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import storage from 'good-storage'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import HomePage from '@/components/HomePage'
@@ -22,15 +23,21 @@ import Address from '@/components/Mine/Address'
 import Logistics from '@/components/Mine/Logistics'
 import Refund from '@/components/Mine/Refund'
 import OffLine from '@/components/Mine/OffLine'
+import Login from '@/components/Mine/Login'
 
 Vue.use(Router)
-export default new Router({
+
+const router = new Router({
   // mode:'history',
   routes: [
     {
       path: '/',
       name: 'HomePage',
-      component: HomePage
+      component: HomePage,
+      // meta:{
+      //   title:'首页',
+      //   needLogin:!0
+      // }
     },
     {
       path: '/HelloWorld',
@@ -65,7 +72,11 @@ export default new Router({
     {
       path: '/Payment',
       name: 'Payment',
-      component: Payment
+      component: Payment,
+      meta: {
+        title: '购买',
+        needLogin: !0
+      }
     },
     {
       path: '/Afterpay',
@@ -104,7 +115,11 @@ export default new Router({
     {
       path: '/Mine/UserMessage',
       name: 'UserMessage',
-      component: UserMessage
+      component: UserMessage,
+      meta:{
+        title:'个人信息',
+        needLogin:!0
+      }
     },
     {
       path: '/Mine/Myorder',
@@ -130,6 +145,10 @@ export default new Router({
       path: '/Mine/Refund',
       name: 'Refund',
       component: Refund
+    },{
+      path: '/Mine/Login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/Mine/OffLine',
@@ -138,3 +157,23 @@ export default new Router({
     }
   ]
 })
+router.beforeEach((to,from,next)=>{
+  var needLogin = to.meta.needLogin
+  if(needLogin){
+    var token = storage.session.get('token')
+    console.log(token)
+    if(token){
+      next();
+    }else{
+      console.log(to.fullPath)
+      storage.session.set('paths',to.fullPath)
+      next({
+        path:'/Mine/Login'
+      })
+    }
+  }else{
+    next();
+  }
+})
+
+export default router

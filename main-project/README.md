@@ -31,6 +31,7 @@ cnpm install axios
 cnpm install animate.css --save
 cnpm i swiper@3.4.2 -S
 cnpm install vue-layer --save
+cnpm install good-storage
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

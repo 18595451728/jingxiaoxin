@@ -7,14 +7,22 @@
             <div class="address">
                 <div class="a-title">地址</div>
                 <div class="lineOne">
-                    <div><input type="text" placeholder="姓名"></div>
-                    <div><input type="text" placeholder="浙江省杭州市"><img src="/static/images/arrow-bottom.png" alt=""></div>
+                    <div><input type="text" v-model="name" placeholder="姓名"></div>
+                    <div style="position: relative" @click="getprovince(0)">
+                        <input type="text" readonly placeholder="浙江省杭州市" v-model="area" style="cursor: pointer;">
+                        <img src="/static/images/arrow-bottom.png" style="cursor: pointer;" alt="">
+                        <transition name="fade">
+                            <div class="addcontainer" v-if="showaddress">
+                                <p v-for="item in provinces" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
                 <div class="lineOne lineTwo">
-                    <div><input type="text" placeholder="详细地址"></div>
-                    <div><input type="text" placeholder="电话号"></div>
+                    <div><input type="text" v-model="details" placeholder="详细地址"></div>
+                    <div><input type="text" v-model="phone" placeholder="电话号"></div>
                 </div>
-                <div class="save">保存</div>
+                <div class="save" @click="addAddress()">保存</div>
             </div>
             <div class="cart">
                 <div class="cart-title">
@@ -25,18 +33,18 @@
                         <p>单号</p>
                     </div>
                 </div>
-                <div class="cartlist" v-for="item in 2">
+                <div class="cartlist" v-for="item in list">
                     <div class="c-left">
                         <div class="c-img"><img src="/static/images/goodimg.png" alt=""></div>
                         <div class="c-art">
-                            <p>净小新净水器</p>
+                            <p>{{item.goods_name}}</p>
                             <p>颜色：高级灰</p>
                             <p>尺寸：1500mm</p>
                         </div>
                     </div>
                     <div class="c-right">
-                        <div class="price">¥45.05</div>
-                        <div class="num">1</div>
+                        <div class="price">¥{{item.goods_price}}</div>
+                        <div class="num">{{item.goods_num}}</div>
                         <div class="allprice">000232304</div>
                     </div>
                 </div>
@@ -44,27 +52,33 @@
             <div class="pay">
                 <p>支付方式</p>
                 <div class="pays">
-                    <div class="zfb">
-                        <div><img src="/static/images/zfb.png" alt=""><p>支付宝支付</p></div>
+                    <div class="zfb" :class="{active:payStyle==0}" @click="changeStyle(0)">
+                        <div><img src="/static/images/zfb.png" alt="">
+                            <p>支付宝支付</p></div>
                     </div>
-                    <div class="wx">
-                        <div><img src="/static/images/wx.png" alt=""><p>微信支付支付</p></div>
+                    <div class="wx" :class="{active:payStyle==1}" @click="changeStyle(1)">
+                        <div><img src="/static/images/wx.png" alt="">
+                            <p>微信支付支付</p></div>
                     </div>
-                    <div class="xx">
-                        <div><img src="/static/images/xx.png" alt=""><div class="par-right">
-                            <p>线下汇款/转账</p>
-                            <p>汇款后1-3个工作日到账</p>
-                            <p><router-link tag="a" to="">帮助</router-link></p>
-                        </div></div>
+                    <div class="xx"  :class="{active:payStyle==2}" @click="changeStyle(2)">
+                        <div><img src="/static/images/xx.png" alt="">
+                            <div class="par-right">
+                                <p>线下汇款/转账</p>
+                                <p>汇款后1-3个工作日到账</p>
+                                <p>
+                                    <router-link tag="a" to="">帮助</router-link>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="tongji">
                 <div class="t-top">
                     <p>小计$ 126.00</p>
-                    <p>总计$ <span>126.00</span></p>
+                    <p>总计$ <span>{{money.order_amount}}</span></p>
                 </div>
-                <router-link tag="div" to="/Afterpay" class="t-bottom">结算</router-link>
+                <div class="t-bottom" @click="jiesuan()">结算</div>
             </div>
         </div>
 
@@ -74,28 +88,229 @@
 <script>
   import Nav from './Nav'
   import Bside from './Bside'
+
   export default {
     name: 'Payment',
-    components:{
+    components: {
       Bside,
       Nav
     },
-    data:function () {
+    data: function () {
       return {
-
+        payStyle:0,
+        cart_type: '',
+        list: '',
+        address: '',
+        showaddress:!1,
+        provinces:[],
+        level:0,
+        pp:'',
+        cc:'',
+        xx:'',
+        ppp:'',
+        ccc:'',
+        xxx:'',
+        area:'',
+        name:'',
+        phone:'',
+        details:'',
+        money:''
       }
     },
     mounted () {
+      this.cart_type = this.$route.query.type
+      console.log(this.cart_type)
+      var that = this
+      //基本信息
+      this.$axios.post('/Order/cartOrder', {
+        token: this.$storage.session.get('token'),
+        cart_type: this.cart_type
+      }).then(res => {
+        console.log(res)
+        if (res.data.status == 1) {
+          that.list = res.data.data.cartList
+          that.address = res.data.data.address
+          that.name = res.data.data.address.consignee
+          that.phone = res.data.data.address.telephone
+          that.details = res.data.data.address.address
+        }
+      })
+        //总价
+      this.$axios.post('/Order/orderBuy', {
+        token: this.$storage.session.get('token'),
+        cart_type: this.cart_type,
+        pay_integral: '',
+        coupon_id: '',
+        address_id: this.address.id
+      }).then(res => {
+        console.log(res)
+        if (res.data.status == 1) {
+          res.data.data.order_amount = res.data.data.order_amount.toFixed(2)
+           this.money = res.data.data
+        }
+      })
     },
-    methods:{
+    methods: {
+      changeStyle(e){
+        this.payStyle = e
+      },
+      getprovince (e) {
+        console.log(11,this.showaddress)
+        var that=this
+        this.showaddress = !this.showaddress
+        console.log(11,this.showaddress)
+        if(this.showaddress){
+          console.log(222)
+            that.getMessage(e)
+        }
+      },
+      getMessage(e,name){
+        console.log(name)
+        this.level++;
+        switch (this.level) {
+          case 2 :
+            this.pp = e
+            this.ppp = name
+            break;
+          case 3 :
+            this.cc=e
+            this.ccc=name
+            break;
+          case 4 :
+            this.xx = e
+            this.xxx = name
+            break;
+        }
+        if(this.level >= 4){
+          this.showaddress = !1
+          this.level = 0
+          this.area = this.ppp+' '+this.ccc+' '+this.xxx
+          return false;
+        }
+        var that =this
+        this.$axios.post('/Index/getRegion', {
+          parent_id: e
+        }).then(res => {
+          console.log(res)
+          if(res.data.status==1){
+            that.provinces = res.data.data
+          }
+        })
+      },
+      addAddress(){
+        var name = this.name,details = this.details,phone = this.phone,area =this.area,reg = /^1[3456789]\d{9}$/
+        if(!name){
+          this.$layer.msg('姓名不能为空')
+          return false;
+        }
+        if(!details){
+          this.$layer.msg('详细地址不能为空')
+          return false;
+        }
+        if(!area){
+          this.$layer.msg('地址不能为空')
+          return false;
+        }
+        if(!phone){
+          this.$layer.msg('手机号不能为空')
+          return false;
+        }
+        if(!reg.test(phone)){
+          this.$layer.msg('手机号格式错误')
+          return false;
+        }
+        var that =this
+        this.$axios.post('/User/addAddress',{
+          token:this.$storage.session.get('token'),
+          consignee:name,
+          telephone:phone,
+          address:details,
+          is_default:0,
+          province_id:this.pp,
+          city_id:this.cc,
+          district_id:this.xx
+        }).then(res=>{
+            console.log(res)
+          that.$layer.msg(res.data.msg)
+        })
+      },
+      jiesuan(){
+        var that=this
+        this.$axios.post('/Order/addOrder',{
+          cart_type:this.cart_type,
+          address_id:this.address.id,
+          token:this.$storage.session.get('token'),
+          source:2
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status == 1){
+            var order_no = res.data.data.order_no
+            that.$axios.post('/pay/toPay',{
+              order_no:order_no,
+              token:that.$storage.session.get('token')
+            }).then(rr=>{
+              if(rr.data.status==1){
+                if(that.payStyle==0){
+                  window.location.href='http://jingxiaoxin.123bingo.cn/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
+                }else if(that.payStyle==1){
+                  that.$axios.post('/Pay/wxPay',{
+                    order_no:rr.data.data.order_no,
+                    token:that.$storage.session.get('token')
+                  }).then(r=>{
+                    console.log(r)
+                  })
+                }else{
+                  that.$axios.post('/Pay/certificate',{
+                    pay_type:4,
+                    order_no:rr.data.data.order_no
+                  }).then(cc=>{
+                    if(cc.data.status==1){
+                      that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
+                    }
+                  })
+                }
+              }
 
+            })
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
+      }
     }
   }
 </script>
 
 <style scoped>
-
-    .emei{
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
+.addcontainer{
+    position: absolute;
+    width: 100%;
+    height: 390px;
+    overflow-y: scroll;
+    -ms-overflow-style:none;
+    overflow:-moz-scrollbars-none;
+    left: -1px;
+    top: 100%;
+    background: white;
+    border: 1px solid #cfcfcf;
+}
+.addcontainer::-webkit-scrollbar{width:0px}
+.addcontainer p{
+    line-height: 55px;
+    border-bottom: 1px solid #cfcfcf;
+    padding: 0 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+    .emei {
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;
@@ -108,21 +323,25 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei span{
+
+    .emei span {
         margin-left: 43px;
     }
-    .main-con{
+
+    .main-con {
         width: 1170px;
         margin: 50px auto;
     }
-    .main-con::after{
+
+    .main-con::after {
         height: 0;
         content: "";
         display: block;
         visibility: hidden;
         clear: both;
     }
-    .a-title{
+
+    .a-title {
         width: 45%;
         line-height: 55px;
         border-bottom: 1px solid #cfcfcf;
@@ -130,11 +349,13 @@
         font-size: 16px;
         color: #000;
     }
-    .lineOne{
+
+    .lineOne {
         display: flex;
         align-items: center;
     }
-    .lineOne>div{
+
+    .lineOne > div {
         width: 45%;
         border: 1px solid #cfcfcf;
         -webkit-box-sizing: border-box;
@@ -147,17 +368,21 @@
         justify-content: space-between;
         align-items: center;
     }
-    .lineOne input{
+
+    .lineOne input {
         width: 80%;
         line-height: 53px;
     }
-    .lineOne>div:first-child{
+
+    .lineOne > div:first-child {
         margin-right: 10%;
     }
-    .lineTwo{
+
+    .lineTwo {
         margin-top: 25px;
     }
-    .save{
+
+    .save {
         width: 170px;
         height: 55px;
         border: 1px solid #cfcfcf;
@@ -168,15 +393,18 @@
         text-align: center;
         font-size: 14px;
         color: #000;
+        cursor: pointer;
         margin: 45px 0 60px;
     }
-    .cart{
+
+    .cart {
         border: 1px solid #dadada;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
     }
-    .cart>div{
+
+    .cart > div {
         padding: 0 26px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -185,63 +413,77 @@
         display: flex;
         justify-content: space-between;
     }
-    .cart>div>div:first-child{
+
+    .cart > div > div:first-child {
         width: 71.55%;
     }
-    .cart>div>div:last-child{
+
+    .cart > div > div:last-child {
         width: 28.45%;
         display: flex;
         justify-content: space-between;
     }
-    .cart>div>div:last-child>p{
+
+    .cart > div > div:last-child > p {
         text-align: center;
         flex: 1;
     }
-    .cart>div>div:last-child>p:nth-child(2){
+
+    .cart > div > div:last-child > p:nth-child(2) {
         flex: 2;
     }
-    .cart>div:last-child{
+
+    .cart > div:last-child {
         border-bottom: none;
     }
-    .cart-title{
+
+    .cart-title {
         line-height: 50px;
         font-size: 14px;
         color: #000000;
     }
 
-    .cart>div.cartlist{
+    .cart > div.cartlist {
         padding: 30px 26px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
     }
-    .c-left{
+
+    .c-left {
         display: flex;
     }
-    .c-right{
+
+    .c-right {
         font-size: 14px;
         color: #000;
     }
-    .c-img{
+
+    .c-img {
         margin-right: 30px;
     }
-    .c-art p{
+
+    .c-art p {
         margin-top: 15px;
         font-size: 14px;
         color: #000;
     }
-    .c-art p:first-child{
+
+    .c-art p:first-child {
         font-size: 16px;
     }
-    .c-right>div{
+
+    .c-right > div {
         flex: 1;
         text-align: center;
         margin-top: 15px;
     }
-    .c-right>div.num{
+
+    .c-right > div.num {
         flex: 2;
     }
-    .c-right>div.num>div{
+
+    .c-right > div.num > div {
         width: 125px;
         margin: 0 auto;
         display: flex;
@@ -253,50 +495,63 @@
         font-size: 14px;
         color: #000;
     }
-    .pay>p{
+
+    .pay > p {
         font-size: 14px;
         color: #000;
         margin: 40px 0;
     }
-    .pays{
+
+    .pays {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .pays>div{
+
+    .pays > div {
         width: 354px;
         height: 128px;
         border: 1px solid #d3d3d3;
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
-    .pays>div>div{
+    .pays > div.active{
+        border: 1px solid #000;
+    }
+    .pays > div > div {
         display: flex;
         align-items: center;
     }
-    .pays>div>div>p{
+
+    .pays > div > div > p {
         font-size: 18px;
         color: #000;
     }
-    .pays>div>div>img{
+
+    .pays > div > div > img {
         margin-right: 18px;
     }
-    .par-right>p:first-child{
+
+    .par-right > p:first-child {
         font-size: 18px;
         color: #000;
         margin-bottom: 15px;
     }
-    .par-right>p:nth-child(2){
+
+    .par-right > p:nth-child(2) {
         font-size: 14px;
         color: #666;
     }
-    .par-right>p:nth-child(3) a{
+
+    .par-right > p:nth-child(3) a {
         font-size: 14px;
         color: #666;
         text-decoration: underline;
     }
-    .tongji{
+
+    .tongji {
         width: 354px;
         height: 292px;
         background: #efefef;
@@ -307,7 +562,8 @@
         -moz-box-sizing: border-box;
         box-sizing: border-box;
     }
-    .t-top{
+
+    .t-top {
         height: 131px;
         padding-top: 40px;
         -webkit-box-sizing: border-box;
@@ -317,17 +573,21 @@
         border-bottom: 1px solid #cecece;
         text-align: right;
     }
-    .t-top>p:first-child{
+
+    .t-top > p:first-child {
         margin-bottom: 24px;
         font-size: 16px;
     }
-    .t-top>p:last-child{
+
+    .t-top > p:last-child {
         font-size: 18px;
     }
-    .t-top span{
+
+    .t-top span {
         color: #ff1212;
     }
-    .t-bottom{
+
+    .t-bottom {
         margin-top: 29px;
         line-height: 55px;
         text-align: center;
@@ -335,11 +595,13 @@
         background: #333;
         cursor: pointer;
     }
-    @media screen and (max-width: 1200px){
-        .main-con{
+
+    @media screen and (max-width: 1200px) {
+        .main-con {
             width: 90%;
         }
-        .pays>div{
+
+        .pays > div {
             width: 30%;
         }
     }

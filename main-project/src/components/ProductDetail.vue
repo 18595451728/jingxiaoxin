@@ -60,7 +60,7 @@
                     </div>
                     <div class="buy-btn">
                         <router-link tag="div" to="/Probation">申请试用</router-link>
-                        <router-link tag="div" to="/Payment">立即购买</router-link>
+                        <div @click="buynow()">立即购买</div>
                     </div>
                     <div class="comment">
                         <p class="c-title">用户评论</p>
@@ -158,6 +158,23 @@
 
     },
     methods: {
+      buynow(){
+        var that =this
+        that.$axios.post('/Cart/addCart',{
+          goods_id:this.goodsid,
+          goods_num:this.count,
+          cart_type:1,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status==1){
+            that.$router.push({path: '/Payment', query: {type: 1}})
+          }else{
+            this.$layer.msg(res.data.msg)
+          }
+        })
+
+      },
       choose (e) {
         this.cs = e
         this.getComment(this.goods_id,e)

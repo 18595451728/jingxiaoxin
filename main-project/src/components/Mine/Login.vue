@@ -1,5 +1,5 @@
 <template>
-    <div class="all">
+    <div class="all" v-if="needLogin">
         <div class="main-con">
             <div class="l-head">
                 <div :class="{active:is_login}" @click="changeLogin(0)">登录</div>
@@ -7,8 +7,11 @@
             </div>
             <div class="l-body">
                 <div class="login-div" v-if="is_login">
-                    <div class="username"><span :class="{active:focus=='username'}">账号</span><input @focus="changeFocus('username')" @blur="changeFocus()" type="text" placeholder="123456"></div>
-                    <div class="password"><span :class="{active:focus=='password'}">密码</span><input @focus="changeFocus('password')" @blur="changeFocus()" type="text" placeholder=""></div>
+                    <div class="username"><span :class="{active:focus=='username'}">账号</span><input
+                            @focus="changeFocus('username')" @blur="changeFocus()" ref="login_phone" type="text" placeholder="">
+                    </div>
+                    <div class="password"><span :class="{active:focus=='password'}">密码</span><input
+                            @focus="changeFocus('password')" @blur="changeFocus()" ref="login_password" type="text" placeholder=""></div>
                     <div class="changeword">
                         <div class="remember" @click="rememberword">
                             <p><img src="/static/images/remember.png" alt="" v-show="remember"></p>
@@ -19,9 +22,19 @@
                     <div class="login" @click="tologin()">登录</div>
                 </div>
                 <div class="reg-div login-div" v-else>
-                    <div class="telephone"><span :class="{active:focus=='telephone'}">账号</span><input @focus="changeFocus('telephone')" @blur="changeFocus()" type="text" placeholder=""></div>
-                    <div class="password"><input type="text" placeholder="验证码"></div>
-                    <div class="getCode"><div>发送验证码</div></div>
+                    <div class="telephone"><span :class="{active:focus=='telephone'}">手机号</span><input
+                            @focus="changeFocus('telephone')" @blur="changeFocus()" ref="reg_phone" type="number"
+                            placeholder=""></div>
+                    <div class="password"><span :class="{active:focus=='password'}">密码1</span><input
+                            @focus="changeFocus('password')" @blur="changeFocus()" ref="password" type="text"
+                            placeholder=""></div>
+                    <div class="codes"><input type="text" ref="code" placeholder="验证码">
+                        <div class="getCode">
+                            <div v-if="!code" @click="getcode()">发送验证码</div>
+                            <div v-else>{{timeDown}}后重新发送</div>
+                        </div>
+                    </div>
+
                     <div class="login" @click="toReg()">注册</div>
                 </div>
             </div>
@@ -33,49 +46,165 @@
 <script>
   export default {
     name: 'Login',
-    data:function () {
+    data: function () {
       return {
-        remember:!0,
-        is_login:!0,
-        focus:''
+        remember: !0,
+        is_login: !0,
+        focus: '',
+        code: '',
+        timeDown: 5,
+        needLogin:!0
       }
     },
-    methods:{
-      changeLogin(e){
-        if(e){
+    mounted(){
+      var paths = this.$storage.session.get('paths')
+      this.paths = paths
+    },
+    methods: {
+      openLogin(){
+        console.log(111)
+        this.needLogin = !0
+      },
+        closeLogin () {
+        this.needLogin = !1
+      },
+      changeLogin (e) {
+        if (e) {
           this.is_login = !1
-        }else{
+        } else {
           this.is_login = !0
         }
       },
-      changeFocus(e){
-        this.focus =e
+      changeFocus (e) {
+        this.focus = e
       },
-      rememberword(){
+      rememberword () {
         this.remember = !this.remember
       },
-      tologin(){},
-      closeLogin(){
-        this.$emit('closeLogin',!1)
+      tologin () {
+        var that =this
+        var phone = that.$refs.login_phone.value,password=that.$refs.login_password.value,myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/
+
+        if (phone) {
+          if (!myreg.test(phone)) {
+            that.$layer.msg('手机号格式错误')
+            return false;
+          }
+        } else {
+          that.$layer.msg('手机号不能为空')
+          return false;
+        }
+
+        that.$axios.post('/Login/login',{
+          telephone:phone,
+          password:password,
+          source:2
+        }).then(res=>{
+            console.log(res)
+          if(res.data.status==1){
+            var token = res.data.data.token
+            that.$layer.msg('登录成功')
+            that.$storage.session.set('token',token)
+            setTimeout(()=>{
+              that.$router.push({path: that.paths})
+            },1000)
+
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
+      },
+
+      getcode () {
+        var reg_phone = this.$refs.reg_phone.value, myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/, that = this
+        console.log(reg_phone)
+        if (reg_phone) {
+          console.log(1111)
+          if (myreg.test(reg_phone)) {
+            that.$axios.post('/Login/sendMessage', {
+              telephone: reg_phone,
+              codetype: 1
+            }).then(res => {
+              console.log(res)
+              if (res.data.status == 1) {
+                that.code = res.data
+                that.downTime()
+              }
+            })
+          } else {
+            console.log(333)
+            this.$layer.msg('手机号格式错误')
+          }
+        } else {
+          this.$layer.msg('手机号不能为空')
+        }
+
+      },
+      toReg(){
+        var that = this
+        var telephone = that.$refs.reg_phone.value,password = that.$refs.password.value,code = that.$refs.code.value,type=2
+        if(password.length<8){
+          that.$layer.msg('密码长度不能少于8位')
+          return false;
+        }
+        var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+        if(!reg.test(reg)) {
+          that.$layer.msg('密码至少包含一个字母和一个数字')
+          return false;
+        }
+
+        that.$axios.post('/Login/register',{
+          telephone:telephone,
+          password:password,
+          code:code,
+          type:type
+        }).then(res=>{
+          if(res.data.status ==1){
+            console.log(res.data.data)
+            var token = res.data.data.token
+            if(token){
+              that.$storage.session.set('token',token)
+              that.$layer.msg('注册成功')
+              setTimeout(()=>{
+                that.$router.push({path: that.paths})
+              },1000)
+            }
+
+          }
+        })
+
+      },
+      downTime () {
+        var that = this
+        var tt = setInterval(() => {
+          that.timeDown--
+          console.log(that.timeDown)
+          if (that.timeDown <= 0) {
+            that.code = ''
+            that.timeDown = 5
+            clearInterval(tt)
+          }
+        }, 1000)
       }
     }
   }
 </script>
 
 <style scoped>
-    .all{
+    .all {
         position: fixed;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255,255,255,.9);
-        z-index: 9999;
+        background: rgba(255, 255, 255, .9);
+        z-index: 10;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .close{
+
+    .close {
         position: absolute;
         right: 125px;
         top: 125px;
@@ -84,37 +213,44 @@
         font-size: 30px;
         color: #333333;
     }
-    .close img{
+
+    .close img {
         margin-left: 23px;
         cursor: pointer;
     }
-    .main-con{
+
+    .main-con {
         width: 370px;
     }
-    .l-head{
+
+    .l-head {
         width: 100%;
         display: flex;
         line-height: 52px;
         background: #e6e6e6;
         color: #9d9d9d;
     }
-    .l-head>div{
+
+    .l-head > div {
         width: 50%;
         text-align: center;
         cursor: pointer;
     }
-    .l-head>div.active{
+
+    .l-head > div.active {
         background: #252525;
         color: #fff;
     }
-    .login-div::after{
+
+    .login-div::after {
         height: 0;
         content: "";
         visibility: hidden;
         display: block;
         clear: both;
     }
-    .login-div>div{
+
+    .login-div > div {
         margin-top: 24px;
         width: 100%;
         height: 54px;
@@ -128,36 +264,42 @@
         display: flex;
         align-items: center;
     }
-    .login-div>div span{
+
+    .login-div > div span {
         font-size: 14px;
         color: #999999;
     }
-    .login-div>div span.active{
+
+    .login-div > div span.active {
         color: #000;
     }
-    .login-div input{
+
+    .login-div input {
         width: 80%;
         margin-left: 10px;
         line-height: 54px;
     }
-    .login-div>div.changeword{
+
+    .login-div > div.changeword {
         display: flex;
         background: none;
         border: none;
         line-height: 100%;
     }
-    .changeword>div{
+
+    .changeword > div {
         flex: 1;
         font-size: 14px;
     }
-    .remember{
+
+    .remember {
         display: flex;
         align-items: center;
         color: #999999;
         cursor: pointer;
     }
 
-    .remember p:first-child{
+    .remember p:first-child {
         width: 16px;
         height: 16px;
         border: 1px solid #999999;
@@ -168,14 +310,17 @@
         margin-right: 12px;
 
     }
-    .remember img{
+
+    .remember img {
         position: absolute;
     }
-    .forget{
+
+    .forget {
         color: #0099cc;
         cursor: pointer;
     }
-    .login-div>div.login{
+
+    .login-div > div.login {
         display: block;
         cursor: pointer;
         background: #252525;
@@ -183,7 +328,8 @@
         font-size: 14px;
         text-align: center;
     }
-    .login-div>div.getCode{
+
+    .login-div > div.getCode {
         display: block;
         height: 54px;
         background: none;
@@ -191,7 +337,8 @@
         padding: 0;
         cursor: pointer;
     }
-    .getCode div{
+
+    .getCode div {
         width: 156px;
         line-height: 54px;
         text-align: center;
@@ -200,7 +347,16 @@
         background: #0099cc;
         float: right;
     }
-    .password input{
+
+    .login-div > div.codes {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 0;
+    }
+
+    .codes input {
         margin-left: 0;
+        width: 50%;
     }
 </style>

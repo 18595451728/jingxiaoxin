@@ -8,14 +8,14 @@
                 <div class="o-header">
                     <div v-for="(item,index) in status" @click="changeStatus(index)" :class="{active:choose==index}">{{item}}</div>
                 </div>
-                <div class="o-list" v-for="item in 10">
-                    <div class="l-top"><p>2019-10-22  订单号：4738678647926</p><p>待付款</p></div>
-                    <div class="l-con">
+                <div class="o-list" v-for="item in orderlist">
+                    <div class="l-top"><p>{{item.order_time}}  订单号：{{item.order_no}}</p><p>{{item.order_status_desc}}</p></div>
+                    <div class="l-con" v-for="items in item.goods_list">
                         <router-link tag="div" to="/Mine/Logistics" class="l-left">
                             <img src="/static/images/goodimg.png" alt="">
                             <div class="l-art">
-                                <div class="a-top"><span class="goodsname">净小新净水器</span><span>颜色：高级灰</span><span>尺寸：1500mm</span></div>
-                                <div class="a-bottom">￥45.05</div>
+                                <div class="a-top"><span class="goodsname">{{items.goods_name}}</span><span>颜色：高级灰</span><span>尺寸：1500mm</span></div>
+                                <div class="a-bottom">￥{{items.goods_price}}</div>
                             </div>
                         </router-link>
                         <div class="l-right">
@@ -51,15 +51,48 @@
       return {
         choose:0,
         status:['全部','待发货','待收货','待评论','退款'],
-        mine_status:''
+        mine_status:'',
+        orderlist:[]
       }
     },
     mounted(){
       this.mine_status = this.$route.query.mine_status
+      this.initData(0)
     },
     methods:{
       changeStatus(e){
         this.choose = e
+        switch (e) {
+          case 0:
+            this.initData(0)
+            break;
+          case 1:
+            this.initData(2)
+            break;
+          case 2:
+            this.initData(3)
+            break;
+          case 3:
+            this.initData(4)
+            break;
+          case 4:
+            this.initData(6)
+            break;
+        }
+
+      },
+      initData(e){
+        var that =this
+        this.$axios.post('/Order/orderLIst',{
+          status:e,
+          list_row:10,
+          page:1,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          if(res.data.status==1){
+            that.orderlist = res.data.data.list
+          }
+        })
       }
     }
   }

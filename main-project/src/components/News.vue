@@ -16,7 +16,7 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>{{items.title}}</p>
                                     <p class="n-detail">{{items.describe}}</p>
-                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link :to="{path:'/NewsDetail',query:{id:items.id}}" tag="div" class="lookmore">查看详情</router-link>
                                 </div>
                             </div>
                         </div>

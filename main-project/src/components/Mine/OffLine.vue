@@ -19,25 +19,33 @@
                     <p>支付信息</p>
                     <div>
                         <p>*支付金额：</p>
-                        <div class="kuang"><input type="text"></div>
+                        <div class="kuang"><input type="text" ref="money"></div>
                     </div>
                     <div>
                         <p>*账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：</p>
-                        <div class="kuang"><input type="text"></div>
+                        <div class="kuang"><input type="text" ref="account"></div>
                     </div>
                     <div>
                         <p>*姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
-                        <div class="kuang"><input type="text"></div>
+                        <div class="kuang"><input type="text" ref="username"></div>
                     </div>
                     <div>
                         <p></p>
                         <div class="upload">
                             <img src="/static/images/add.png" alt="">
                             <p>上传凭证</p>
-                            <p>（最多10张）</p>
+                            <p>（最多1张）</p>
+                            <input type="file" @change="uploadImgs">
+                        </div>
+
+                    </div>
+                    <div>
+                        <p></p>
+                        <div v-for="item in imgs" class="imglist">
+                            <img :src="item" alt="">
                         </div>
                     </div>
-                    <div class="send">提交</div>
+                    <div class="send" @click="sendCer">提交</div>
                 </div>
             </div>
             <div class="orderdetail">
@@ -81,15 +89,74 @@
     data:function () {
       return {
         service:0,
-        backstatus:0
+        backstatus:0,
+        imgs:[],
+        pic:''
       }
     },
+    mounted(){
+      this.order_no = this.$route.query.order_no
+    },
     methods:{
+      sendCer(){
+        var money=this.$refs.money.value,account=this.$refs.account.value,username=this.$refs.username.value,that=this
+        if(!money){
+          this.$layer.msg('支付金额不能为空')
+          return false;
+        }
+        if(!account){
+          this.$layer.msg('账号不能为空')
+          return false;
+        }
+        if(!username){
+          this.$layer.msg('姓名不能为空')
+          return false;
+        }
+        this.$axios.post('/order/certificate',{
+          token:this.$storage.session.get('token'),
+          order_no:this.order_no,
+          money:money,
+          username:username,
+          account:account,
+          certificate:this.pic
+        }).then(res=>{
+          if(res.data.status==1){
+            that.$layer.msg('上传成功')
+            var order_no = res.data.data.order_no
+            setTimeout(()=>{
+              that.$router.push({path:'',query:{order_no:order_no}})
+            },1000)
+          }
+        })
+      },
       changeService(e){
         this.service = e
       },
       changeStatus(e){
         this.backstatus = e
+      },
+      uploadImgs(e){
+        if(this.imgs.length>=1){
+          this.$layer.msg('最多上传一张')
+          return false;
+        }
+        var that =this
+        console.log(e.target.files[0])
+        var file = e.target.files[0]
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+          console.log(reader.result)
+          that.$axios.post('/Index/uploadImg',{
+            img_str:reader.result,
+            path:'certificate'
+          }).then(res=>{
+            if(res.data.status==1){
+              that.imgs.push(reader.result)
+              that.pic = res.data.data.pic
+            }
+          })
+        }
       }
     }
   }
@@ -215,7 +282,7 @@
         border: 1px solid #bfbfbf;
         cursor: pointer;
         margin-top: 20px;
-        margin-bottom: 75px;
+        position: relative;
     }
     .upload p{
         color: #ababab;
@@ -223,6 +290,25 @@
     }
     .upload img{
         margin: 25px 0 10px;
+    }
+    .upload input{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .imglist{
+        width: 120px;
+        height: 120px;
+        margin-bottom: 75px;
+        margin-right: 10px;
+    }
+    .imglist img{
+        width: 100%;
+        height: 100%;
     }
     .PayInfo>div.send{
         display: block;

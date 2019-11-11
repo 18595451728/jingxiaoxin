@@ -45,11 +45,21 @@
     },
     data:function () {
       return {
-        mine_status:''
+        mine_status:'',
+        alist:''
       }
     },
     mounted(){
       this.mine_status = this.$route.query.mine_status
+      var that =this
+      this.$axios.post('/User/addressList',{
+        token:this.$storage.session.get('token')
+      }).then(res=>{
+        console.log(res)
+        if(res.data.status==1){
+          that.alist = res.data.data.list
+        }
+      })
     },
     methods:{
       changeStatus(e){
