@@ -75,7 +75,7 @@
             </div>
             <div class="tongji">
                 <div class="t-top">
-                    <p>小计$ 126.00</p>
+                    <!--<p>小计$ 126.00</p>-->
                     <p>总计$ <span>{{money.order_amount}}</span></p>
                 </div>
                 <div class="t-bottom" @click="jiesuan()">结算</div>
