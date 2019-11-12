@@ -17,7 +17,7 @@
                             <p><img src="/static/images/remember.png" alt="" v-show="remember"></p>
                             <p>记住密码</p>
                         </div>
-                        <router-link tag="div" to="" class="forget">忘记密码?</router-link>
+                        <!--<router-link tag="div" to="" class="forget">忘记密码?</router-link>-->
                     </div>
                     <div class="login" @click="tologin()">登录</div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="telephone"><span :class="{active:focus=='telephone'}">手机号</span><input
                             @focus="changeFocus('telephone')" @blur="changeFocus()" ref="reg_phone" type="number"
                             placeholder=""></div>
-                    <div class="password"><span :class="{active:focus=='password'}">密码1</span><input
+                    <div class="password"><span :class="{active:focus=='password'}">密码</span><input
                             @focus="changeFocus('password')" @blur="changeFocus()" ref="password" type="text"
                             placeholder=""></div>
                     <div class="codes"><input type="text" ref="code" placeholder="验证码">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="close"><span>关闭</span><img src="/static/images/close.png" @click="closeLogin" alt=""></div>
+        <!--<div class="close"><span>关闭</span><img src="/static/images/close.png" @click="closeLogin" alt=""></div>-->
     </div>
 </template>
 
