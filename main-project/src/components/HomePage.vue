@@ -180,14 +180,14 @@
         console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-prev')[0]
         nextswiper.style.width = '265px'
-        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex-2].banner_pic+'") no-repeat'
+        nextswiper.style.background = "url('"+this.banners[this.bannerIndex-2].banner_pic+"') no-repeat"
         nextswiper.style.backgroundSize = '100% 100%'
       },
       prevout () {
         this.prev_is_hover = !1
         var nextswiper = document.getElementsByClassName('swiper-button-prev')[0]
         nextswiper.style.width = '130px'
-        nextswiper.style.background = 'rgba(165,165,165,.47)'
+        nextswiper.style.background = "rgba(165,165,165,.47)"
       },
       nextover () {
         this.next_is_hover = !0
@@ -197,14 +197,14 @@
         console.log(this.bannerIndex)
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '265px'
-        nextswiper.style.background = 'url("'+this.banners[this.bannerIndex % this.banners.length].banner_pic+'") no-repeat'
+        nextswiper.style.background = "url('"+this.banners[this.bannerIndex % this.banners.length].banner_pic+"') no-repeat"
         nextswiper.style.backgroundSize = '100% 100%'
       },
       nextout () {
         this.next_is_hover = !1
         var nextswiper = document.getElementsByClassName('swiper-button-next')[0]
         nextswiper.style.width = '130px'
-        nextswiper.style.background = 'rgba(165,165,165,.47)'
+        nextswiper.style.background = "rgba(165,165,165,.47)"
       }
     }
 
