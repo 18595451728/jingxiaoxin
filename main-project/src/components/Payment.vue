@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>支付</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
         <div class="main-con">
             <div class="address">
                 <div class="a-title">地址</div>
@@ -276,6 +276,9 @@
             that.$layer.msg(res.data.msg)
           }
         })
+      },
+      back(){
+        this.$router.go(-1)
       }
     }
   }

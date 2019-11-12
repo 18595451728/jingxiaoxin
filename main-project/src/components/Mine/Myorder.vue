@@ -8,7 +8,7 @@
                 <div class="o-header">
                     <div v-for="(item,index) in status" @click="changeStatus(index)" :class="{active:choose==index}">{{item}}</div>
                 </div>
-                <div class="o-list" v-for="item in orderlist">
+                <div class="o-list" v-for="(item,index) in orderlist">
                     <div class="l-top"><p>{{item.order_time}}  订单号：{{item.order_no}}</p><p>{{item.order_status_desc}}</p></div>
                     <div class="l-con" v-for="items in item.goods_list">
                         <router-link tag="div" to="/Mine/Logistics" class="l-left">
@@ -23,16 +23,51 @@
                                 <div></div>
                                 <div class="backmoney">退款</div>
                             </div>
-                            <div class="b-bottom">
-                                <div>取消订单</div>
-                                <router-link tag="div" to="">付款</router-link>
-                            </div>
+                            <!--<div class="b-bottom">-->
+                                <!--<div>取消订单</div>-->
+                                <!--<div @click="topay(index)">付款</div>-->
+                            <!--</div>-->
                         </div>
+                    </div>
+                    <div class="b-bottom">
+                        <div>取消订单</div>
+                        <div @click="pay(index)">付款</div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="payMessage" v-if="topay">
+            <div class="main">
+                <div class="m-title">
+                    <p>支付方式</p>
+                    <img src="/static/images/close.png" @click="closepay" style="cursor: pointer;" alt="">
+                </div>
+                <div class="m-con">
+                    <div class="pays">
+                        <div class="zfb" :class="{active:payStyle==0}" @click="changeStyle(0)">
+                            <div><img src="/static/images/zfb.png" alt="">
+                                <p>支付宝支付</p></div>
+                        </div>
+                        <div class="wx" :class="{active:payStyle==1}" @click="changeStyle(1)">
+                            <div><img src="/static/images/wx.png" alt="">
+                                <p>微信支付支付</p></div>
+                        </div>
+                        <div class="xx"  :class="{active:payStyle==2}" @click="changeStyle(2)">
+                            <div><img src="/static/images/xx.png" alt="">
+                                <div class="par-right">
+                                    <p>线下汇款/转账</p>
+                                    <p>汇款后1-3个工作日到账</p>
+                                    <p>
+                                        <router-link tag="a" to="">帮助</router-link>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="t-bottom" @click="jiesuan">结算</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -52,7 +87,10 @@
         choose:0,
         status:['全部','待发货','待收货','待评论','退款'],
         mine_status:'',
-        orderlist:[]
+        orderlist:[],
+        payStyle:0,
+        topay:!1,
+        order_no:''
       }
     },
     mounted(){
@@ -60,6 +98,40 @@
       this.initData(0)
     },
     methods:{
+      jiesuan(){
+        var that =this
+
+        that.$axios.post('/pay/toPay',{
+          order_no:that.order_no,
+          token:that.$storage.session.get('token')
+        }).then(rr=>{
+         if(rr.data.status==1){
+           if(that.payStyle==0){
+             window.location.href='http://jingxiaoxin.123bingo.cn/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
+           }else if(that.payStyle==1){
+             that.$axios.post('/Pay/wxPay',{
+               order_no:rr.data.data.order_no,
+               token:that.$storage.session.get('token')
+             }).then(r=>{
+               console.log(r)
+             })
+           }else{
+                 that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
+           }
+         }
+        })
+      },
+      pay(index){
+        console.log(this.orderlist[index].order_no)
+        this.topay = !0
+        this.order_no  = this.orderlist[index].order_no
+      },
+      closepay(){
+        this.topay = !1
+      },
+      changeStyle(e){
+        this.payStyle = e
+      },
       changeStatus(e){
         this.choose = e
         switch (e) {
@@ -99,6 +171,93 @@
 </script>
 
 <style scoped>
+    .payMessage{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 13;
+        background: rgba(0,0,0,.9);
+    }
+    .main{
+        width: 70%;
+        height: 700px;
+        position: absolute;
+        left: 15%;
+        top: calc(50% - 350px);
+        background: white;
+    }
+
+    .m-title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        line-height: 70px;
+        font-size: 18px;
+        background: #ececec;
+    }
+    .m-title img{
+        width: 20px;
+    }
+    .m-con{
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .pays {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .pays > div {
+        width: 30%;
+        height: 128px;
+        border: 1px solid #d3d3d3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    .pays > div.active{
+        border: 1px solid #000;
+    }
+    .pays > div > div {
+        display: flex;
+        align-items: center;
+    }
+
+    .pays > div > div > p {
+        font-size: 18px;
+        color: #000;
+    }
+
+    .pays > div > div > img {
+        margin-right: 18px;
+    }
+
+    .t-bottom {
+        width: 300px;
+        float: right;
+        margin-right: 30px;
+        line-height: 55px;
+        text-align: center;
+        color: white;
+        background: #333;
+        cursor: pointer;
+    }
+
     .main-con{
         width: 72.9%;
         margin: 50px auto;
@@ -142,6 +301,13 @@
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         border-bottom: 3px solid #f4f4f4;
+    }
+    .o-list::after{
+        display: block;
+        content: "";
+        height: 0;
+        visibility: hidden;
+        clear: both;
     }
     .l-top{
         display: flex;
@@ -206,11 +372,14 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+        cursor: pointer;
     }
     .b-top>div:first-child{
         border: none;
     }
     .b-bottom{
+        width: 28%;
+        float: right;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -238,6 +407,16 @@
         }
         .l-left>img{
             margin-right: 40px;
+        }
+        .main{
+            width: 80%;
+            left: 10%;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .main{
+            width: 90%;
+            left: 5%;
         }
     }
 </style>

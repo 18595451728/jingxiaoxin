@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>新闻资讯</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -72,15 +72,17 @@
             var ns = new Swiper('.product', {
               // loop: true,
               direction: 'vertical',
-              pagination: {
-                el: '.swiper-pagination',
-              },
+              pagination : '.swiper-pagination',
             })
           })
         }
       })
     },
-    methods: {}
+    methods: {
+    back(){
+      this.$router.go(-1)
+    }
+    }
   }
 </script>
 

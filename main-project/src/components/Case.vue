@@ -2,21 +2,21 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>新闻资讯</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
         <div class="product swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="item in cases">
+                <div class="swiper-slide" v-for="(item,index) in cases">
                     <div class="s-con">
-                        <div class="p-list" v-for="items in item">
+                        <div class="p-list" v-for="(items,index1) in item">
                             <div class="p-white">
                                 <img :src="items.pic" alt="">
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>{{items.title}}</p>
                                     <p class="n-detail">{{items.describe}}</p>
-                                    <router-link to="" tag="div" class="lookmore">查看详情</router-link>
+                                    <div class="lookmore" @click="lookDetail(index,index1)">查看详情</div>
                                 </div>
                             </div>
                         </div>
@@ -24,6 +24,20 @@
                 </div>
             </div>
             <div class="swiper-pagination"></div>
+        </div>
+        <div class="detais" v-if="showDetail">
+            <div class="bgm" @click="cancle"></div>
+            <div class="main">
+                <div class="swiper-container imgs">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="item in choosedImgs">
+                            <img :src="item.pic" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -42,7 +56,9 @@
     },
     data: function () {
       return {
-        cases:[]
+        cases:[],
+        showDetail:!1,
+        choosedImgs:[]
       }
     },
     mounted () {
@@ -72,19 +88,72 @@
             var ns = new Swiper('.product', {
               // loop: true,
               direction: 'vertical',
-              pagination: {
-                el: '.swiper-pagination',
-              },
+              pagination : '.swiper-pagination',
             })
           })
         }
       })
     },
-    methods: {}
+    methods: {
+      lookDetail(index,index1){
+        if(this.cases[index][index1].banner_pic.length==0){
+          this.$layer.msg('该案例暂无详情图')
+        }else{
+          this.showDetail = !0
+          console.log(this.cases[index][index1].banner_pic)
+          this.choosedImgs = this.cases[index][index1].banner_pic
+          this.$nextTick(()=>{
+            var ss = new Swiper('.imgs', {
+              loop: true,
+              prevButton:'.swiper-button-prev',
+              nextButton:'.swiper-button-next',
+            })
+          })
+        }
+      },
+      cancle(){
+        this.showDetail = !1
+      },
+      back(){
+        this.$router.go(-1)
+      }
+    }
   }
 </script>
 
 <style scoped>
+    .detais{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+    .bgm{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.9);
+        z-index: 10;
+    }
+    .main{
+        width: 60%;
+        height: 500px;
+        position: absolute;
+        left: 20%;
+        top: calc(50% - 250px);
+        z-index: 11;
+        background: #fff;
+    }
+.imgs{
+    height: 500px;
+}
+.imgs .swiper-slide img{
+    width: 100%;
+}
     .emei {
         width: 100%;
         line-height: 70px;

@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>关于我们</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con">
             <div class="slogen">
                 <p>{{content.title}}</p>
@@ -41,6 +41,11 @@
           that.content = res.data.data
         }
       })
+    },
+    methods:{
+    back(){
+      this.$router.go(-1)
+    }
     }
   }
 </script>

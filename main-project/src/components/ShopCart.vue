@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>购物车</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>购物车</span></div>
         <div class="main-con">
             <div class="cart">
                 <div class="cart-title">
@@ -125,6 +125,9 @@
             that.clist[index].goods_fee = this.clist[index].goods_num*this.clist[index].goods_price
           }
         })
+      },
+      back(){
+        this.$router.go(-1)
       }
     }
   }
