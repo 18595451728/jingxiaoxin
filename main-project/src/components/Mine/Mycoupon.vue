@@ -9,16 +9,16 @@
                     <div v-for="(item,index) in status" @click="changeStatus(index)" :class="{active:choose==index}">{{item}}</div>
                 </div>
                 <div class="c-list">
-                    <div class="coupon" v-for="item in 11" :class="{grey:item==3}">
+                    <div class="coupon" v-for="item in couponlist" :class="{grey:choose==1}">
                         <div class="coupon-con">
                             <div class="c-top">
-                                <p>￥<span>30</span></p>
+                                <p>￥<span>{{item.deduct}}</span></p>
                                 <div>
                                     <p>优惠券</p>
-                                    <p>{{item==3?'已使用':'未使用'}}</p>
+                                    <p>{{choose==0?'未使用':choose==1?'已使用':'已过期'}}</p>
                                 </div>
                             </div>
-                            <div class="c-bottom">限2019-07-23当天使用</div>
+                            <div class="c-bottom">限{{item.starttime}}-{{item.endtime}}使用</div>
                         </div>
                     </div>
                 </div>
@@ -43,15 +43,30 @@
       return {
         choose:0,
         status:['未使用','已使用','已过期'],
-        mine_status:''
+        mine_status:'',
+        couponlist:[]
       }
     },
     mounted(){
       this.mine_status = this.$route.query.mine_status
+      this.initData(0)
     },
     methods:{
       changeStatus(e){
         this.choose = e
+        this.initData(e)
+      },
+      initData(e){
+        var that =this
+        that.$axios.post('/User/couponList',{
+          token:that.$storage.session.get('token'),
+          coupon_type:0
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status==1){
+            that.couponlist = res.data.data.list
+          }
+        })
       }
     }
   }

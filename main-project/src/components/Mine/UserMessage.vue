@@ -10,24 +10,24 @@
                         <div class="t-header">个人信息</div>
                         <div class="t-con">
                             <div class="t-left">
-                                <img src="/static/images/head_img.png" alt="">
-                                <p><img src="/static/images/upload.png" alt=""><span>上传头像</span></p>
+                                <img :src="user.head_img" alt="">
+                                <p><img src="/static/images/upload.png" alt=""><span>上传头像</span><input type="file" @change="uploadHeadImg"></p>
                             </div>
                             <div class="t-right">
                                 <div class="t-phone">
                                     <p>手机号码</p>
-                                    <p><input type="number" placeholder="18012345678"></p>
+                                    <p><input type="number" placeholder="18012345678" readonly v-model="user.telephone"></p>
                                 </div>
                                 <div class="t-email">
                                     <p>邮箱</p>
-                                    <p><input type="number" placeholder="amlk86@gmail.com"></p>
+                                    <p><input type="text" placeholder="amlk86@gmail.com" v-model="user.email"></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="user_bottom">
                         <router-link tag="div" to="">退出</router-link>
-                        <router-link tag="div" to="">保存</router-link>
+                        <div @click="save">保存</div>
                     </div>
                 </div>
             </div>
@@ -49,11 +49,63 @@
     },
     data:function () {
       return {
-        mine_status:''
+        mine_status:'',
+        pic:'',
+        user:''
       }
     },
     mounted(){
       this.mine_status = this.$route.query.mine_status
+      var that=this
+      that.$axios.post('/User/userInfo',{
+        token:that.$storage.session.get('token')
+      }).then(res=>{
+        console.log(res)
+        if(res.data.status==1){
+          that.user = res.data.data.user
+        }else{
+          that.$layer.msg(res.data.msg)
+        }
+      })
+    },
+    methods:{
+      uploadHeadImg(e){
+        var that =this
+        console.log(e.target.files[0])
+        var file = e.target.files[0]
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+          that.$axios.post('/Index/uploadImg',{
+            img_str:reader.result,
+            path:'headimg'
+          }).then(res=>{
+            if(res.data.status==1){
+              that.user.head_img = reader.result
+              that.pic = res.data.data.pic
+            }
+          })
+        }
+      },
+      save(){
+        var that=this
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+        if(!reg.test(that.user.email)){
+          that.$layer.msg('邮箱格式不正确')
+          return false;
+        }
+        that.$axios.post('/User/setInfo',{
+          token:that.$storage.session.get('token'),
+          email:that.user.email,
+          head_img:that.pic
+        }).then(res=>{
+          if(res.data.status==1){
+            that.$layer.msg(res.data.msg)
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
+      }
     }
   }
 </script>
@@ -111,6 +163,17 @@
         justify-content: center;
         align-items: center;
         margin-top: 10px;
+        position: relative;
+    }
+    .t-left>p input{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+        opacity: 0;
+        cursor: pointer;
     }
     .t-left>p img{
         margin-right: 10px;

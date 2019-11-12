@@ -16,13 +16,13 @@
                                 <p>姓名*</p>
                                 <div :class="{active:focus=='user_name'}"><input type="text"
                                                                                  @focus="changeFocus('user_name')"
-                                                                                 @blur="nameBlur()" ref="user_name"><img
+                                                                                 @blur="nameBlur()" v-model="user_name"><img
                                         src="/static/images/sure.png" v-if="confirmName" alt=""></div>
                             </div>
                             <div class="each_mes">
                                 <p>邮箱</p>
                                 <div :class="{active:focus=='email'}"><input type="text" @focus="changeFocus('email')"
-                                                                             @blur="emailBlur()" ref="email"><img
+                                                                             @blur="emailBlur()" v-model="email"><img
                                         src="/static/images/sure.png" v-if="confirmEmail" alt=""></div>
                             </div>
                         </div>
@@ -30,30 +30,33 @@
                             <div class="each_mes">
                                 <p>电话*</p>
                                 <div :class="{active:focus=='tel'}"><input type="text" @focus="changeFocus('tel')"
-                                                                           @blur="telBlur()" ref="tel"><img
+                                                                           @blur="telBlur()" v-model="tel"><img
                                         src="/static/images/sure.png" v-if="confirmTel" alt=""></div>
                             </div>
                         </div>
                         <div class="partner_list">
                             <div class="each_mes">
                                 <p>地址*</p>
-                                <div :class="{active:focus=='address'}"><input type="text"
-                                                                               @focus="changeFocus('address')"
-                                                                               ref="address"><img
-                                        src="/static/images/arrow-bottom.png" alt=""></div>
+                                <div :class="{active:focus=='address'}" @click="getProvince(0)" style="position:relative;">
+                                    <input type="text" readonly v-model="content">
+                                    <img src="/static/images/arrow-bottom.png" alt="">
+                                    <div class="chooseAddress" v-if="showAddress">
+                                        <p v-for="item in provinceList" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="each_mes">
                                 <p>详细地址*</p>
                                 <div :class="{active:focus=='detail_address'}"><input type="text" @blur="addressBlur()"
                                                                                       @focus="changeFocus('detail_address')"
-                                                                                      ref="detail_address"><img
+                                                                                      v-model="detail_address"><img
                                         src="/static/images/sure.png" v-if="confirmAddress" alt=""></div>
                             </div>
                         </div>
                         <div class="partner_list">
                             <div class="leave_message">
                                 <p>简介留言*</p>
-                                <textarea name="leave_message" id="leave_message"></textarea>
+                                <textarea name="leave_message" v-model="suggest" id="leave_message"></textarea>
                             </div>
                         </div>
                         <div class="partner_btn" @click="send">
@@ -78,22 +81,84 @@
     },
     data: function () {
       return {
+        user_name:'',
+        email:'',
+        tel:'',
+        detail_address:'',
         focus: '',
         confirmName: !1,
         confirmEmail: !1,
         confirmTel: !1,
         confirmAddress: !1,
+        showAddress:!1,
+        provinceList:[],
+        provinceId:'',
+        cityId:'',
+        areaId:'',
+        content:'',
+        level:'',
+        suggest:''
       }
     },
     mounted () {
     },
     methods: {
+
+
+      getProvince(e){
+        this.showAddress = !this.showAddress
+        if(this.showAddress){
+          this.focus = 'address'
+          this.getMessage(e)
+        }else{
+          this.focus = ''
+          this.provinceId = ''
+          this.cityId = ''
+          this.areaId = ''
+          this.content = ''
+          this.level = 0
+        }
+      },
+      getMessage(e,name){
+        console.log(name,this.level)
+        this.level++;
+        switch (this.level) {
+          case 2 :
+            this.provinceId = e
+            this.province = name
+            break;
+          case 3 :
+            this.cityId=e
+            this.city=name
+            break;
+          case 4 :
+            this.areaId = e
+            this.area = name
+            break;
+        }
+        if(this.level >= 4){
+          this.showAddress = !1
+          this.level = 0
+          this.content = this.province+' '+this.city+' '+this.area
+          this.focus = ''
+          return false;
+        }
+        var that =this
+        this.$axios.post('/Index/getRegion', {
+          parent_id: e
+        }).then(res => {
+          console.log(res)
+          if(res.data.status==1){
+            that.provinceList = res.data.data
+          }
+        })
+      },
       changeFocus: function (e) {
         console.log(e)
         this.focus = e
       },
       nameBlur: function () {
-        var name = this.$refs.user_name.value
+        var name = this.user_name
         console.log(name)
         if (name && name.replace(/(^\s*)|(\s*$)/g, '') && name.replace(/(^\s*)|(\s*$)/g, '') != '') {
           this.confirmName = !0
@@ -103,7 +168,7 @@
         }
       },
       emailBlur: function () {
-        var email = this.$refs.email.value
+        var email = this.email
         console.log(email)
         if (email && email != '') {
           var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
@@ -118,7 +183,7 @@
         }
       },
       telBlur: function () {
-        var tel = this.$refs.tel.value
+        var tel = this.tel
         console.log(tel)
         if (tel && tel != '') {
           var reg = /^1[3456789]\d{9}$/
@@ -133,7 +198,7 @@
         }
       },
       addressBlur: function () {
-        var detail_address = this.$refs.detail_address.value
+        var detail_address = this.detail_address
         console.log(detail_address)
         if (detail_address && detail_address.replace(/(^\s*)|(\s*$)/g, '') && detail_address.replace(/(^\s*)|(\s*$)/g, '') != '') {
           this.confirmAddress = !0
@@ -145,17 +210,22 @@
       send () {
         var that = this
         that.$axios.post('/Partner/apply', {
-          token:'',
-          name:'123',
-          tel:'19913245678',
-          phone:'',
-          email:'',
-          address:'',
-          suggest:''
+          token:that.$storage.session.get('token'),
+          name:this.user_name,
+          tel:this.tel,
+          email:this.email,
+          address:this.content,
+          suggest:this.suggest,
+          province_id:this.provinceId,
+          city_id:this.cityId,
+          district_id:this.areaId,
         }).then(res => {
           console.log(res)
-          if(res.data.status){
-
+          if(res.data.status==1){
+            that.$layer.msg('提交成功，请等待审核')
+            setTimeout(()=>{
+              that.$router.push('/')
+            },1000)
           }else{
             that.$layer.msg(res.data.msg)
           }
@@ -166,6 +236,29 @@
 </script>
 
 <style scoped>
+    .each_mes div.chooseAddress{
+        position: absolute;
+        width: calc(100% + 4px);
+        height: 390px;
+        overflow-y: scroll;
+        -ms-overflow-style:none;
+        overflow:-moz-scrollbars-none;
+        left: -2px;
+        top: calc(100% + 2px);
+        background: #ececec;
+        display: block;
+        z-index: 11;
+    }
+    .each_mes div.chooseAddress::-webkit-scrollbar{width:0px}
+    .each_mes div.chooseAddress p{
+        line-height: 55px;
+        border-bottom: 1px solid #cfcfcf;
+        padding: 0 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
     .emei {
         width: 100%;
         line-height: 70px;

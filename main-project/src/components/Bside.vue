@@ -28,7 +28,7 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        z-index: 9999;
+        z-index: 10;
         position: fixed;
         left: 0;
         bottom:0;

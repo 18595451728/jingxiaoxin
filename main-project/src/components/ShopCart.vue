@@ -13,32 +13,32 @@
                         <p>总价</p>
                     </div>
                 </div>
-                <div class="cartlist" v-for="item in 2">
+                <div class="cartlist" v-for="(item,index) in clist">
                     <div class="c-left">
-                        <div class="c-img"><img src="/static/images/goodimg.png" alt=""></div>
+                        <div class="c-img"><img :src="item.goods_logo" width="100" height="130" alt=""></div>
                         <div class="c-art">
-                            <p>净小新净水器</p>
+                            <p>{{item.goods_name}}</p>
                             <p>颜色：高级灰</p>
                             <p>尺寸：1500mm</p>
                         </div>
                     </div>
                     <div class="c-right">
-                        <div class="price">¥45.05</div>
+                        <div class="price">¥{{item.goods_price}}</div>
                         <div class="num">
                             <div>
-                                <div class="add">-</div>
-                                <div>1</div>
-                                <div class="reduce">+</div>
+                                <div class="add" @click="reduceNum(index)">-</div>
+                                <div>{{item.goods_num}}</div>
+                                <div class="reduce" @click="addNum(index)">+</div>
                             </div>
                         </div>
-                        <div class="allprice">¥45.05</div>
-                        <img src="/static/images/delete.png" class="delete" alt="">
+                        <div class="allprice">¥{{item.goods_fee.toFixed(2)}}</div>
+                        <img src="/static/images/delete.png" class="delete" @click="deleteItem(index)" alt="">
                     </div>
                 </div>
             </div>
             <div class="btns">
                 <div class="d-left">
-                    <div>清除购物车</div>
+                    <div @click="deleteAll">清除购物车</div>
                     <div>查看订单</div>
                 </div>
                 <div class="d-right">结算</div>
@@ -59,13 +59,73 @@
     },
     data:function () {
       return {
-
+        clist:[]
       }
     },
     mounted () {
+        this.initCart()
     },
     methods:{
-
+      initCart(){
+        var that =this
+        that.$axios.post('/Cart/cartList',{
+          token:that.$storage.session.get('token')
+        }).then(res=>{
+            console.log(res)
+          if(res.data.status==1){
+            that.clist = res.data.data.cartList
+          }
+        })
+      },
+      deleteItem(index){
+        var cart_id = [this.clist[index].id]
+        this.deleteCart(cart_id)
+      },
+      deleteAll(){
+        var cart_id = []
+        for(var i=0;i<this.clist.length;i++){
+          cart_id.push(this.clist[i].id)
+        }
+        this.deleteCart(cart_id)
+      },
+      deleteCart(cart_id){
+        var that=this
+        this.$axios.post('/Cart/delCart',{
+          cart_id:cart_id,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status==1){
+            that.$layer.msg('删除成功')
+            that.initCart()
+          }
+        })
+      },
+      addNum(index){
+        this.clist[index].goods_num++;
+        this.editNum(index)
+      },
+      reduceNum(index){
+        if(this.clist[index].goods_num<=1){
+          this.$layer.msg('最少购买一件商品')
+          return false;
+        }
+        this.clist[index].goods_num--;
+        this.editNum(index)
+      },
+      editNum(index){
+        var that =this
+        that.$axios.post('/Cart/editCart',{
+          token:this.$storage.session.get('token'),
+          goods_num:this.clist[index].goods_num,
+          cart_id:this.clist[index].id
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status==1){
+            that.clist[index].goods_fee = this.clist[index].goods_num*this.clist[index].goods_price
+          }
+        })
+      }
     }
   }
 </script>

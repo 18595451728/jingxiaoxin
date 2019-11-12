@@ -37,29 +37,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="goodscolor">
-                            <p>过滤系统*</p>
+                        <div class="goodscolor" v-for="(item,index) in spec">
+                            <p>{{item.name}}*</p>
                             <div class="yanse">
-                                <div class="y-content" @click="chooseSystem"><p>{{isSystem}}</p><img src="/static/images/reduceNum.png" alt=""></div>
-                                <div class="changeColor" v-if="showSystem">
-                                    <p @click="is_system(1)">是</p>
-                                    <p @click="is_system(0)">否</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goodscolor">
-                            <p>压缩机制冷*</p>
-                            <div class="yanse">
-                                <div class="y-content" @click="chooseCold"><p>{{isCold}}</p><img src="/static/images/reduceNum.png" alt=""></div>
-                                <div class="changeColor"  v-if="showCold">
-                                    <p @click="is_cold(1)">是</p>
-                                    <p @click="is_cold(0)">否</p>
+                                <div class="y-content" @click="toChoose(index)"><p>{{item.choosemode}}</p><img src="/static/images/reduceNum.png" alt=""></div>
+                                <div class="changeColor" v-if="item.tochoose">
+                                    <p v-for="(items,index1) in item.list" @click="chooseMode(index,index1,items)">{{items.item}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="buy-btn">
-                        <router-link tag="div" to="/Probation">申请试用</router-link>
+                        <div @click="gotry">申请试用</div>
+                        <div @click="addcart">加入购物车</div>
                         <div @click="buynow()">立即购买</div>
                     </div>
                     <div class="comment">
@@ -125,10 +115,8 @@
         list: '',
         commentStatistics: 0,
         goods_comment:'',
-        showSystem:!1,
-        showCold:!1,
-        isSystem:'是',
-        isCold:'是',
+        spec:'',
+        sku_id:''
       }
     },
     mounted () {
@@ -140,7 +128,14 @@
       }).then(res => {
         if (res.data.status == 1) {
           var data = res.data.data
+          for(var i=0;i<data.filter_spec.length;i++){
+            data.filter_spec[i].tochoose = !1
+            data.filter_spec[i].choosemode = '请选择'
+          }
           that.list = data.list
+          that.sku_data = data.sku_data
+          that.spec = data.filter_spec
+          that.sku_id = data.spec_key
           that.commentStatistics = data.commentStatistics
           that.getComment(that.goods_id,0)
           that.$nextTick(function () {
@@ -158,6 +153,58 @@
 
     },
     methods: {
+      chooseMode(idx,index,item){
+        console.log(idx,index,item)
+        this.spec[idx].choosemode = item.item
+        this.spec[idx].sku_id = item.item_id
+        this.spec[idx].tochoose = !this.spec[idx].tochoose
+        this.getSkuid()
+      },
+      getSkuid(){
+        var sku = []
+        for(var i=0;i<this.spec.length;i++){
+          if(!this.spec[i].sku_id){
+            return false;
+          }
+          sku.push(this.spec[i].sku_id)
+        }
+        this.sku_id = this.sort(sku).join('_')
+        console.log(this.sku_id)
+        this.getPrice()
+      },
+      getPrice(){
+        this.list.price = this.sku_data[this.sku_id].price
+      },
+      toChoose(i){
+        var spec = this.spec
+        spec[i].tochoose = !spec[i].tochoose
+        this.spec = spec
+      },
+
+      sort(arr){
+        for(var j=0;j<arr.length-1;j++){
+          for(var i=0;i<arr.length-1-j;i++){
+            if(arr[i]>arr[i+1]){
+              var temp = arr[i];
+              arr[i] = arr[i+1];
+              arr[i+1] = temp;
+            }
+          }
+        }
+        return arr;
+      },
+      addcart(){
+        var that = this
+        this.$axios.post('/Cart/addCart',{
+          goods_id:this.goodsid,
+          goods_num:this.count,
+          cart_type:0,
+          token:this.$storage.session.get('token'),
+          sku_id:this.sku_id
+        }).then(res=>{
+            that.$layer.msg(res.data.msg)
+        })
+      },
       buynow(){
         var that =this
         that.$axios.post('/Cart/addCart',{
@@ -206,19 +253,13 @@
           }
         })
       },
-      chooseSystem(){
-        this.showSystem = !this.showSystem
-       },
-      chooseCold(){
-        this.showCold = !this.showCold
-      },
-      is_system(e){
-        this.chooseSystem()
-        this.isSystem = e==0?'否':'是'
-      },
-      is_cold(e){
-        this.chooseCold()
-        this.isCold = e==0?'否':'是'
+      gotry(){
+        this.$router.push({
+          path:'/Probation',
+          query:{
+            id:this.goodsid
+          }
+        })
       }
     }
   }
@@ -443,26 +484,23 @@
     }
 
     .buy-btn > div {
-        width: 46.65%;
+        width: 30%;
         font-size: 14px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         text-align: center;
         cursor: pointer;
-    }
-
-    .buy-btn > div:first-child {
         border: 1px solid #dddddd;
         color: #969696;
         line-height: 68px;
     }
-
-    .buy-btn > div:last-child {
+    .buy-btn > div:hover{
         border: 2px solid #040707;
         color: #040707;
         line-height: 66px;
     }
+
 
     .comment {
         margin-top: 85px;

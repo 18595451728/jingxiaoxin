@@ -15,7 +15,7 @@
                                     <p><span>THE</span>[{{items.goods_name}}]</p>
                                     <img :src="items.goods_logo" alt="">
                                     <div class="fnc">
-                                        <router-link :to="{path:'/ProductDetail',query:{id:items.id}}" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link :to="{path:'/Probation',query:{id:items.id}}" tag="div" class="tryuse">申请试用</router-link>
                                         <router-link :to="{path:'/ProductDetail',query:{id:items.id}}" tag="div" class="toBuy">点击购买</router-link>
                                     </div>
                                 </div>
