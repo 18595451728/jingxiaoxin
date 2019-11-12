@@ -67,7 +67,11 @@ const router = new Router({
     {
       path: '/ShopCart',
       name: 'ShopCart',
-      component: ShopCart
+      component: ShopCart,
+      meta: {
+        title: '我的购物车',
+        needLogin: !0
+      }
     },
     {
       path: '/Payment',
@@ -124,17 +128,29 @@ const router = new Router({
     {
       path: '/Mine/Myorder',
       name: 'Myorder',
-      component: Myorder
+      component: Myorder,
+      meta: {
+        title: '我的订单',
+        needLogin: !0
+      }
     },
     {
       path: '/Mine/Mycoupon',
       name: 'Mycoupon',
-      component: Mycoupon
+      component: Mycoupon,
+      meta: {
+        title: '我的优惠券',
+        needLogin: !0
+      }
     },
     {
       path: '/Mine/Address',
       name: 'Address',
-      component: Address
+      component: Address,
+      meta: {
+        title: '我的地址',
+        needLogin: !0
+      }
     },
     {
       path: '/Mine/Logistics',
@@ -145,7 +161,8 @@ const router = new Router({
       path: '/Mine/Refund',
       name: 'Refund',
       component: Refund
-    },{
+    },
+    {
       path: '/Mine/Login',
       name: 'Login',
       component: Login

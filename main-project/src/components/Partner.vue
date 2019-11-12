@@ -209,6 +209,10 @@
       },
       send () {
         var that = this
+        if(!this.$storage.session.get('token')){
+          this.$router.push('/Mine/Login')
+          return false;
+        }
         that.$axios.post('/Partner/apply', {
           token:that.$storage.session.get('token'),
           name:this.user_name,

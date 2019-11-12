@@ -72,9 +72,9 @@
             var ns = new Swiper('.product', {
               // loop: true,
               direction: 'vertical',
-              pagination: {
-                el: '.swiper-pagination',
-              },
+              mousewheelControl : true,
+              pagination : '.swiper-pagination',
+              paginationClickable :true,
             })
           })
         }

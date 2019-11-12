@@ -195,6 +195,10 @@
       },
       addcart(){
         var that = this
+        if(!this.$storage.session.get('token')){
+          this.$router.push('/Mine/Login')
+          return false;
+        }
         this.$axios.post('/Cart/addCart',{
           goods_id:this.goodsid,
           goods_num:this.count,
@@ -207,6 +211,10 @@
       },
       buynow(){
         var that =this
+        if(!this.$storage.session.get('token')){
+          this.$router.push('/Mine/Login')
+          return false;
+        }
         that.$axios.post('/Cart/addCart',{
           goods_id:this.goodsid,
           goods_num:this.count,

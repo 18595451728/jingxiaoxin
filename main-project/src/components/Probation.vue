@@ -188,6 +188,10 @@
           that.$layer.msg('详细地址不能为空')
           return false;
         }
+        if(!this.$storage.session.get('token')){
+          this.$router.push('/Mine/Login')
+          return false;
+        }
         that.$axios.post('/Probation/goodsProbation',{
           token:that.$storage.session.get('token'),
           username:username,
