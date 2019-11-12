@@ -2,7 +2,7 @@
 <div>
     <Nav></Nav>
     <Bside></Bside>
-    <div class="emei"><img src="/static/images/back.png" alt=""><span>新闻资讯</span></div>
+    <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
     <div class="detail">
         <div class="d-name"><span>「新闻资讯」</span>{{news.title}}</div>
         <div class="d-time">发表于{{news.year}}年{{news.month}}月{{news.day}}日</div>
@@ -39,6 +39,9 @@
       this.initNews()
     },
     methods:{
+      back(){
+        this.$router.go(-1)
+      },
       changenew(id){
         this.newsid = id
         this.initNews()

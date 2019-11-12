@@ -3,15 +3,15 @@
         <Nav></Nav>
         <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>关于我们</span></div>
-        <div class="main-con">
+        <div class="main-con" v-for="item in content">
             <div class="slogen">
-                <p>{{content.title}}</p>
-                <p>{{content.sub_title}}</p>
+                <p>{{item.title}}</p>
+                <p>{{item.sub_title}}</p>
             </div>
-            <img src="/static/images/a-pic.png" alt="">
+            <img :src="item.pic" alt="">
             <div class="a-art">
-                <div class="a-title">{{content.name}}</div>
-                <p>{{content.describe}}</p>
+                <div class="a-title">{{item.name}}</div>
+                <p>{{item.describe}}</p>
             </div>
         </div>
 

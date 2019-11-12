@@ -30,7 +30,7 @@
                     <div>
                         <p>价钱</p>
                         <p>数量</p>
-                        <p>单号</p>
+                        <p>小计</p>
                     </div>
                 </div>
                 <div class="cartlist" v-for="item in list">
@@ -45,7 +45,7 @@
                     <div class="c-right">
                         <div class="price">¥{{item.goods_price}}</div>
                         <div class="num">{{item.goods_num}}</div>
-                        <div class="allprice">000232304</div>
+                        <div class="allprice">{{(item.goods_price*item.goods_num).toFixed(2)}}</div>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                 <div class="t-bottom" @click="jiesuan()">结算</div>
             </div>
         </div>
-
+        <div class="wxpay" @click="hidewx" v-show="showwx" v-html="wxpay"></div>
     </div>
 </template>
 
@@ -114,7 +114,9 @@
         name:'',
         phone:'',
         details:'',
-        money:''
+        money:'',
+        wxpay:'',
+        showwx:!1
       }
     },
     mounted () {
@@ -129,10 +131,12 @@
         console.log(res)
         if (res.data.status == 1) {
           that.list = res.data.data.cartList
-          that.address = res.data.data.address
-          that.name = res.data.data.address.consignee
-          that.phone = res.data.data.address.telephone
-          that.details = res.data.data.address.address
+          if(res.data.data.address){
+            that.address = res.data.data.address
+            that.name = res.data.data.address.consignee
+            that.phone = res.data.data.address.telephone
+            that.details = res.data.data.address.address
+          }
         }
       })
         //总价
@@ -162,6 +166,14 @@
         if(this.showaddress){
           console.log(222)
             that.getMessage(e)
+        }else{
+          this.pp = ''
+          this.cc=''
+          this.xx = ''
+          this.ppp = ''
+          this.ccc=''
+          this.xxx = ''
+          this.level = 0
         }
       },
       getMessage(e,name){
@@ -232,10 +244,15 @@
         }).then(res=>{
             console.log(res)
           that.$layer.msg(res.data.msg)
+          location.reload(true)
         })
       },
       jiesuan(){
         var that=this
+        if(!this.address.id){
+          this.$layer.msg('请先添加收货地址')
+          return false;
+        }
         this.$axios.post('/Order/addOrder',{
           cart_type:this.cart_type,
           address_id:this.address.id,
@@ -258,6 +275,10 @@
                     token:that.$storage.session.get('token')
                   }).then(r=>{
                     console.log(r)
+                    if(r.data.status==1){
+                      that.wxpay = r.data.data.code_url
+                      that.showwx = !0
+                    }
                   })
                 }else{
                   that.$axios.post('/Pay/certificate',{
@@ -276,6 +297,9 @@
             that.$layer.msg(res.data.msg)
           }
         })
+      },
+      hidewx(){
+        this.showwx = !1
       },
       back(){
         this.$router.go(-1)
@@ -598,7 +622,20 @@
         background: #333;
         cursor: pointer;
     }
-
+    .wxpay{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,.9);
+    }
+    .wxpay img{
+        width: 250px;
+    }
     @media screen and (max-width: 1200px) {
         .main-con {
             width: 90%;

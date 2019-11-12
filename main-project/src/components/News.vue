@@ -88,6 +88,8 @@
 
 <style scoped>
     .emei {
+        position: fixed;
+        z-index: 9;
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;

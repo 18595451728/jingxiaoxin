@@ -1,7 +1,7 @@
 <template>
     <div class="mine-left">
         <div class="mine-head">
-            <img src="/static/images/touxiang.png" alt="">
+            <img :src="user.head_img" alt="">
             <span>个人中心</span>
         </div>
         <div class="fnc-list">
@@ -20,11 +20,21 @@
     name: 'Mineleft',
     data:function () {
       return {
+        user:''
       }
     },
     props:['status'],
     mounted () {
         console.log(this.status)
+      var that=this
+      that.$axios.post('/User/userInfo',{
+        token:that.$storage.session.get('token')
+      }).then(res=>{
+        console.log(res)
+        if(res.data.status==1){
+          that.user = res.data.data.user
+        }
+      })
     },
     methods:{
       changeChoose(e){

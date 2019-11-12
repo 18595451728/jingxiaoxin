@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="user_bottom">
-                        <router-link tag="div" to="">退出</router-link>
+                        <div @click="exit">退出</div>
                         <div @click="save">保存</div>
                     </div>
                 </div>
@@ -104,6 +104,12 @@
           }else{
             that.$layer.msg(res.data.msg)
           }
+        })
+      },
+      exit(){
+        this.$storage.session.remove('token')
+        this.$router.push({
+          path:'/'
         })
       }
     }

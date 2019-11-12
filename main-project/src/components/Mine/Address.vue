@@ -113,6 +113,14 @@
         this.showaddress = !this.showaddress
         if(this.showaddress){
           this.getMessage(e)
+        }else{
+          this.provinceId = ''
+          this.province = ''
+          this.cityId=''
+          this.city=''
+          this.areaId = ''
+          this.area = ''
+          this.level = 0
         }
       },
       getMessage(e,name){
@@ -397,6 +405,7 @@
     }
     .c-title img{
         width: 20px;
+        cursor: pointer;
     }
     .c-con{
         padding: 15px 30px;
@@ -417,6 +426,7 @@
         color: white;
         font-size: 16px;
         margin: 30px auto 0;
+        cursor: pointer;
     }
     .c-con>div>p span{
         color: #e60012;

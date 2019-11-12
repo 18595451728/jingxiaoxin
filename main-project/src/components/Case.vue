@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>项目案例</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -14,7 +14,7 @@
                             <div class="p-white">
                                 <img :src="items.pic" alt="">
                                 <div class="p-con">
-                                    <p class="n-name"><span>「新闻资讯」</span>{{items.title}}</p>
+                                    <p class="n-name"><span>「项目案例」</span>{{items.title}}</p>
                                     <p class="n-detail">{{items.describe}}</p>
                                     <div class="lookmore" @click="lookDetail(index,index1)">查看详情</div>
                                 </div>
@@ -155,6 +155,8 @@
     width: 100%;
 }
     .emei {
+        position: fixed;
+        z-index: 9;
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;

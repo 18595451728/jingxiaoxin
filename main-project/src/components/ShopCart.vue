@@ -39,9 +39,9 @@
             <div class="btns">
                 <div class="d-left">
                     <div @click="deleteAll">清除购物车</div>
-                    <div>查看订单</div>
+                    <div @click="lookOrder">查看订单</div>
                 </div>
-                <div class="d-right">结算</div>
+                <div class="d-right" @click="jiesuan">结算</div>
             </div>
         </div>
 
@@ -125,6 +125,17 @@
             that.clist[index].goods_fee = this.clist[index].goods_num*this.clist[index].goods_price
           }
         })
+      },
+      lookOrder(){
+        this.$router.push({
+          path:'/Mine/Myorder',
+          query:{
+            mine_status:1
+          }
+        })
+      },
+      jiesuan(){
+        this.$router.push({path: '/Payment', query: {type: 0}})
       },
       back(){
         this.$router.go(-1)

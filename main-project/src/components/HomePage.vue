@@ -212,6 +212,9 @@
 </script>
 
 <style scoped>
+    body{
+        padding-bottom: 0!important;
+    }
     .banner {
         width: 100%;
         /*height: 1000px;*/
@@ -346,6 +349,7 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+        margin-bottom: -70px;
     }
     .footer-main{
         width: 1550px;

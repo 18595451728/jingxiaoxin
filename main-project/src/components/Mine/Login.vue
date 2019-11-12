@@ -11,7 +11,7 @@
                             @focus="changeFocus('username')" @blur="changeFocus()" ref="login_phone" type="text" placeholder="">
                     </div>
                     <div class="password"><span :class="{active:focus=='password'}">密码</span><input
-                            @focus="changeFocus('password')" @blur="changeFocus()" ref="login_password" type="text" placeholder=""></div>
+                            @focus="changeFocus('password')" @blur="changeFocus()" ref="login_password" type="password" placeholder=""></div>
                     <div class="changeword">
                         <div class="remember" @click="rememberword">
                             <p><img src="/static/images/remember.png" alt="" v-show="remember"></p>
@@ -26,7 +26,7 @@
                             @focus="changeFocus('telephone')" @blur="changeFocus()" ref="reg_phone" type="number"
                             placeholder=""></div>
                     <div class="password"><span :class="{active:focus=='password'}">密码</span><input
-                            @focus="changeFocus('password')" @blur="changeFocus()" ref="password" type="text"
+                            @focus="changeFocus('password')" @blur="changeFocus()" ref="password" type="password"
                             placeholder=""></div>
                     <div class="codes"><input type="text" ref="code" placeholder="验证码">
                         <div class="getCode">
@@ -143,6 +143,15 @@
       toReg(){
         var that = this
         var telephone = that.$refs.reg_phone.value,password = that.$refs.password.value,code = that.$refs.code.value,type=2
+
+        if(!telephone){
+          that.$layer.msg('手机号不能为空')
+          return false;
+        }
+        if(!(/^[1][3,4,5,7,8|9][0-9]{9}$/).test(telephone)){
+          that.$layer.msg('手机号格式错误')
+          return false;
+        }
         if(password.length<8){
           that.$layer.msg('密码长度不能少于8位')
           return false;

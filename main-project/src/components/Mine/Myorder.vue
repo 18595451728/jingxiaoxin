@@ -68,6 +68,7 @@
                 <div class="t-bottom" @click="jiesuan">结算</div>
             </div>
         </div>
+        <div class="wxpay" @click="hidewx" v-show="showwx" v-html="wxpay"></div>
     </div>
 </template>
 
@@ -90,7 +91,9 @@
         orderlist:[],
         payStyle:0,
         topay:!1,
-        order_no:''
+        order_no:'',
+        wxpay:'',
+        showwx:!1
       }
     },
     mounted(){
@@ -98,6 +101,9 @@
       this.initData(0)
     },
     methods:{
+      hidewx(){
+        this.showwx = !1
+      },
       jiesuan(){
         var that =this
 
@@ -114,6 +120,8 @@
                token:that.$storage.session.get('token')
              }).then(r=>{
                console.log(r)
+               that.wxpay = r.data.data.code_url
+               that.showwx = !0
              })
            }else{
                  that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
@@ -321,6 +329,7 @@
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
+        margin-bottom: 20px;
     }
     .l-left{
         display: flex;
@@ -397,6 +406,18 @@
     }
     .b-bottom>div:last-child{
         background: #0099cc;
+    }
+    .wxpay{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,.9);
+        z-index: 14;
     }
     @media screen and (max-width: 1400px) {
         .l-left{
