@@ -137,7 +137,7 @@
           that.spec = data.filter_spec
           that.sku_id = data.spec_key
           that.commentStatistics = data.commentStatistics
-          that.getComment(that.goods_id,0)
+          that.getComment(that.goodsid,0)
           that.$nextTick(function () {
             var ns = new Swiper('.detail-swiper', {
               // loop: true,
@@ -600,6 +600,10 @@
         color: #333;
         text-align: center;
         margin-top: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
     }
 
     .user_comment {

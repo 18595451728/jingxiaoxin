@@ -25,6 +25,7 @@ import Refund from '@/components/Mine/Refund'
 import OffLine from '@/components/Mine/OffLine'
 import Login from '@/components/Mine/Login'
 import Comment from '@/components/Mine/Comment'
+import Contact from '@/components/Contact'
 
 Vue.use(Router)
 
@@ -239,6 +240,15 @@ const router = new Router({
       component: Comment,
       meta: {
         title: '评论',
+        needLogin: !1
+      }
+    },
+    {
+      path: '/Contact',
+      name: 'Contact',
+      component: Contact,
+      meta: {
+        title: '联系我们',
         needLogin: !1
       }
     }

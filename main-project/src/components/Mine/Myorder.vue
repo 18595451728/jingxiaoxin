@@ -158,12 +158,45 @@
                console.log(r)
                that.wxpay = r.data.data.code_url
                that.showwx = !0
+               that.judgeHasPay(rr.data.data.order_no)
              })
            }else{
                  that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
            }
          }
         })
+      },
+      judgeHasPay(e){
+        var that =this
+        var times = 0
+        var tt = setInterval(()=>{
+          times++;
+          if(times>=50){
+            clearInterval(tt)
+            that.$router.push('/Mine?Myorder?mine_status=1')
+          }
+          console.log(e)
+          this.$axios.post('/Pay/orderRequest',{
+            order_no:e,
+            token:this.$storage.session.get('token')
+          }).then(res=>{
+            console.log(res)
+            if(res.data.status == 1){
+              clearInterval(tt)
+              that.showwx = !1
+              that.$layer.msg(res.data.msg)
+              setTimeout(function () {
+                that.$router.push({
+                  path:'/Afterpay',
+                  query:{
+                    order_no:e
+                  }
+                })
+              },1000)
+
+            }
+          })
+        },1000)
       },
       cancleOrder(e){
         var that =this
