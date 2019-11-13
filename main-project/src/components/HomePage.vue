@@ -96,7 +96,7 @@
                             <p><router-link tag="a" to="">净水器好不好</router-link></p>
                         </div>
                     </div>
-                    <div class="copyright">ICP备案号： 湘ICP备05004535号-16</div>
+                    <div class="copyright">ICP备案号： 浙ICP备13022929号-2</div>
                 </div>
             </div>
         </div>

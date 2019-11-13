@@ -3,16 +3,21 @@
         <Nav></Nav>
         <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>关于我们</span></div>
-        <div class="main-con" v-for="item in content">
-            <div class="slogen">
-                <p>{{item.title}}</p>
-                <p>{{item.sub_title}}</p>
-            </div>
-            <img :src="item.pic" alt="">
+        <div class="main-con">
+            <img src="/static/images/a-pic.png" alt="">
             <div class="a-art">
-                <div class="a-title">{{item.name}}</div>
-                <p>{{item.describe}}</p>
+                <img src="/static/images/a-intro.png" style="margin-bottom: 44px" alt="">
+                <div class="a-title">杭州再想科技有限公司</div>
+                <p>净小新是杭州再想科技旗下高端净饮机品牌，是一家集研发、生产、销售、服务为一体的高科技型企业，注重创新和用户体验，专注净水及饮水产品研发十余年致力于以科技 构建安全 健康  便捷的饮水生活。自主创新凉白开净饮机系列倡导过滤+烧开杀菌+保鲜三重防护的饮水理念，目前已荣获国家多项专利技术 杭州再想科技已荣获“杭州市高新技术企业”，“浙江省科技型中小企业”，通过了国家CCC认证，饮用水卫生安全产品卫生许可批件，中国家用电器检测等多项权威认证机构的检测</p>
             </div>
+        </div>
+        <div class="main-con" style="margin-top: 0">
+            <div class="a-art b-art">
+                <img src="/static/images/a-intro.png" style="margin-bottom: 44px" alt="">
+                <div class="a-title">杭州再想科技有限公司</div>
+                <p>净小新是杭州再想科技旗下高端净饮机品牌，是一家集研发、生产、销售、服务为一体的高科技型企业，注重创新和用户体验，专注净水及饮水产品研发十余年致力于以科技 构建安全 健康  便捷的饮水生活。自主创新凉白开净饮机系列倡导过滤+烧开杀菌+保鲜三重防护的饮水理念，目前已荣获国家多项专利技术 杭州再想科技已荣获“杭州市高新技术企业”，“浙江省科技型中小企业”，通过了国家CCC认证，饮用水卫生安全产品卫生许可批件，中国家用电器检测等多项权威认证机构的检测</p>
+            </div>
+            <img src="/static/images/a-pic.png" style="margin-left: 75px" alt="">
         </div>
 
     </div>
@@ -78,20 +83,9 @@
         box-shadow: 10px 10px 10px -4px rgba(130, 130, 130, .1);
 
     }
-
-    .slogen {
-        position: absolute;
-        top: -20px;
-        right: 10px;
-        font-size: 40px;
-        color: #8f8f8f;
-        width: 300px;
+    .main-con>img{
+        width: 50%;
     }
-
-    .slogen p:last-child {
-        text-align: right;
-    }
-
     .a-title {
         margin-bottom: 30px;
         font-size: 20px;
@@ -116,11 +110,8 @@
             width: 50%;
         }
         .a-art{
-            width: 360px;
+            width: 50%;
         }
-        .slogen{
-            width: 275px;
-            font-size: 35px;
-        }
+
     }
 </style>

@@ -24,6 +24,7 @@ import Logistics from '@/components/Mine/Logistics'
 import Refund from '@/components/Mine/Refund'
 import OffLine from '@/components/Mine/OffLine'
 import Login from '@/components/Mine/Login'
+import Comment from '@/components/Mine/Comment'
 
 Vue.use(Router)
 
@@ -34,10 +35,10 @@ const router = new Router({
       path: '/',
       name: 'HomePage',
       component: HomePage,
-      // meta:{
-      //   title:'首页',
-      //   needLogin:!0
-      // }
+      meta: {
+        title: '首页',
+        needLogin: !1
+      }
     },
     {
       path: '/HelloWorld',
@@ -47,22 +48,38 @@ const router = new Router({
     {
       path: '/Product',
       name: 'Product',
-      component: Product
+      component: Product,
+      meta: {
+        title: '产品中心',
+        needLogin: !1
+      }
     },
     {
       path: '/Advantage',
       name: 'Advantage',
-      component: Advantage
+      component: Advantage,
+      meta: {
+        title: '产品优势',
+        needLogin: !1
+      }
     },
     {
       path: '/AboutUs',
       name: 'AboutUs',
-      component: AboutUs
+      component: AboutUs,
+      meta: {
+        title: '关于我们',
+        needLogin: !1
+      }
     },
     {
       path: '/News',
       name: 'News',
-      component: News
+      component: News,
+      meta: {
+        title: '新闻资讯',
+        needLogin: !1
+      }
     },
     {
       path: '/ShopCart',
@@ -78,43 +95,71 @@ const router = new Router({
       name: 'Payment',
       component: Payment,
       meta: {
-        title: '购买',
+        title: '商品购买',
         needLogin: !0
       }
     },
     {
       path: '/Afterpay',
       name: 'Afterpay',
-      component: Afterpay
+      component: Afterpay,
+      meta: {
+        title: '支付成功',
+        needLogin: !1
+      }
     },
     {
       path: '/Probation',
       name: 'Probation',
-      component: Probation
+      component: Probation,
+      meta: {
+        title: '商品试用',
+        needLogin: !1
+      }
     },
     {
       path: '/Case',
       name: 'Case',
-      component: Case
+      component: Case,
+      meta: {
+        title: '项目案例',
+        needLogin: !1
+      }
     },
     {
       path: '/NewsDetail',
       name: 'NewsDetail',
-      component: NewsDetail
+      component: NewsDetail,
+      meta: {
+        title: '新闻详情',
+        needLogin: !1
+      }
     },
     {
       path: '/Partner',
       name: 'Partner',
-      component: Partner
+      component: Partner,
+      meta: {
+        title: '城市合伙人',
+        needLogin: !1
+      }
     },
     {
       path: '/ProductDetail',
       name: 'ProductDetail',
-      component: ProductDetail
+      component: ProductDetail,
+      meta: {
+        title: '商品详情',
+        needLogin: !1
+      }
     },{
       path: '/ProductShow',
       name: 'ProductShow',
-      component: ProductShow
+      component: ProductShow,
+      meta: {
+        title: '商品优势',
+        needLogin: !1
+      }
     },
     {
       path: '/Mine/UserMessage',
@@ -155,26 +200,56 @@ const router = new Router({
     {
       path: '/Mine/Logistics',
       name: 'Logistics',
-      component: Logistics
+      component: Logistics,
+      meta: {
+        title: '我的物流',
+        needLogin: !1
+      }
     },
     {
       path: '/Mine/Refund',
       name: 'Refund',
-      component: Refund
+      component: Refund,
+      meta: {
+        title: '退款',
+        needLogin: !1
+      }
     },
     {
       path: '/Mine/Login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        title: '登录',
+        needLogin: !1
+      }
     },
     {
       path: '/Mine/OffLine',
       name: 'OffLine',
-      component: OffLine
+      component: OffLine,
+      meta: {
+        title: '线下支付',
+        needLogin: !1
+      }
+    },
+    {
+      path: '/Mine/Comment',
+      name: 'Comment',
+      component: Comment,
+      meta: {
+        title: '评论',
+        needLogin: !1
+      }
     }
   ]
 })
 router.beforeEach((to,from,next)=>{
+
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+
   var needLogin = to.meta.needLogin
   if(needLogin){
     var token = storage.session.get('token')

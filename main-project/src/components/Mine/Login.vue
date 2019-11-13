@@ -8,10 +8,10 @@
             <div class="l-body">
                 <div class="login-div" v-if="is_login">
                     <div class="username"><span :class="{active:focus=='username'}">账号</span><input
-                            @focus="changeFocus('username')" @blur="changeFocus()" ref="login_phone" type="text" placeholder="">
+                            @focus="changeFocus('username')" @blur="changeFocus()" v-model="login_phone" type="text" placeholder="">
                     </div>
                     <div class="password"><span :class="{active:focus=='password'}">密码</span><input
-                            @focus="changeFocus('password')" @blur="changeFocus()" ref="login_password" type="password" placeholder=""></div>
+                            @focus="changeFocus('password')" @blur="changeFocus()" v-model="login_password" type="password" placeholder=""></div>
                     <div class="changeword">
                         <div class="remember" @click="rememberword">
                             <p><img src="/static/images/remember.png" alt="" v-show="remember"></p>
@@ -23,14 +23,14 @@
                 </div>
                 <div class="reg-div login-div" v-else>
                     <div class="telephone"><span :class="{active:focus=='telephone'}">手机号</span><input
-                            @focus="changeFocus('telephone')" @blur="changeFocus()" ref="reg_phone" type="number"
+                            @focus="changeFocus('telephone')" @blur="changeFocus()" v-model="reg_phone" type="number"
                             placeholder=""></div>
                     <div class="password"><span :class="{active:focus=='password'}">密码</span><input
-                            @focus="changeFocus('password')" @blur="changeFocus()" ref="password" type="password"
+                            @focus="changeFocus('password')" @blur="changeFocus()" v-model="password" type="password"
                             placeholder=""></div>
-                    <div class="codes"><input type="text" ref="code" placeholder="验证码">
+                    <div class="codes"><input type="text" v-model="codes" placeholder="验证码">
                         <div class="getCode">
-                            <div v-if="!code" @click="getcode()">发送验证码</div>
+                            <div v-if="!code" @click="getcode()" style="cursor: pointer;">发送验证码</div>
                             <div v-else>{{timeDown}}后重新发送</div>
                         </div>
                     </div>
@@ -48,17 +48,34 @@
     name: 'Login',
     data: function () {
       return {
-        remember: !0,
+        remember: !1,
         is_login: !0,
         focus: '',
         code: '',
-        timeDown: 5,
-        needLogin:!0
+        timeDown: 60,
+        needLogin:!0,
+        login_phone:'',
+        login_password:'',
+        reg_phone:'',
+        password:'',
+        codes: ''
       }
     },
     mounted(){
       var paths = this.$storage.session.get('paths')
+      var password = this.$storage.session.get('password')
+      var username = this.$storage.session.get('username')
+      var remember = this.$storage.session.get('remember')
       this.paths = paths
+      this.login_phone = username
+      this.login_password = password
+      if(!remember){
+        this.remember = !1
+      }else{
+        this.remember = !0
+      }
+
+      console.log(this.remember)
     },
     methods: {
       openLogin(){
@@ -83,7 +100,7 @@
       },
       tologin () {
         var that =this
-        var phone = that.$refs.login_phone.value,password=that.$refs.login_password.value,myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/
+        var phone = that.login_phone,password=that.login_password,myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/
 
         if (phone) {
           if (!myreg.test(phone)) {
@@ -105,6 +122,13 @@
             var token = res.data.data.token
             that.$layer.msg('登录成功')
             that.$storage.session.set('token',token)
+            that.$storage.session.set('remember',that.remember)
+            if(that.remember){
+              that.$storage.session.set('username',phone)
+              that.$storage.session.set('password',password)
+            }else{
+              that.$storage.session.remove('password')
+            }
             setTimeout(()=>{
               that.$router.push({path: that.paths})
             },1000)
@@ -116,7 +140,7 @@
       },
 
       getcode () {
-        var reg_phone = this.$refs.reg_phone.value, myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/, that = this
+        var reg_phone = this.reg_phone, myreg = /^[1][3,4,5,7,8|9][0-9]{9}$/, that = this
         console.log(reg_phone)
         if (reg_phone) {
           console.log(1111)
@@ -127,8 +151,11 @@
             }).then(res => {
               console.log(res)
               if (res.data.status == 1) {
-                that.code = res.data
+                that.$layer.msg(res.data.msg)
+                that.code = !0
                 that.downTime()
+              }else{
+                that.$layer.msg(res.data.msg)
               }
             })
           } else {
@@ -142,8 +169,7 @@
       },
       toReg(){
         var that = this
-        var telephone = that.$refs.reg_phone.value,password = that.$refs.password.value,code = that.$refs.code.value,type=2
-
+        var telephone = that.reg_phone,password = that.password,codes = that.codes,type=2
         if(!telephone){
           that.$layer.msg('手机号不能为空')
           return false;
@@ -161,11 +187,14 @@
           that.$layer.msg('密码至少包含一个字母和一个数字')
           return false;
         }
-
+        if(!codes){
+          that.$layer.msg('验证码不能为空')
+          return false;
+        }
         that.$axios.post('/Login/register',{
           telephone:telephone,
           password:password,
-          code:code,
+          code:codes,
           type:type
         }).then(res=>{
           if(res.data.status ==1){
@@ -179,6 +208,8 @@
               },1000)
             }
 
+          }else{
+            that.$layer.msg(res.data.msg)
           }
         })
 

@@ -2,24 +2,24 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>我的订单</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
         <div class="main-con">
             <div class="loginstics">
                 <div class="l-top">
                     <div class="l-status">
-                        <div class="title">派送中</div>
-                        <p>07-16 20:05</p>
-                        <p>「杭州市」西湖十二部派件员：正在派件</p>
+                        <div class="title">派送信息</div>
+                        <p>{{express_data.AcceptTime}}</p>
+                        <p>{{express_data.AcceptStation}}</p>
                     </div>
                     <div class="l-phone">
                         <div class="title">快递电话</div>
                         <p></p>
-                        <p>+1 212-490-2121</p>
+                        <p>{{express_tel}}</p>
                     </div>
                     <div class="l-no">
                         <div class="title">运单号</div>
                         <p></p>
-                        <p>+1 212-490-2121</p>
+                        <p>{{express_no}}</p>
                     </div>
                 </div>
                 <div class="l-bottom">
@@ -30,24 +30,24 @@
                 <div class="order-main">
                     <div class="o-title">
                         <p>订单详情</p>
-                        <p>订单编号：34342432453</p>
+                        <p>订单编号：{{order_no}}</p>
                     </div>
                     <div class="o-goods">
-                        <div v-for="item in 2">
-                            <img src="/static/images/goodimg.png" alt="">
+                        <div v-for="item in goodlist.list">
+                            <img :src="item.goods_pic" width="100" height="130" alt="">
                             <div class="o-art">
-                                <p class="goodsname">净小新净水器</p>
+                                <p class="goodsname">{{item.goods_name}}</p>
                                 <p class="goodsspec">颜色：高级灰   尺寸：1500mm</p>
-                                <p class="goodsprice">¥45.05 x1</p>
+                                <p class="goodsprice">¥{{item.goods_price}} x{{item.goods_num}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="o-tongji">
-                        <div><p>小计</p><p>￥20</p></div>
-                        <div><p>优惠券</p><p>-￥10</p></div>
+                        <div><p>小计</p><p>￥{{order.total_fee}}</p></div>
+                        <div><p>优惠券</p><p>-￥{{order.coupon_money}}</p></div>
                     </div>
                     <div class="allprice">
-                        <p>总价</p><p>¥117,00</p>
+                        <p>总价</p><p>¥{{order.total_price}}</p>
                     </div>
                 </div>
             </div>
@@ -63,6 +63,58 @@
     components:{
       Nav,
       Bside
+    },
+    data:function(){
+      return {
+        order:'',
+        goodlist:'',
+        order_no:'',
+        express_tel:'',
+        express_no:'',
+        express_data:''
+      }
+    },
+    mounted(){
+      this.order_no = this.$route.query.order_no
+      console.log(this.order_no)
+      this.initData()
+      this.initWuliu()
+    },
+    methods:{
+      initWuliu(){
+        var that=this
+        this.$axios.post('/Order/orderExpress',{
+          order_no:this.order_no,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res)
+            if(res.data.status==1){
+              that.express_tel = res.data.data.express_tel
+              that.express_no = res.data.data.express_no
+              that.express_data = res.data.data.express_data[res.data.data.express_data.length-1]
+            }else{
+              that.$layer.msg(res.data.msg)
+            }
+        })
+      },
+      initData(){
+        var that=this
+        this.$axios.post('/Order/orderDetail',{
+          order_no:this.order_no,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res.data.data)
+          if(res.data.status==1){
+            that.order = res.data.data.order
+            that.goodlist = res.data.data.goods_list
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
+      },
+      back(){
+        this.$router.go(-1)
+      }
     }
   }
 </script>
@@ -137,7 +189,12 @@
         -moz-box-shadow: 0 0 59px rgba(0,0,0,.08);
         box-shadow: 0 0 59px rgba(0,0,0,.08);
         max-height: 530px;
+        overflow-y: scroll;
+        -ms-overflow-style:none;
+        /*火狐下隐藏滚动条*/
+        overflow:-moz-scrollbars-none;
     }
+    .orderdetail::-webkit-scrollbar{width:0px}
     .order-main{
         width: 84%;
         margin: 20px auto;

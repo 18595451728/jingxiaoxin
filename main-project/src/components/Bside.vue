@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <div class="f-main">
-            <p>© Better 2016. A project design by Basiclab</p>
+            <p>浙ICP备13022929号-2</p>
             <div class="f-nav">
                 <router-link tag="div" to="/">首页</router-link>
                 <router-link tag="div" to="/Product">产品中心</router-link>

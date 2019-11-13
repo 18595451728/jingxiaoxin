@@ -154,10 +154,11 @@
         justify-content: space-between;
     }
     .t-left{
-        width: 24.18%;
+        width: 131px;
     }
     .t-left>img{
-        width: 100%;
+        width: 131px;
+        height: 131px;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         border-radius: 50%;
@@ -232,4 +233,14 @@
             width: 90%;
         }
     }
+    @media screen and (max-width: 1200px){
+        .t-left{
+            width: 100px;
+        }
+        .t-left>img{
+            width: 100px;
+            height: 100px;
+        }
+    }
+
 </style>

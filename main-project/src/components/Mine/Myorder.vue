@@ -11,17 +11,17 @@
                 <div class="o-list" v-for="(item,index) in orderlist">
                     <div class="l-top"><p>{{item.order_time}}  订单号：{{item.order_no}}</p><p>{{item.order_status_desc}}</p></div>
                     <div class="l-con" v-for="items in item.goods_list">
-                        <router-link tag="div" to="/Mine/Logistics" class="l-left">
+                        <div @click="godetail(item)" class="l-left">
                             <img src="/static/images/goodimg.png" alt="">
                             <div class="l-art">
                                 <div class="a-top"><span class="goodsname">{{items.goods_name}}</span><span>颜色：高级灰</span><span>尺寸：1500mm</span></div>
                                 <div class="a-bottom">￥{{items.goods_price}}</div>
                             </div>
-                        </router-link>
+                        </div>
                         <div class="l-right">
                             <div class="b-top">
                                 <div></div>
-                                <div class="backmoney">退款</div>
+                                <div class="backmoney" @click="refund(item.order_no,items.order_goods_id)" v-if="item.order_btn.return_btn">退款</div>
                             </div>
                             <!--<div class="b-bottom">-->
                                 <!--<div>取消订单</div>-->
@@ -30,8 +30,12 @@
                         </div>
                     </div>
                     <div class="b-bottom">
-                        <div>取消订单</div>
-                        <div @click="pay(index)">付款</div>
+                        <div @click="cancleOrder(item)" v-if="item.order_btn.cancel_btn">取消订单</div>
+                        <div @click="pay(index)" v-if="item.order_btn.pay_btn">付款</div>
+                        <div @click="confirmGetGoods(item)" v-if="item.order_btn.receive_btn">确认收货</div>
+                        <div @click="comment(item)" v-if="item.order_btn.comment_btn">评论</div>
+                        <div @click="godetail(item)" v-if="item.order_btn.shipping_btn">查看物流</div>
+                        <div @click="pay(index)" v-if="item.order_btn.certificate_btn">上传凭证</div>
                     </div>
                 </div>
             </div>
@@ -101,6 +105,38 @@
       this.initData(0)
     },
     methods:{
+      confirmGetGoods(e){
+        var that =this
+        this.$axios.post('/Order/confirmOrder',{
+          token:this.$storage.session.get('token'),
+          order_no:e.order_no
+        }).then(res=>{
+          console.log(res)
+          that.$layer.msg(res.data.msg)
+          if(res.data.status==1){
+            location.reload(true)
+          }
+        })
+      },
+      comment(i){
+        console.log(i)
+        this.$router.push({
+          path:'/Mine/Comment',
+          query:{
+            item:i
+          }
+        })
+      },
+      refund(o,i){
+        console.log(o,i)
+        this.$router.push({
+          path:'/Mine/Refund',
+          query:{
+            order_no:o,
+            id:i
+          }
+        })
+      },
       hidewx(){
         this.showwx = !1
       },
@@ -127,6 +163,21 @@
                  that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
            }
          }
+        })
+      },
+      cancleOrder(e){
+        var that =this
+        this.$axios.post('/Order/cancelOrder',{
+          token:this.$storage.session.get('token'),
+          order_no:e.order_no
+        }).then(res=>{
+          if(res.data.status==1){
+            that.$layer.msg(res.data.msg)
+            location.reload(true)
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+          console.log(res)
         })
       },
       pay(index){
@@ -161,11 +212,20 @@
         }
 
       },
+
+      godetail(e){
+        this.$router.push({
+          path:'/Mine/Logistics',
+          query:{
+            order_no:e.order_no
+          }
+        })
+      },
       initData(e){
         var that =this
         this.$axios.post('/Order/orderLIst',{
           status:e,
-          list_row:10,
+          list_row:100,
           page:1,
           token:this.$storage.session.get('token')
         }).then(res=>{

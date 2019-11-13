@@ -35,7 +35,7 @@
                 </div>
                 <div class="cartlist" v-for="item in list">
                     <div class="c-left">
-                        <div class="c-img"><img src="/static/images/goodimg.png" alt=""></div>
+                        <div class="c-img"><img :src="item.goods_pic" width="100" height="130" alt=""></div>
                         <div class="c-art">
                             <p>{{item.goods_name}}</p>
                             <p>颜色：高级灰</p>
@@ -278,6 +278,7 @@
                     if(r.data.status==1){
                       that.wxpay = r.data.data.code_url
                       that.showwx = !0
+                      that.judgeHasPay(rr.data.data.order_no)
                     }
                   })
                 }else{
@@ -297,6 +298,38 @@
             that.$layer.msg(res.data.msg)
           }
         })
+      },
+      judgeHasPay(e){
+        var that =this
+        var times = 0
+        var tt = setInterval(()=>{
+          times++;
+          if(times>=50){
+            clearInterval(tt)
+            that.$router.push('/Mine?Myorder?mine_status=1')
+          }
+          console.log(e)
+          this.$axios.post('/Pay/orderRequest',{
+            order_no:e,
+            token:this.$storage.session.get('token')
+          }).then(res=>{
+            console.log(res)
+            if(res.data.status == 1){
+              clearInterval(tt)
+              that.showwx = !1
+              that.$layer.msg(res.data.msg)
+              setTimeout(function () {
+                that.$router.push({
+                  path:'/Afterpay',
+                  query:{
+                    order_no:e
+                  }
+                })
+              },1000)
+
+            }
+          })
+        },1000)
       },
       hidewx(){
         this.showwx = !1

@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>支付成功</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>支付成功</span></div>
         <div class="main-con">
             <div class="congratulation">
                 <p>恭喜您。交易成功</p>
@@ -17,26 +17,26 @@
                     <div>
                         <p>价钱</p>
                         <p>数量</p>
-                        <p>单号</p>
+                        <p>小计</p>
                     </div>
                 </div>
-                <div class="cartlist" v-for="item in 3">
+                <div class="cartlist" v-for="item in goodlist.list">
                     <div class="c-left">
-                        <div class="c-img"><img src="/static/images/goodimg.png" alt=""></div>
+                        <div class="c-img"><img :src="item.goods_pic" width="100" height="130" alt=""></div>
                         <div class="c-art">
-                            <p>净小新净水器</p>
+                            <p>{{item.goods_name}}</p>
                             <p>颜色：高级灰</p>
                             <p>尺寸：1500mm</p>
                         </div>
                     </div>
                     <div class="c-right">
-                        <div class="price">¥45.05</div>
-                        <div class="num">1</div>
-                        <div class="allprice">000232304</div>
+                        <div class="price">¥{{item.goods_price}}</div>
+                        <div class="num">{{item.goods_num}}</div>
+                        <div class="allprice">{{item.goods_price*item.goods_num}}</div>
                     </div>
                 </div>
             </div>
-            <p class="allprice">总价：￥2000</p>
+            <p class="allprice">总价：￥{{order.total_price}}</p>
             <router-link tag="div" to="/Mine/Myorder?mine_status=1" class="back">返回</router-link>
         </div>
 
@@ -54,13 +54,35 @@
     },
     data:function () {
       return {
-
+        order_no:'',
+        goodlist:'',
+        order:''
       }
     },
     mounted () {
+      this.order_no = this.$route.query.order_no
+      console.log(this.order_no)
+      this.initData()
     },
     methods:{
-
+      initData(){
+        var that =this
+        this.$axios.post('/Order/orderDetail',{
+          order_no:this.order_no,
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status == 1){
+            that.goodlist = res.data.data.goods_list
+            that.order = res.data.data.order
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+        })
+      },
+      back(){
+        this.$router.go(-1)
+      }
     }
   }
 </script>
