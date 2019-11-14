@@ -15,10 +15,10 @@
                     <div @mouseover="showus" @mouseout="hideus">
                         <p>关于我们</p>
                         <div class="subnav" v-show="gous">
-                            <router-link to="/AboutUs" tag="div">关于我们</router-link>
-                            <router-link to="/AboutUs" tag="div">品牌介绍</router-link>
-                            <router-link to="/AboutUs" tag="div">品牌文化</router-link>
-                            <router-link to="/AboutUs" tag="div">公司发展历程</router-link>
+                            <div @click="navhash(0)">关于我们</div>
+                            <div @click="navhash(0)">品牌介绍</div>
+                            <div @click="navhash(1)">品牌文化</div>
+                            <div @click="navhash(2)">公司发展历程</div>
                             <router-link to="/Contact" tag="div">联系我们</router-link>
                         </div>
                     </div>
@@ -46,6 +46,9 @@ export default {
     }
   },
   methods:{
+    navhash(e){
+      this.$emit("goscroll",e);
+    },
     showus(){
       this.gous = !0
     },

@@ -91,7 +91,7 @@
 <style scoped>
     .emei {
         position: fixed;
-        z-index: 9;
+        z-index: 2;
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;
@@ -126,7 +126,7 @@
         top: 150px;
         width: 100%;
         height: calc(100% - 220px);
-        z-index: 999;
+        z-index: 2;
     }
 
     .swiper-slide {

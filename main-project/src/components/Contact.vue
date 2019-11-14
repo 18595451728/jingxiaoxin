@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>联系我们</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>联系我们</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">
@@ -12,10 +12,10 @@
                 <div class="partner_right">
                     <div class="partner_right_main">
                         <img src="/static/images/logo_black.png" alt="">
-                        <div class="name">杭州再想科技有限公司</div>
-                        <p>公司地址：浙江省杭州市拱墅区登云路518号3号楼12楼</p>
-                        <p>公司座机：0571-87562008</p>
-                        <p>客服电话：400-080-5680</p>
+                        <div class="name">{{mes.title}}</div>
+                        <p>公司地址：{{mes.sub_title}}</p>
+                        <p>公司座机：{{mes.describe}}</p>
+                        <p>客服电话：{{mes.link}}</p>
                     </div>
                 </div>
             </div>
@@ -51,10 +51,18 @@
         areaId:'',
         content:'',
         level:'',
-        suggest:''
+        suggest:'',
+        mes:''
       }
     },
     mounted () {
+      var that =this
+      that.$axios.post('/Content/contact',{}).then(res=>{
+        console.log(res)
+        if(res.data.status==1){
+          that.mes = res.data.data.contact[0]
+        }
+      })
     },
     methods: {
       back(){

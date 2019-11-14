@@ -1,17 +1,17 @@
 <template>
     <div>
-        <Nav></Nav>
+        <Nav @goscroll="Navhash"></Nav>
         <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
-        <div class="main-con">
-            <img src="/static/images/a-pic.png" alt="">
+        <div class="main-con" id="about1">
+            <img :src="about[0].pic" alt="">
             <div class="a-art">
                 <img src="/static/images/a-intro.png" style="margin-bottom: 44px" alt="">
                 <div class="a-title">杭州再想科技有限公司</div>
                 <p>净小新是杭州再想科技旗下高端净饮机品牌，是一家集研发、生产、销售、服务为一体的高科技型企业，注重创新和用户体验，专注净水及饮水产品研发十余年致力于以科技 构建安全 健康  便捷的饮水生活。自主创新凉白开净饮机系列倡导过滤+烧开杀菌+保鲜三重防护的饮水理念，目前已荣获国家多项专利技术 杭州再想科技已荣获“杭州市高新技术企业”，“浙江省科技型中小企业”，通过了国家CCC认证，饮用水卫生安全产品卫生许可批件，中国家用电器检测等多项权威认证机构的检测</p>
             </div>
         </div>
-        <div class="main-con" style="margin-top: 0">
+        <div class="main-con" style="margin-top: 0" id="about2">
             <div class="a-art b-art">
                 <img src="/static/images/b-intro.png" style="margin-bottom: 44px" alt="">
                 <div class="a-title">净小新.愿景：</div>
@@ -23,31 +23,16 @@
                 <div class="a-title">净小新.社会责任：</div>
                 <p>做有口碑的好产品</p>
             </div>
-            <img src="/static/images/b-pic.png" style="margin-left: 82px" alt="">
+            <img :src="about[1].pic" style="margin-left: 82px" alt="" >
         </div>
-        <div class="licheng">
-            <div class="l-title"><img src="/static/images/develop.png" alt=""></div>.
+        <div class="licheng" id="about3">
+            <div class="l-title" ><img src="/static/images/develop.png" alt=""></div>.
             <div class="swiper-container lis">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <p>2011年</p>
+                    <div class="swiper-slide" v-for="item in development">
+                        <p>{{item.title}}年</p>
                         <p><img src="/static/images/yuan.png" alt=""></p>
-                        <p>进入净水行业，从事家用和商用净水产品的销售与服务并建立调研体系</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>2012年</p>
-                        <p><img src="/static/images/yuan.png" alt=""></p>
-                        <p>开始建立自主的售后体系，并和多家净水品牌厂商建立售后合作</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>2013年</p>
-                        <p><img src="/static/images/yuan.png" alt=""></p>
-                        <p>品牌孵化：依据5年客户跟踪数据，针对市场痛点进行净小新系列产品立项研发，并确立以科技构建安全、健康、便捷的饮水生活为发展方向。</p>
-                    </div>
-                    <div class="swiper-slide">
-                        <p>2014年</p>
-                        <p><img src="/static/images/yuan.png" alt=""></p>
-                        <p>进入净水行业，从事家用和商用净水产品的销售与服务并建立调研体系</p>
+                        <p>{{item.describe}}</p>
                     </div>
                 </div>
                 <div class="swiper-button-prev"></div>
@@ -58,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="certificate">
+        <div class="certificate" id="about4">
             <div class="swiper-container cer">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in 5">
@@ -84,18 +69,25 @@
     },
     data:function () {
       return {
-        content:''
+        about:'',
+        development:'',
+        qualification:''
       }
     },
     mounted(){
+
+
+      console.log(this.$route.query.id)
       var  that =this
       that.$axios.post('/Content/about',{}).then(res=>{
         console.log(res)
         if(res.data.status==1){
-          that.content = res.data.data
-        }
-      })
-        this.$nextTick(function () {
+          that.about = res.data.data.about
+          that.development = res.data.data.development
+          that.qualification = res.data.data.qualification
+
+
+          this.$nextTick(function () {
             var ns = new Swiper('.lis', {
               loop: true,
               slidesPerView: 3,
@@ -103,15 +95,40 @@
               prevButton: '.swiper-button-prev',
               nextButton: '.swiper-button-next',
             })
-          var nss = new Swiper('.cer', {
+            var nss = new Swiper('.cer', {
               loop: true,
               slidesPerView: 4,
-                spaceBetween: 100
+              spaceBetween: 100
             })
-        })
+          })
+        }
+      })
+
 
     },
     methods:{
+      Navhash(e){
+        switch (e) {
+          case 0:
+            var anchorEle = document.querySelector("#about1");
+            if (!!anchorEle) {
+              anchorEle.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            }
+            break;
+          case 1:
+            var anchorEle = document.querySelector("#about2");
+            if (!!anchorEle) {
+              anchorEle.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            }
+            break;
+          case 2:
+            var anchorEle = document.querySelector("#about3");
+            if (!!anchorEle) {
+              anchorEle.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            }
+            break;
+        }
+      },
     back(){
       this.$router.go(-1)
     }
