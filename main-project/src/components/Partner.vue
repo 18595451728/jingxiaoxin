@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>招聘城市合伙人</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>招聘城市合伙人</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">

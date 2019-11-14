@@ -4,28 +4,34 @@
         <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
         <div class="main-con">
-            <div class="loginstics">
+            <div class="cancel_order" v-if="cancel_orders">
+                <img src="/static/images/cancel_order.png" style="margin-bottom: 55px" alt="">
+                <p><img src="/static/images/qxdd.png" alt=""></p>
+            </div>
+            <div class="loginstics" v-if="!cancel_orders">
                 <div class="l-top">
                     <div class="l-status">
                         <div class="title">派送信息</div>
-                        <p>{{express_data.AcceptTime}}</p>
-                        <p>{{express_data.AcceptStation}}</p>
+                        <p v-if="express_data.AcceptTime">{{express_data.AcceptTime}}</p>
+                        <p v-if="express_data.AcceptStation">{{express_data.AcceptStation}}</p>
+                        <p v-if="!express_data">暂无信息</p>
                     </div>
                     <div class="l-phone">
                         <div class="title">快递电话</div>
                         <p></p>
-                        <p>{{express_tel}}</p>
+                        <p>{{express_tel||'暂无信息'}}</p>
                     </div>
                     <div class="l-no">
                         <div class="title">运单号</div>
                         <p></p>
-                        <p>{{express_no}}</p>
+                        <p>{{express_no||'暂无信息'}}</p>
                     </div>
                 </div>
                 <div class="l-bottom">
                     <img src="/static/images/loginstics.png" alt="">
                 </div>
             </div>
+
             <div class="orderdetail">
                 <div class="order-main">
                     <div class="o-title">
@@ -71,14 +77,21 @@
         order_no:'',
         express_tel:'',
         express_no:'',
-        express_data:''
+        express_data:'',
+        cancel_orders:'',
       }
     },
     mounted(){
       this.order_no = this.$route.query.order_no
+      this.status = this.$route.query.status
       console.log(this.order_no)
       this.initData()
-      this.initWuliu()
+      if(this.status!=0){
+        this.cancel_orders = !1
+        this.initWuliu()
+      }else{
+        this.cancel_orders = !0
+      }
     },
     methods:{
       initWuliu(){
@@ -120,6 +133,18 @@
 </script>
 
 <style scoped>
+    .cancel_order{
+        width: 63.57%;
+        height: 600px;
+        -webkit-box-shadow: 0 0 59px rgba(0,0,0,.08);
+        -moz-box-shadow: 0 0 59px rgba(0,0,0,.08);
+        box-shadow: 0 0 59px rgba(0,0,0,.08);
+        text-align: center;
+        padding-top: 150px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
     .emei{
         width: 100%;
         line-height: 70px;

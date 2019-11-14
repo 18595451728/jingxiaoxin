@@ -14,7 +14,7 @@
                         <div @click="godetail(item)" class="l-left">
                             <img src="/static/images/goodimg.png" alt="">
                             <div class="l-art">
-                                <div class="a-top"><span class="goodsname">{{items.goods_name}}</span><span>颜色：高级灰</span><span>尺寸：1500mm</span></div>
+                                <div class="a-top"><span class="goodsname">{{items.goods_name}}</span><span v-for="item1 in items.sku_info.split(' ')">{{item1}}</span></div>
                                 <div class="a-bottom">￥{{items.goods_price}}</div>
                             </div>
                         </div>
@@ -35,8 +35,12 @@
                         <div @click="confirmGetGoods(item)" v-if="item.order_btn.receive_btn">确认收货</div>
                         <div @click="comment(item)" v-if="item.order_btn.comment_btn">评论</div>
                         <div @click="godetail(item)" v-if="item.order_btn.shipping_btn">查看物流</div>
-                        <div @click="pay(index)" v-if="item.order_btn.certificate_btn">上传凭证</div>
+                        <div @click="certificate(item)" v-if="item.order_btn.certificate_btn">上传凭证</div>
                     </div>
+                </div>
+                <div class="no_order" v-if="no_order">
+                    <img src="/static/images/no_order.png" style="margin-bottom: 55px" alt="">
+                    <p><img src="/static/images/zwdd.png" alt=""></p>
                 </div>
             </div>
         </div>
@@ -97,7 +101,8 @@
         topay:!1,
         order_no:'',
         wxpay:'',
-        showwx:!1
+        showwx:!1,
+        no_order:''
       }
     },
     mounted(){
@@ -218,6 +223,7 @@
         this.topay = !0
         this.order_no  = this.orderlist[index].order_no
       },
+
       closepay(){
         this.topay = !1
       },
@@ -245,12 +251,20 @@
         }
 
       },
-
+      certificate(e){
+        this.$router.push({
+          path:'/Mine/Offline',
+          query:{
+            order_no:e.order_no
+          }
+        })
+      },
       godetail(e){
         this.$router.push({
           path:'/Mine/Logistics',
           query:{
-            order_no:e.order_no
+            order_no:e.order_no,
+            status : e.order_status_code
           }
         })
       },
@@ -264,6 +278,11 @@
         }).then(res=>{
           if(res.data.status==1){
             that.orderlist = res.data.data.list
+            if(that.orderlist.length==0){
+              that.no_order = !0
+            }else{
+              that.no_order = !1
+            }
           }
         })
       }
@@ -272,6 +291,14 @@
 </script>
 
 <style scoped>
+    .no_order{
+        width: 100%;
+        padding-top: 140px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+    }
     .payMessage{
         width: 100%;
         height: 100%;
@@ -483,7 +510,7 @@
         width: 28%;
         float: right;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
     }
     .b-bottom>div{
@@ -496,9 +523,11 @@
     }
     .b-bottom>div:first-child{
         background: #999999;
+
     }
     .b-bottom>div:last-child{
         background: #0099cc;
+        margin-left: 4%;
     }
     .wxpay{
         width: 100%;

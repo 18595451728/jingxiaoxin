@@ -61,15 +61,15 @@
                             </div>
                             <div class="all-comment" :class="{chooseComments:cs==1}" @click="choose(1)">
                                 <div class="choose-comment"></div>
-                                <span>好评({{commentStatistics.rate0}})</span>
+                                <span>好评({{commentStatistics.rate1}})</span>
                             </div>
                             <div class="all-comment" :class="{chooseComments:cs==2}" @click="choose(2)">
                                 <div class="choose-comment"></div>
-                                <span>中评({{commentStatistics.rate1}})</span>
+                                <span>中评({{commentStatistics.rate2}})</span>
                             </div>
                             <div class="all-comment" :class="{chooseComments:cs==3}" @click="choose(3)">
                                 <div class="choose-comment"></div>
-                                <span>差评({{commentStatistics.rate2}})</span>
+                                <span>差评({{commentStatistics.rate3}})</span>
                             </div>
                         </div>
                         <div class="comment-list">
@@ -158,6 +158,7 @@
         this.spec[idx].choosemode = item.item
         this.spec[idx].sku_id = item.item_id
         this.spec[idx].tochoose = !this.spec[idx].tochoose
+        console.log(this.spec)
         this.getSkuid()
       },
       getSkuid(){
@@ -199,6 +200,7 @@
           this.$router.push('/Mine/Login')
           return false;
         }
+        console.log(this.sku_id)
         this.$axios.post('/Cart/addCart',{
           goods_id:this.goodsid,
           goods_num:this.count,
@@ -219,7 +221,8 @@
           goods_id:this.goodsid,
           goods_num:this.count,
           cart_type:1,
-          token:this.$storage.session.get('token')
+          token:this.$storage.session.get('token'),
+          sku_id:this.sku_id
         }).then(res=>{
           console.log(res)
           if(res.data.status==1){
@@ -232,7 +235,7 @@
       },
       choose (e) {
         this.cs = e
-        this.getComment(this.goods_id,e)
+        this.getComment(this.goodsid,e)
       },
       plus () {
         this.count++;
@@ -248,7 +251,7 @@
       getComment: function (id, rate) {
         var that =this
         this.$axios.post('/Goods/goodsComment', {
-          list_row:10,
+          list_row:100,
           page:1,
           is_pic:0,
           goods_id:id,

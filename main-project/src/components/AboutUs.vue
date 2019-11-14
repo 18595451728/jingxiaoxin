@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>关于我们</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con">
             <img src="/static/images/a-pic.png" alt="">
             <div class="a-art">
@@ -106,9 +106,7 @@
           var nss = new Swiper('.cer', {
               loop: true,
               slidesPerView: 4,
-                spaceBetween: 100,
-              prevButton: '.swiper-button-prev',
-              nextButton: '.swiper-button-next',
+                spaceBetween: 100
             })
         })
 

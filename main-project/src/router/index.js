@@ -142,7 +142,7 @@ const router = new Router({
       component: Partner,
       meta: {
         title: '城市合伙人',
-        needLogin: !1
+        needLogin: !0
       }
     },
     {

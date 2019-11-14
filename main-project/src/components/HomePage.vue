@@ -50,50 +50,50 @@
                 <div class="f-right">
                     <div class="navs">
                         <div>
-                            <p><router-link tag="a" to="">产品中心</router-link></p>
-                            <p><router-link tag="a" to="">净水器</router-link></p>
-                            <p><router-link tag="a" to="">净水机</router-link></p>
-                            <p><router-link tag="a" to="">直饮机</router-link></p>
-                            <p><router-link tag="a" to="">净饮机</router-link></p>
-                            <p><router-link tag="a" to="">凉白开净饮机</router-link></p>
-                            <p><router-link tag="a" to="">家用净水器</router-link></p>
-                            <p><router-link tag="a" to="">商用净水器</router-link></p>
+                            <p><router-link tag="a" to="/Product">产品中心</router-link></p>
+                            <p><router-link tag="span" to="">净水器</router-link></p>
+                            <p><router-link tag="span" to="">净水机</router-link></p>
+                            <p><router-link tag="span" to="">直饮机</router-link></p>
+                            <p><router-link tag="span" to="">净饮机</router-link></p>
+                            <p><router-link tag="span" to="">凉白开净饮机</router-link></p>
+                            <p><router-link tag="span" to="">家用净水器</router-link></p>
+                            <p><router-link tag="span" to="">商用净水器</router-link></p>
                         </div>
                         <div>
-                            <p><router-link tag="a" to="">项目案例</router-link></p>
-                            <p><router-link tag="a" to="">净水机代理</router-link></p>
-                            <p><router-link tag="a" to="">净水器十大品牌</router-link></p>
-                            <p><router-link tag="a" to="">家用净水机</router-link></p>
-                            <p><router-link tag="a" to="">净水器招商</router-link></p>
-                            <p><router-link tag="a" to="">净水器加盟</router-link></p>
-                            <p><router-link tag="a" to="">净水器厂家</router-link></p>
+                            <p><router-link tag="a" to="/Case">项目案例</router-link></p>
+                            <p><router-link tag="span" to="">净水机代理</router-link></p>
+                            <p><router-link tag="span" to="">净水器十大品牌</router-link></p>
+                            <p><router-link tag="span" to="">家用净水机</router-link></p>
+                            <p><router-link tag="span" to="">净水器招商</router-link></p>
+                            <p><router-link tag="span" to="">净水器加盟</router-link></p>
+                            <p><router-link tag="span" to="">净水器厂家</router-link></p>
                         </div>
                         <div>
-                            <p><router-link tag="a" to="">新闻资讯</router-link></p>
-                            <p><router-link tag="a" to="">商用净水机</router-link></p>
-                            <p><router-link tag="a" to="">净水机十大品牌</router-link></p>
-                            <p><router-link tag="a" to="">商务直饮机</router-link></p>
-                            <p><router-link tag="a" to="">温开直饮水机</router-link></p>
-                            <p><router-link tag="a" to="">净水机招商</router-link></p>
-                            <p><router-link tag="a" to="">直饮水开水机</router-link></p>
-                            <p><router-link tag="a" to="">直饮机厂家</router-link></p>
-                            <p><router-link tag="a" to="">直饮机厂家批发</router-link></p>
-                            <p><router-link tag="a" to="">家用直饮机厂家</router-link></p>
+                            <p><router-link tag="a" to="/News">新闻资讯</router-link></p>
+                            <p><router-link tag="span" to="">商用净水机</router-link></p>
+                            <p><router-link tag="span" to="">净水机十大品牌</router-link></p>
+                            <p><router-link tag="span" to="">商务直饮机</router-link></p>
+                            <p><router-link tag="span" to="">温开直饮水机</router-link></p>
+                            <p><router-link tag="span" to="">净水机招商</router-link></p>
+                            <p><router-link tag="span" to="">直饮水开水机</router-link></p>
+                            <p><router-link tag="span" to="">直饮机厂家</router-link></p>
+                            <p><router-link tag="span" to="">直饮机厂家批发</router-link></p>
+                            <p><router-link tag="span" to="">家用直饮机厂家</router-link></p>
                         </div>
                         <div>
-                            <p><router-link tag="a" to="">招聘城市合伙人</router-link></p>
-                            <p><router-link tag="a" to="">净水器价格</router-link></p>
-                            <p><router-link tag="a" to="">直饮机租赁</router-link></p>
-                            <p><router-link tag="a" to="">商用直饮机租赁</router-link></p>
-                            <p><router-link tag="a" to="">厂家直销净水</router-link></p>
+                            <p><router-link tag="a" to="/Partner">招聘城市合伙人</router-link></p>
+                            <p><router-link tag="span" to="">净水器价格</router-link></p>
+                            <p><router-link tag="span" to="">直饮机租赁</router-link></p>
+                            <p><router-link tag="span" to="">商用直饮机租赁</router-link></p>
+                            <p><router-link tag="span" to="">厂家直销净水</router-link></p>
                         </div>
                         <div>
-                            <p><router-link tag="a" to="">关于我们</router-link></p>
-                            <p><router-link tag="a" to="">净水器排行</router-link></p>
-                            <p><router-link tag="a" to="">直饮机哪家好</router-link></p>
-                            <p><router-link tag="a" to="">净水器什么牌子好</router-link></p>
-                            <p><router-link tag="a" to="">净水器有用吗</router-link></p>
-                            <p><router-link tag="a" to="">净水器好不好</router-link></p>
+                            <p><router-link tag="a" to="/Aboutus">关于我们</router-link></p>
+                            <p><router-link tag="span" to="">净水器排行</router-link></p>
+                            <p><router-link tag="span" to="">直饮机哪家好</router-link></p>
+                            <p><router-link tag="span" to="">净水器什么牌子好</router-link></p>
+                            <p><router-link tag="span" to="">净水器有用吗</router-link></p>
+                            <p><router-link tag="span" to="">净水器好不好</router-link></p>
                         </div>
                     </div>
                     <div class="copyright">ICP备案号： 浙ICP备13022929号-2</div>
@@ -372,7 +372,7 @@
         line-height: 25px;
         font-size: 14px;
     }
-    .navs p a{
+    .navs p span{
         color: #8a8a8a;
     }
     .navs>div p:first-child{

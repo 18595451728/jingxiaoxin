@@ -38,8 +38,9 @@
                         <div class="c-img"><img :src="item.goods_pic" width="100" height="130" alt=""></div>
                         <div class="c-art">
                             <p>{{item.goods_name}}</p>
-                            <p>颜色：高级灰</p>
-                            <p>尺寸：1500mm</p>
+                            <!--<p>颜色：高级灰</p>-->
+                            <!--<p>尺寸：1500mm</p>-->
+                            <p v-for="items in item.goods_skuinfo.split(' ')">{{items}}</p>
                         </div>
                     </div>
                     <div class="c-right">
@@ -116,7 +117,8 @@
         details:'',
         money:'',
         wxpay:'',
-        showwx:!1
+        showwx:!1,
+        tt:''
       }
     },
     mounted () {
@@ -302,10 +304,10 @@
       judgeHasPay(e){
         var that =this
         var times = 0
-        var tt = setInterval(()=>{
+        this.tt = setInterval(()=>{
           times++;
           if(times>=50){
-            clearInterval(tt)
+            clearInterval(this.tt)
             that.$router.push('/Mine?Myorder?mine_status=1')
           }
           console.log(e)
@@ -315,7 +317,7 @@
           }).then(res=>{
             console.log(res)
             if(res.data.status == 1){
-              clearInterval(tt)
+              clearInterval(this.tt)
               that.showwx = !1
               that.$layer.msg(res.data.msg)
               setTimeout(function () {
@@ -332,6 +334,7 @@
         },1000)
       },
       hidewx(){
+        clearInterval(this.tt)
         this.showwx = !1
       },
       back(){
@@ -472,6 +475,7 @@
         border-bottom: 1px solid #dadada;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 
     .cart > div > div:first-child {
@@ -536,7 +540,6 @@
     .c-right > div {
         flex: 1;
         text-align: center;
-        margin-top: 15px;
     }
 
     .c-right > div.num {

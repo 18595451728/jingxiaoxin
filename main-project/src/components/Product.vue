@@ -4,7 +4,13 @@
         <div class="bgzi">
             <!--<img src="/static/images/bgzi.png" alt="">-->
         </div>
-        <div class="product swiper-container">
+        <div class="no_product" v-if="nogoods">
+            <div>
+                <img src="/static/images/no_product.png" alt="">
+                <p><img src="/static/images/nogoods.png" alt=""></p>
+            </div>
+        </div>
+        <div class="product swiper-container" v-else>
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="item in products">
                     <div class="s-con">
@@ -41,18 +47,25 @@
     },
     data: function () {
       return {
-        products: []
+        products: [],
+        keyword:'',
+        nogoods:''
       }
     },
     mounted () {
+      this.keyword = this.$route.query.keyword
       var that = this
-
       this.$axios.post('/Goods/goodsList', {
-        list_row: 10,
-        page: 1
+        list_row: 100,
+        page: 1,
+        keyword:this.keyword
       }).then(res => {
         console.log(res.data.data.list)
         if (res.data.status == 1) {
+          if(res.data.data.list.length == 0){
+            that.nogoods = !0
+            return false;
+          }
           var list = res.data.data.list, len = Math.ceil(list.length / 2)
           var newArray = []
           for (var i = 0; i < len; i++) { //每组两个数据  总共 len 组
@@ -89,6 +102,21 @@
 </script>
 
 <style scoped>
+    .no_product{
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 80px;
+        width: 100%;
+        height: calc(100% - 80px);
+        z-index: 8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .no_product>div>img{
+        margin-bottom: 60px;
+    }
     .bgzi {
         position: absolute;
         left: 0;
@@ -106,7 +134,7 @@
         top: 80px;
         width: 100%;
         height: calc(100% - 80px);
-        z-index: 999;
+        z-index: 8;
     }
 
     .s-con {

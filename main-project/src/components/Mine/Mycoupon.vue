@@ -8,6 +8,10 @@
                 <div class="o-header">
                     <div v-for="(item,index) in status" @click="changeStatus(index)" :class="{active:choose==index}">{{item}}</div>
                 </div>
+                <div class="no_order" v-if="no_order">
+                    <img src="/static/images/no_coupon.png" style="margin-bottom: 55px" alt="">
+                    <p><img src="/static/images/zwyhq.png" alt=""></p>
+                </div>
                 <div class="c-list">
                     <div class="coupon" v-for="item in couponlist" :class="{grey:choose==1}">
                         <div class="coupon-con">
@@ -44,7 +48,8 @@
         choose:0,
         status:['未使用','已使用','已过期'],
         mine_status:'',
-        couponlist:[]
+        couponlist:[],
+        no_order:''
       }
     },
     mounted(){
@@ -60,11 +65,16 @@
         var that =this
         that.$axios.post('/User/couponList',{
           token:that.$storage.session.get('token'),
-          coupon_type:0
+          coupon_type:e
         }).then(res=>{
           console.log(res)
           if(res.data.status==1){
             that.couponlist = res.data.data.list
+            if(that.couponlist.length==0){
+              that.no_order = !0
+            }else{
+              that.no_order = !1
+            }
           }
         })
       }
@@ -73,6 +83,14 @@
 </script>
 
 <style scoped>
+    .no_order{
+        width: 100%;
+        padding-top: 140px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+    }
     .main-con{
         width: 1350px;
         margin: 50px auto;

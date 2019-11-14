@@ -2,8 +2,14 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>购物车</span></div>
-        <div class="main-con">
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
+        <div class="nocart" v-if="nocart">
+            <div>
+                <img src="/static/images/no_cart.png" alt="">
+                <p><img src="/static/images/nocart.png" alt=""></p>
+            </div>
+        </div>
+        <div class="main-con" v-else>
             <div class="cart">
                 <div class="cart-title">
                     <div>产品名称</div>
@@ -18,8 +24,9 @@
                         <div class="c-img"><img :src="item.goods_logo" width="100" height="130" alt=""></div>
                         <div class="c-art">
                             <p>{{item.goods_name}}</p>
-                            <p>颜色：高级灰</p>
-                            <p>尺寸：1500mm</p>
+                            <!--<p>颜色：高级灰</p>-->
+                            <!--<p>尺寸：1500mm</p>-->
+                            <p v-for="items in item.goods_skuinfo.split(' ')">{{items}}</p>
                         </div>
                     </div>
                     <div class="c-right">
@@ -59,7 +66,8 @@
     },
     data:function () {
       return {
-        clist:[]
+        clist:[],
+        nocart:''
       }
     },
     mounted () {
@@ -74,6 +82,11 @@
             console.log(res)
           if(res.data.status==1){
             that.clist = res.data.data.cartList
+            if(that.clist.length==0){
+              that.nocart = !0
+            }else{
+              that.nocart = !1
+            }
           }
         })
       },
@@ -145,6 +158,21 @@
 </script>
 
 <style scoped>
+    .nocart{
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 150px;
+        width: 100%;
+        height: calc(100% - 220px);
+        z-index: 8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nocart>div>img{
+        margin-bottom: 60px;
+    }
     .emei{
         width: 100%;
         line-height: 70px;

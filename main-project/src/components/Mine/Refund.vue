@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" alt=""><span>我的订单</span></div>
+        <div class="emei"><img src="/static/images/back.png" alt=""><span>退款</span></div>
         <div class="main-con">
             <div class="refund">
                 <div class="backmes">
@@ -34,7 +34,7 @@
                     <p>退货金额：</p>
                     <div>
                         <p>￥</p>
-                        <input type="number" v-model="price" placeholder="117">
+                        <input type="number" v-model="price" :placeholder="goodinfo.goods_price">
                     </div>
                 </div>
                 <div class="backdes">
@@ -164,7 +164,7 @@
           if(res.data.status==1){
             that.$layer.msg(res.data.msg)
             setTimeout(function () {
-              that.$router.push('/')
+              that.$router.push('/Mine/Myorder?mine_status=1')
             },1000)
           }else{
             that.$layer.msg(res.data.msg)

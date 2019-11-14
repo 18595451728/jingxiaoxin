@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Bside></Bside>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>项目案例</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -143,22 +143,22 @@
     }
     .main{
         width: 60%;
-        height: 500px;
+        height: 800px;
         position: absolute;
         left: 20%;
-        top: calc(50% - 250px);
+        top: calc(50% - 400px);
         z-index: 11;
         background: #fff;
     }
 .imgs{
-    height: 500px;
+    height: 800px;
 }
 .imgs .swiper-slide img{
     width: 100%;
 }
     .emei {
         position: fixed;
-        z-index: 9;
+        z-index: 8;
         width: 100%;
         line-height: 70px;
         padding: 0 115px 0 100px;
@@ -193,7 +193,7 @@
         top: 150px;
         width: 100%;
         height: calc(100% - 220px);
-        z-index: 999;
+        z-index: 8;
     }
 
     .swiper-slide {

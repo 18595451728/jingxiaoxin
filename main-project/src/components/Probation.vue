@@ -189,6 +189,8 @@
           return false;
         }
         if(!this.$storage.session.get('token')){
+          console.log(this.$route.fullPath)
+          this.$storage.session.set('paths',this.$route.fullPath)
           this.$router.push('/Mine/Login')
           return false;
         }
@@ -205,7 +207,9 @@
             console.log(res)
           if(res.data.status==1){
             that.$layer.msg(res.data.msg)
-            that.$router.push('/')
+            setTimeout(()=>{
+              that.$router.push('/Product')
+            },1000)
           }else{
             that.$layer.msg(res.data.msg)
           }
@@ -355,6 +359,7 @@
         color: white;
         background: #333333;
         margin: 55px 0 20px;
+        cursor: pointer;
     }
 
     @media screen and (max-width: 1300px){
