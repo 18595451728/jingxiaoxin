@@ -115,7 +115,7 @@ const router = new Router({
       component: Probation,
       meta: {
         title: '商品试用',
-        needLogin: !1
+        needLogin: !0
       }
     },
     {
