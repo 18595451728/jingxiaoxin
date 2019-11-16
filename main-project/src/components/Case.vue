@@ -148,14 +148,14 @@
         left: 20%;
         top: calc(50% - 400px);
         z-index: 11;
-        background: #fff;
+        /*background: #fff;*/
     }
 .imgs{
     height: 800px;
 }
-.imgs .swiper-slide img{
-    width: 100%;
-}
+/*.imgs .swiper-slide img{*/
+    /*width: 100%;*/
+/*}*/
     .emei {
         position: fixed;
         z-index: 8;
