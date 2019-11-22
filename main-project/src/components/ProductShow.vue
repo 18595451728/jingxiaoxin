@@ -72,31 +72,31 @@
         setTimeout(function () {
           switch (e) {
             case 0:
-              that.pic = '/static/images/1-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/1-1.gif'
               videotime = 1500
               break;
             case 1:
-              that.pic = '/static/images/2-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/2-1.gif'
               videotime = 1800
               break;
             case 2:
-              that.pic = '/static/images/3-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/3-1.gif'
               videotime = 1700
               break;
             case 3:
-              that.pic = '/static/images/7-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/7-1.gif'
               videotime = 1680
               break;
             case 4:
-              that.pic = '/static/images/5-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/5-1.gif'
               videotime = 1750
               break;
             case 5:
-              that.pic = '/static/images/6-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/6-1.gif'
               videotime = 1700
               break;
             case 6:
-              that.pic = '/static/images/4-1.gif'
+              that.pic = 'http://shop.jingxiaoxin.com/static/vue/images/4-1.gif'
               videotime = 1650
               break;
           }

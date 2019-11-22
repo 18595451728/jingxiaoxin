@@ -62,31 +62,31 @@
           {
             title:'7寸液晶显示屏',
             subtitle: '净小新的水质实时监控TDS值监控+滤芯更换提醒',
-            pic:'/static/images/1-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/1-2.gif'
           },{
             title:'步进式加热系统',
             subtitle: '全自动智能控制，每次加热一层水 冷热水分层不混合 快速沸腾  大开水量 连续出开水不会越接越凉',
-            pic:'/static/images/2-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/2-2.gif'
           },{
             title:'净小新采用UV抑菌',
             subtitle: '净小新采用UV抑菌+光源保鲜技术 水经过高温灭菌后再由UV冷光源抑菌保鲜，保证每一滴鲜活好水',
-            pic:'/static/images/3-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/3-2.gif'
           },{
             title:'净小新三代卡接滤芯',
             subtitle: '净小新三代卡接滤芯，轻轻一转即可实现轻松换芯，无需专业人员上门更换，维护成本大大降低',
-            pic:'/static/images/7-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/7-2.gif'
           },{
             title:'热交换系统',
             subtitle: '烧开后再降温，时刻饮用凉白开 水烧开后不仅能有效灭菌，且白开水更加温和有益于保护肠胃',
-            pic:'/static/images/5-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/5-2.gif'
           },{
             title:'0.0001微米过滤',
             subtitle: '过滤是制出好水的第一步，净小新采用0.0001微米高精度反渗透过滤，原装进口陶氏RO膜片（参考图册过滤技术作动效）',
-            pic:'/static/images/6-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/6-2.gif'
           },{
             title:'净小新采用UV抑菌',
             subtitle: '净小新采用UV抑菌+光源保鲜技术 水经过高温灭菌后再由UV冷光源抑菌保鲜，保证每一滴鲜活好水',
-            pic:'/static/images/4-2.gif'
+            pic:'http://shop.jingxiaoxin.com/static/vue/images/4-2.gif'
 
           },
         ],
