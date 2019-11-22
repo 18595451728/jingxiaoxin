@@ -142,7 +142,7 @@ const router = new Router({
       component: Partner,
       meta: {
         title: '城市合伙人',
-        needLogin: !0
+        needLogin: !1
       }
     },
     {
@@ -267,7 +267,7 @@ router.beforeEach((to,from,next)=>{
     if(token){
       next();
     }else{
-      console.log(to.fullPath)
+      console.log(to.fullPath,Login.data.prototype)
       storage.session.set('paths',to.fullPath)
       next({
         path:'/Mine/Login'

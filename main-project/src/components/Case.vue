@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
@@ -31,11 +30,16 @@
                 <div class="swiper-container imgs">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="item in choosedImgs">
-                            <img :src="item.pic" alt="">
+                            <img width="100%" :src="item.pic" alt="">
                         </div>
                     </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+                </div>
+                <div class="swiper-container thumb_imgs">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="item in choosedImgs">
+                            <img width="100%" :src="item.pic" alt="">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,14 +48,12 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
 
   export default {
     name: 'Case',
     components: {
-      Bside,
       Nav
     },
     data: function () {
@@ -105,11 +107,20 @@
           console.log(this.cases[index][index1].banner_pic)
           this.choosedImgs = this.cases[index][index1].banner_pic
           this.$nextTick(()=>{
-            var ss = new Swiper('.imgs', {
-              loop: true,
-              prevButton:'.swiper-button-prev',
-              nextButton:'.swiper-button-next',
+
+            var sss = new Swiper('.thumb_imgs', {
+              spaceBetween: 10,
+              centeredSlides: true,
+              slidesPerView: 4,
+              touchRatio: 0.2,
+              slideToClickedSlide: true
             })
+
+            var ss = new Swiper('.imgs', {
+
+            })
+            sss.params.control = ss;
+            ss.params.control = sss;
           })
         }
       },
@@ -151,8 +162,25 @@
         /*background: #fff;*/
     }
 .imgs{
-    height: 800px;
+    height: 600px;
+    background: #fff;
 }
+.thumb_imgs{
+    height: 150px;
+    margin-top: 50px;
+}
+.thumb_imgs img{
+    width: 100%;
+}
+
+    .thumb_imgs .swiper-slide {
+        width: 25%;
+        height: 100%;
+        opacity: 0.4;
+    }
+    .thumb_imgs .swiper-slide-active {
+        opacity: 1;
+    }
 /*.imgs .swiper-slide img{*/
     /*width: 100%;*/
 /*}*/
@@ -160,7 +188,7 @@
         position: fixed;
         z-index: 8;
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -171,7 +199,9 @@
         align-items: center;
         font-size: 16px;
     }
-
+    .emei img{
+        width: 10px;
+    }
     .emei span {
         margin-left: 43px;
     }
@@ -179,9 +209,9 @@
     .bgzi {
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 70px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 70px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -190,9 +220,9 @@
     .product {
         position: absolute;
         left: 0;
-        top: 150px;
+        top: 130px;
         width: 100%;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         z-index: 8;
     }
 

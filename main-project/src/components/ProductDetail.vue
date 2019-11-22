@@ -1,7 +1,6 @@
 <template>
     <div class="main-con">
         <Nav></Nav>
-        <Bside></Bside>
         <div class="detail">
             <div class="d-left">
                 <div class="d-grey">
@@ -97,14 +96,12 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
 
   export default {
     name: 'ProductDetail',
     components: {
-      Bside,
       Nav
     },
     data: function () {
@@ -288,9 +285,9 @@
     .detail {
         position: absolute;
         width: 85%;
-        height: calc(100% - 150px);
+        height: calc(100% - 70px);
         left: 7.5%;
-        top: 80px;
+        top: 70px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;

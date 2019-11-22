@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
@@ -30,14 +29,12 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
 
   export default {
     name: 'News',
     components: {
-      Bside,
       Nav
     },
     data: function () {
@@ -93,7 +90,7 @@
         position: fixed;
         z-index: 2;
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -108,13 +105,16 @@
     .emei span {
         margin-left: 43px;
     }
+    .emei img {
+        width: 10px;
+    }
 
     .bgzi {
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 70px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 70px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -123,9 +123,9 @@
     .product {
         position: absolute;
         left: 0;
-        top: 150px;
+        top: 130px;
         width: 100%;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         z-index: 2;
     }
 

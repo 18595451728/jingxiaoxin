@@ -14,15 +14,79 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="item in products">
                     <div class="s-con">
-                        <div class="p-list" v-for="items in item">
+                        <div class="p-list">
+                            <div class="pl-left">
+                                <div>
+                                    <div>
+                                        <h3>13L</h3>
+                                        <p>开水/凉白开容积</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>开水/凉白开</h3>
+                                        <p>出水类型</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>220V</h3>
+                                        <p>额定电压</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>1500W</h3>
+                                        <p>额定功率</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>自来水</h3>
+                                        <p>适用水源</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="p-white">
                                 <!--<img src="/static/images/bgzi.png" width="100%" alt="">-->
                                 <div class="white-con">
-                                    <p><span>THE</span>[{{items.goods_name}}]</p>
-                                    <img :src="items.goods_logo" alt="">
+                                    <p><span>（RO反渗透）</span>{{item.goods_name}}</p>
+                                    <img :src="item.goods_logo" style="cursor: pointer;" @click="toshow(item.id)" alt="">
                                     <div class="fnc">
-                                        <router-link :to="{path:'/Probation',query:{id:items.id}}" tag="div" class="tryuse">申请试用</router-link>
-                                        <router-link :to="{path:'/ProductDetail',query:{id:items.id}}" tag="div" class="toBuy">点击购买</router-link>
+                                        <router-link :to="{path:'/Probation',query:{id:item.id}}" tag="div" class="tryuse">申请试用</router-link>
+                                        <router-link :to="{path:'/ProductDetail',query:{id:item.id}}" tag="div" class="toBuy">点击购买</router-link>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-right">
+                                <div>
+                                    <div>
+                                        <h3>RO反渗透</h3>
+                                        <p>过滤系统</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>100加仑</h3>
+                                        <p>制水能力</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>1.3升/30秒</h3>
+                                        <p>出水速度</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>50-80人/台</h3>
+                                        <p>适用人数</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3>420*370*1460MM</h3>
+                                        <p>尺寸</p>
                                     </div>
                                 </div>
                             </div>
@@ -55,6 +119,7 @@
     mounted () {
       this.keyword = this.$route.query.keyword
       var that = this
+      console.log(this.keyword)
       this.$axios.post('/Goods/goodsList', {
         list_row: 100,
         page: 1,
@@ -67,19 +132,20 @@
             return false;
           }
           var list = res.data.data.list, len = Math.ceil(list.length / 2)
-          var newArray = []
-          for (var i = 0; i < len; i++) { //每组两个数据  总共 len 组
-            var arr = []
-            for (var j = 0; j < 2; j++) {
-              if(i*2+j != list.length){
-                arr[j] = list[i*2+j]
-              }
-            }
-            newArray.push(arr)
-          }
-          console.log(newArray)
-
-          that.products = newArray
+          // var newArray = []
+          // for (var i = 0; i < len; i++) { //每组两个数据  总共 len 组
+          //   var arr = []
+          //   for (var j = 0; j < 2; j++) {
+          //     if(i*2+j != list.length){
+          //       arr[j] = list[i*2+j]
+          //     }
+          //   }
+          //   newArray.push(arr)
+          // }
+          // console.log(newArray)
+          //
+          // that.products = newArray
+          that.products = list
 
           that.$nextTick(function () {
             var ns = new Swiper('.product', {
@@ -97,18 +163,55 @@
 
 
     },
-    methods: {}
+    methods: {
+      toshow(e){
+        this.$router.push({
+          path:'/ProductShow',
+          query:{
+            id:e
+          }
+        })
+      }
+    }
   }
 </script>
 
 <style scoped>
+
+
+    .pl-left>div,.pl-right>div{
+        width: 200px;
+        height: 138px;
+        border-top: 3px dashed #b8b8b7;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+    .pl-left>div:last-child,.pl-right>div:last-child{
+        height: 141px;
+        border-bottom: 3px dashed #b8b8b7;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .pl-left h3,.pl-right h3{
+        font-size: 26px;
+        color: #333333;
+    }
+    .pl-left p,.pl-right p{
+        font-size: 16px;
+        color: #ababab;
+        margin-top: 10px;
+    }
     .no_product{
         text-align: center;
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 70px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 70px);
         z-index: 8;
         display: flex;
         align-items: center;
@@ -120,9 +223,9 @@
     .bgzi {
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 70px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 70px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -131,34 +234,38 @@
     .product {
         position: absolute;
         left: 0;
-        top: 80px;
+        top: 70px;
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 70px);
         z-index: 8;
     }
 
     .s-con {
-        width: 80%;
+        width: 1200px;
         height: 766px;
         position: absolute;
-        left: 10%;
+        left: calc(50% - 600px);
         top: calc(50% - 384px);
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
     }
 
     .p-list {
-        width: 41%;
+        width: 100%;
         height: 766px;
-        background: #e7e7e7;
+        background: #e2e2e0;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        padding: 0 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
 
     .p-white {
-        width: 86.6%;
+        width: 41.6%;
         height: 850px;
         background: #f3f3f3;
         position: relative;
@@ -177,7 +284,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        padding: 45px 0;
+        padding: 40px 0;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -188,14 +295,16 @@
     }
 
     .white-con p {
-        font-size: 30px;
-        color: #505345;
+        font-size: 32px;
+        color: #333333;
     }
 
     .white-con p span {
-        font-size: 40px;
-        color: #989898;
+        font-size: 20px;
+        color: #333333;
         vertical-align: middle;
+        display: block;
+        text-align: center;
     }
 
     .white-con img {
@@ -204,8 +313,8 @@
     }
 
     .fnc {
-        width: 80%;
-        margin: 0 auto;
+        width: 90%;
+        margin: 20px auto 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -213,7 +322,7 @@
 
     .fnc > div {
         width: 49%;
-        line-height: 55px;
+        line-height: 50px;
         color: white;
         font-size: 16px;
         text-align: center;
@@ -229,6 +338,10 @@
     }
 
     @media screen and (max-width: 1200px) {
+        .s-con{
+            width: 80%;
+            left: 10%;
+        }
         .white-con p {
             font-size: 25px;
         }

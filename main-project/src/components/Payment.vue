@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
         <div class="main-con">
             <div class="address">
@@ -88,12 +87,10 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
 
   export default {
     name: 'Payment',
     components: {
-      Bside,
       Nav
     },
     data: function () {
@@ -375,7 +372,7 @@
 }
     .emei {
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -389,6 +386,9 @@
 
     .emei span {
         margin-left: 43px;
+    }
+    .emei img {
+        width: 10px;
     }
 
     .main-con {

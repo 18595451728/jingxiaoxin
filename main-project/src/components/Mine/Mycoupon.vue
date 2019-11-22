@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="main-con">
             <MineLeft :status="mine_status"></MineLeft>
             <div class="o-right">
@@ -34,13 +33,11 @@
 
 <script>
   import Nav from '../Nav'
-  import Bside from '../Bside'
   import MineLeft from './MineLeft'
   export default {
     name: 'Mycoupon',
     components :{
       Nav,
-      Bside,
       MineLeft
     },
     data:function () {

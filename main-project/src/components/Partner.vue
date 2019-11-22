@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>招聘城市合伙人</span></div>
         <div class="partner">
             <div class="partner_main">
@@ -71,12 +70,10 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
 
   export default {
     name: 'Partner',
     components: {
-      Bside,
       Nav
     },
     data: function () {
@@ -268,7 +265,7 @@
     }
     .emei {
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -284,12 +281,16 @@
         margin-left: 43px;
     }
 
+    .emei img {
+        width: 10px;
+    }
+
     .partner {
         width: 100%;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         position: absolute;
         left: 0;
-        top: 150px;
+        top: 130px;
     }
 
     .partner_main {

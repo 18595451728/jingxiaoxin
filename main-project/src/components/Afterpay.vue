@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>支付成功</span></div>
         <div class="main-con">
             <div class="congratulation">
@@ -45,11 +44,9 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   export default {
     name: 'Afterpay',
     components:{
-      Bside,
       Nav
     },
     data:function () {
@@ -91,7 +88,7 @@
 
     .emei{
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -104,6 +101,9 @@
     }
     .emei span{
         margin-left: 43px;
+    }
+    .emei img{
+        width: 10px;
     }
     .main-con{
         width: 1170px;

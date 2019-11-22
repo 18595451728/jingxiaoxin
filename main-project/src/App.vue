@@ -24,8 +24,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 body{
-  padding-top: 80px;
-  padding-bottom: 70px;
+  padding-top: 70px;
+
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

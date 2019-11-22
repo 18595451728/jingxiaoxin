@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="main-con">
             <MineLeft :status="mine_status"></MineLeft>
             <div class="m-right">
@@ -38,13 +37,11 @@
 
 <script>
     import Nav from '../Nav'
-    import Bside from '../Bside'
     import MineLeft from './MineLeft'
   export default {
     name: 'UserMessage',
     components :{
       Nav,
-      Bside,
       MineLeft
     },
     data:function () {

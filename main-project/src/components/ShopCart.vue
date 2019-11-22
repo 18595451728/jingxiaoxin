@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
+
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
         <div class="nocart" v-if="nocart">
             <div>
@@ -57,11 +57,9 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   export default {
     name: 'ShopCart',
     components:{
-      Bside,
       Nav
     },
     data:function () {
@@ -162,9 +160,9 @@
         text-align: center;
         position: absolute;
         left: 0;
-        top: 150px;
+        top: 130px;
         width: 100%;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         z-index: 8;
         display: flex;
         align-items: center;
@@ -175,7 +173,7 @@
     }
     .emei{
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -188,6 +186,9 @@
     }
     .emei span{
         margin-left: 43px;
+    }
+    .emei img{
+        width: 10px;
     }
     .main-con{
         width: 1170px;

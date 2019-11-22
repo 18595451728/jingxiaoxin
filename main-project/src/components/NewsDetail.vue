@@ -1,7 +1,6 @@
 <template>
 <div>
     <Nav></Nav>
-    <Bside></Bside>
     <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
     <div class="detail">
         <div class="d-name"><span>「新闻资讯」</span>{{news.title}}</div>
@@ -19,11 +18,9 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   export default {
     name: 'NewsDetail',
     components:{
-      Bside,
       Nav
     },
     data:function(){
@@ -65,7 +62,7 @@
 <style scoped>
     .emei{
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -78,6 +75,9 @@
     }
     .emei span{
         margin-left: 43px;
+    }
+    .emei img{
+        width: 10px;
     }
 .detail{
     width: 1400px;

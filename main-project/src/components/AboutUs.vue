@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav @goscroll="Navhash"></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con" id="about1">
             <img :src="about[0].pic" alt="">
@@ -46,10 +45,12 @@
         <div class="certificate" id="about4">
             <div class="swiper-container cer">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-for="item in 5">
-                        <img src="/static/images/cer.png" alt="">
+                    <div class="swiper-slide" v-for="item in qualification">
+                        <img :src="item.pic" width="180" alt="">
                     </div>
                 </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
 
@@ -58,14 +59,12 @@
 
 <script>
   import Nav from './Nav'
-  import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
   export default {
     name: 'AboutUs',
     components: {
-      Nav,
-      Bside
+      Nav
     },
     data:function () {
       return {
@@ -98,7 +97,9 @@
             var nss = new Swiper('.cer', {
               loop: true,
               slidesPerView: 4,
-              spaceBetween: 100
+              spaceBetween: 100,
+              prevButton: '.swiper-button-prev',
+              nextButton: '.swiper-button-next',
             })
           })
         }
@@ -202,7 +203,7 @@
     }
     .emei {
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -216,6 +217,9 @@
 
     .emei span {
         margin-left: 43px;
+    }
+    .emei img {
+        width: 10px;
     }
 
     .main-con {
@@ -265,17 +269,17 @@
 
     }
 
-    .swiper-button-next{
+    .lis .swiper-button-next{
         background-image:url("/static/images/you .png");
         background-size: 100% 100%;
         right: 0;
     }
-    .swiper-button-prev{
+    .lis .swiper-button-prev{
         background-image:url("/static/images/zuo .png");
         background-size: 100% 100%;
         left: 0;
     }
-    .swiper-button-next, .swiper-button-prev{
+    .lis .swiper-button-next, .lis .swiper-button-prev{
         width: 22px;
         height: 22px;
         top: 54px;

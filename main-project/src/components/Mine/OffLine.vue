@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>线下支付</span></div>
         <div class="main-con">
             <div class="refund">
@@ -79,12 +78,10 @@
 
 <script>
   import Nav from '../Nav'
-  import Bside from '../Bside'
   export default {
     name: 'OffLine',
     components:{
-      Nav,
-      Bside
+      Nav
     },
     data:function () {
       return {
@@ -187,7 +184,7 @@
 <style scoped>
     .emei{
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -201,12 +198,15 @@
     .emei span{
         margin-left: 43px;
     }
+    .emei img{
+        width: 10px;
+    }
     .main-con{
         width: 1400px;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         position: absolute;
         left: calc(50% - 700px);
-        top: 150px;
+        top: 130px;
         padding-top: 35px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;

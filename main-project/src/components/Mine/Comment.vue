@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
         <div class="main-con">
             <div class="refund">
@@ -74,12 +73,10 @@
 
 <script>
   import Nav from '../Nav'
-  import Bside from '../Bside'
   export default {
     name: 'Comment',
     components:{
-      Nav,
-      Bside
+      Nav
     },
     data:function () {
       return {
@@ -217,10 +214,10 @@
     }
     .main-con{
         width: 1400px;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         position: absolute;
         left: calc(50% - 700px);
-        top: 150px;
+        top: 130px;
         padding-top: 35px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;

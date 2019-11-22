@@ -10,12 +10,12 @@
                 <router-link to="/Product" tag="div">产品中心</router-link>
                 <router-link to="/Case" tag="div">项目案例</router-link>
                 <router-link to="/News" tag="div">新闻资讯</router-link>
-                <router-link to="/Partner" tag="div">招聘城市合伙人</router-link>
+                <router-link to="/Partner" tag="div">成为城市合伙人</router-link>
                 <router-link to="/AboutUs" tag="div">
                     <div @mouseover="showus" @mouseout="hideus">
                         <p>关于我们</p>
                         <div class="subnav" v-show="gous">
-                            <div @click="navhash(0)">关于我们</div>
+                            <!--<div @click="navhash(0)">关于我们</div>-->
                             <div @click="navhash(0)">品牌介绍</div>
                             <div @click="navhash(1)">品牌文化</div>
                             <div @click="navhash(2)">公司发展历程</div>
@@ -94,7 +94,7 @@ export default {
     }
     .search input{
         width: 100%;
-        line-height: 72px;
+        line-height: 62px;
         padding: 0 30px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -108,7 +108,7 @@ export default {
         top: 0;
         z-index: 9;
         width: 100%;
-        height: 80px;
+        height: 70px;
 
         background: #333;
     }
@@ -140,7 +140,7 @@ export default {
         cursor: pointer;
         font-size: 16px;
         position: relative;
-        line-height: 80px;
+        line-height: 70px;
     }
     .navlist>div .subnav{
         position: absolute;
@@ -163,6 +163,9 @@ export default {
     }
     .logo{
         cursor: pointer;
+    }
+    .logo img{
+        width: 125px;
     }
     @media screen and (max-width: 1400px){
         .navlist>div{

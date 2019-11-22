@@ -1,7 +1,6 @@
 <template>
     <div>
         <Nav></Nav>
-        <Bside></Bside>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
         <div class="main-con">
             <div class="cancel_order" v-if="cancel_orders">
@@ -63,12 +62,10 @@
 
 <script>
     import Nav from '../Nav'
-    import Bside from '../Bside'
   export default {
     name: 'Logistics',
     components:{
-      Nav,
-      Bside
+      Nav
     },
     data:function(){
       return {
@@ -147,7 +144,7 @@
     }
     .emei{
         width: 100%;
-        line-height: 70px;
+        line-height: 60px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -158,15 +155,18 @@
         align-items: center;
         font-size: 16px;
     }
+    .emei img{
+        width: 10px;
+    }
     .emei span{
         margin-left: 43px;
     }
     .main-con{
         width: 1400px;
-        height: calc(100% - 220px);
+        height: calc(100% - 130px);
         position: absolute;
         left: calc(50% - 700px);
-        top: 150px;
+        top: 130px;
         padding-top: 60px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
