@@ -22,9 +22,7 @@
                 <div class="r-con">
                     <div class="goodsname">{{list.goods_name}}</div>
                     <div class="goodsprice">¥{{list.price}}</div>
-                    <div class="goodsdesc">
-                        {{list.goods_desc}}
-                    </div>
+                    <div class="goodsdesc" v-html="list.goods_desc"></div>
                     <div class="fnc">
                         <div class="goodsnum">
                             <p>数量*</p>
@@ -291,6 +289,7 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
+        font-family: pfb;
     }
 
     .d-left {
@@ -365,13 +364,13 @@
     .goodsname {
         font-size: 40px;
         color: #333333;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .goodsprice {
         font-size: 36px;
         color: #505345;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .goodsdesc {

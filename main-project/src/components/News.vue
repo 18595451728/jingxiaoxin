@@ -1,7 +1,8 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>新闻资讯</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
+                               alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -15,7 +16,9 @@
                                 <div class="p-con">
                                     <p class="n-name"><span>「新闻资讯」</span>{{items.title}}</p>
                                     <p class="n-detail">{{items.describe}}</p>
-                                    <router-link :to="{path:'/NewsDetail',query:{id:items.id}}" tag="div" class="lookmore">查看详情</router-link>
+                                    <router-link :to="{path:'/NewsDetail',query:{id:items.id}}" tag="div"
+                                                 class="lookmore">查看详情
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +42,7 @@
     },
     data: function () {
       return {
-        news:[]
+        news: []
       }
     },
     mounted () {
@@ -49,14 +52,14 @@
         list_row: 10
       }).then(res => {
         console.log(res)
-        if(res.data.status==1){
+        if (res.data.status == 1) {
           var list = res.data.data.list, len = Math.ceil(list.length / 2)
           var newArray = []
           for (var i = 0; i < len; i++) { //每组两个数据  总共 len 组
             var arr = []
             for (var j = 0; j < 2; j++) {
-              if(i*2+j != list.length){
-                arr[j] = list[i*2+j]
+              if (i * 2 + j != list.length) {
+                arr[j] = list[i * 2 + j]
               }
             }
             newArray.push(arr)
@@ -69,18 +72,18 @@
             var ns = new Swiper('.product', {
               // loop: true,
               direction: 'vertical',
-              mousewheelControl : true,
-              pagination : '.swiper-pagination',
-              paginationClickable :true,
+              mousewheelControl: true,
+              pagination: '.swiper-pagination',
+              paginationClickable: true,
             })
           })
         }
       })
     },
     methods: {
-    back(){
-      this.$router.go(-1)
-    }
+      back () {
+        this.$router.go(-1)
+      }
     }
   }
 </script>
@@ -105,6 +108,7 @@
     .emei span {
         margin-left: 43px;
     }
+
     .emei img {
         width: 10px;
     }
@@ -187,12 +191,19 @@
 
     .n-name span {
         color: #252525;
+        font-family: pfb;
     }
 
     .n-detail {
         font-size: 14px;
         color: #696969;
         line-height: 23px;
+        /*min-height: 200px;*/
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
     }
 
     .lookmore {
@@ -239,14 +250,14 @@
     }
 
     .swiper-pagination-bullet {
-        width: 16px;
-        height: 16px;
+        width: 10px;
+        height: 10px;
         background: #d5d5d5;
         opacity: 1;
     }
 
     .swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
-        margin: 34px 0;
+        margin: 20px 0;
     }
 
     .swiper-pagination-bullet-active {

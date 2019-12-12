@@ -1,15 +1,25 @@
 <template>
     <div class="footer">
-        <div class="f-main">
-            <p>浙ICP备13022929号-2</p>
-            <div class="f-nav">
-                <router-link tag="div" to="/">首页</router-link>
-                <router-link tag="div" to="/Product">产品中心</router-link>
-                <router-link tag="div" to="/Case">项目案例</router-link>
-                <router-link tag="div" to="/News">新闻资讯</router-link>
-                <router-link tag="div" to="/Partner">招聘城市合伙人</router-link>
-                <router-link tag="div" to="/AboutUs">关于我们</router-link>
+        <div class="footer-main">
+            <div class="f-left">
+                <div class="f_list">
+                    <router-link tag="a" to="/">产品中心</router-link>
+                    <router-link tag="a" to="/Case">项目案例</router-link>
+                    <router-link tag="a" to="/News">新闻资讯</router-link>
+                    <router-link tag="a" to="/Partner">加入城市合伙人</router-link>
+                    <router-link tag="a" to="/AboutUs">关于我们</router-link>
+                    <router-link tag="a" to="/Contact">联系我们</router-link>
+                </div>
+                <div class="ls">
+                    <img src="/static/images/black_logo.png" alt="">
+                    <p>产品技术不是证书与标签，而是您喝下那杯水的感受，我们所有的努力，只为您手中这杯健康好水。</p>
+                </div>
+                <div class="ca">
+                    <img src="/static/images/online.png" alt=""><span>全国服务热线：</span><p>400-080-5680</p>
+                </div>
+                <div class="copyright">ICP备案号： 湘ICP备05004535号-16</div>
             </div>
+            <img src="/static/images/code.png" width="165" alt="">
         </div>
     </div>
 </template>
@@ -22,47 +32,85 @@
 
 <style scoped>
     .footer{
-        background: #404040;
-        line-height: 70px;
-        padding: 0 100px;
+        width: 100%;
+        background: #dde0e3;
+        padding-top: 40px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        z-index: 10;
-        position: fixed;
-        left: 0;
-        bottom:0;
-        width: 100%;
+        margin-bottom: -70px;
     }
-    .f-main{
+    .footer-main{
+        width: 920px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
         margin: 0 auto;
+    }
+    .f-left{
+        width: 660px;
+    }
+    .f_list{
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-family: pfb;
     }
-    .f-main p{
-        color: white;
-        font-size: 12px;
+    .f_list a{
+        font-size: 16px;
+        color: #333333;
     }
-    .f-nav{
+    .f_list a:hover{
+        color: #0099cc;
+        text-decoration: underline;
+    }
+    .ls{
         display: flex;
+        justify-content: space-between;
         align-items: center;
-    }
-    .f-nav div{
-        padding: 0 24px;
+        margin-top: 30px;
+        padding: 0 10px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+    }
+    .ls img{
+        width: 180px;
+    }
+    .ls p{
+        width: 400px;
         font-size: 14px;
-        color: #a6a6a6;
-        cursor: pointer;
+        color: #333333;
+        line-height: 30px;
+    }
+    .ca{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 35px;
+    }
+    .ca span{
+        margin-left: 18px;
+        font-size: 16px;
+        color: #7b7b7b;
+    }
+    .ca p{
+        font-size: 25px;
+        color: #333333;
+    }
+    .copyright{
+        text-align: center;
+        color: #717171;
+        font-size: 12px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    @media screen and (max-width: 1600px){
+    }
+    @media screen and (max-width: 1400px){
     }
     @media screen and (max-width: 1200px){
-        .f-nav div{
-            padding: 0 10px;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
+
+
     }
 </style>

@@ -5,27 +5,27 @@
         <div class="main-con" id="about1">
             <img :src="about[0].pic" alt="">
             <div class="a-art">
-                <img src="/static/images/a-intro.png" style="margin-bottom: 44px" alt="">
+                <img src="/static/images/a-intro.png" style="margin-bottom: 35px" alt="">
                 <div class="a-title">杭州再想科技有限公司</div>
-                <p>净小新是杭州再想科技旗下高端净饮机品牌，是一家集研发、生产、销售、服务为一体的高科技型企业，注重创新和用户体验，专注净水及饮水产品研发十余年致力于以科技 构建安全 健康  便捷的饮水生活。自主创新凉白开净饮机系列倡导过滤+烧开杀菌+保鲜三重防护的饮水理念，目前已荣获国家多项专利技术 杭州再想科技已荣获“杭州市高新技术企业”，“浙江省科技型中小企业”，通过了国家CCC认证，饮用水卫生安全产品卫生许可批件，中国家用电器检测等多项权威认证机构的检测</p>
+                <p>{{about[0].describe}}</p>
             </div>
         </div>
-        <div class="main-con" style="margin-top: 0" id="about2">
+        <div class="main-con" style="margin-top: 30px" id="about2">
             <div class="a-art b-art">
                 <img src="/static/images/b-intro.png" style="margin-bottom: 44px" alt="">
                 <div class="a-title">净小新.愿景：</div>
-                <p>成为全球知名净饮品牌  让喝水变得简单</p>
+                <p>成为全球知名净饮品牌，让喝水变得简单</p>
                 <div class="a-title">净小新.使命：</div>
-                <p>以科技 构建安全 健康  便捷的饮水生活</p>
+                <p>以科技构建安全、健康、便捷的饮水生活</p>
                 <div class="a-title">净小新.价值观：</div>
-                <p>独立思考科学求真   奋斗学习精益求精    直面困难永不放弃</p>
+                <p>独立思考、科学求真、奋斗学习、精益求精、直面困难、永不放弃</p>
                 <div class="a-title">净小新.社会责任：</div>
                 <p>做有口碑的好产品</p>
             </div>
             <img :src="about[1].pic" style="margin-left: 82px" alt="" >
         </div>
         <div class="licheng" id="about3">
-            <div class="l-title" ><img src="/static/images/develop.png" alt=""></div>.
+            <div class="l-title" ><img src="/static/images/develop.png" alt=""></div>
             <div class="swiper-container lis">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in development">
@@ -43,28 +43,30 @@
             </div>
         </div>
         <div class="certificate" id="about4">
-            <div class="swiper-container cer">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-for="item in qualification">
-                        <img :src="item.pic" width="180" alt="">
+            <div class="c-title" ><img src="/static/images/zz.png" alt=""></div>
+            <div class="cer">
+                <div v-for="item in qualification">
+                    <div>
+                        <img :src="item.pic" alt="">
                     </div>
+                    <p :title="item.title">{{item.title}}</p>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
             </div>
         </div>
-
+        <Bside></Bside>
     </div>
 </template>
 
 <script>
   import Nav from './Nav'
+  import Bside from './Bside'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
   export default {
     name: 'AboutUs',
     components: {
-      Nav
+      Nav,
+      Bside
     },
     data:function () {
       return {
@@ -91,13 +93,6 @@
               loop: true,
               slidesPerView: 3,
               spaceBetween: 40,
-              prevButton: '.swiper-button-prev',
-              nextButton: '.swiper-button-next',
-            })
-            var nss = new Swiper('.cer', {
-              loop: true,
-              slidesPerView: 4,
-              spaceBetween: 100,
               prevButton: '.swiper-button-prev',
               nextButton: '.swiper-button-next',
             })
@@ -143,14 +138,25 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        background: #333333;
         border-bottom: 1px solid #fff;
+    }
+     .c-title{
+        text-align: center;
+        margin-bottom: 60px;
     }
     .cer{
         width: 1200px;
         margin: 0 auto;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
-    .cer .swiper-slide{
+    .cer>div{
+        margin-right: 101px;
+        margin-bottom: 25px;
+    }
+    .cer>div>div{
+        width: 224px;
         height: 307px;
         background: url("/static/images/certificate.png") no-repeat;
         background-size: 100% 100%;
@@ -158,9 +164,27 @@
         align-items: center;
         justify-content: center;
     }
+    .cer>div:nth-child(4n){
+        margin-right: 0;
+    }
+    .cer>div img{
+        width: 60%;
+    }
+    .cer>div p{
+        text-align: center;
+        font-size: 16px;
+        color: #1d1d1d;
+        margin: 20px 0;
+        width: 224px;
+        white-space: nowrap;
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        font-family: pfb;
+    }
     .lis{
         width: 1200px;
-        margin: 0 auto 125px;
+        margin: 0 auto;
         text-align: center;
     }
     .lis .swiper-slide{
@@ -197,8 +221,14 @@
         top: 32px;
         z-index: 99;
     }
+    .licheng{
+        background: #f5f5f5;
+        padding-top: 120px;
+        padding-bottom: 80px;
+        margin-top: 25px;
+    }
     .l-title{
-        margin: 120px 0 140px;
+        margin: 0 0 140px;
         text-align: center;
     }
     .emei {
@@ -225,7 +255,7 @@
     .main-con {
         position: relative;
         width: 1200px;
-        margin: 70px auto 0;
+        margin: 30px auto 0;
         display: flex;
         align-items: center;
         box-shadow: 10px 10px 10px -4px rgba(130, 130, 130, .1);
@@ -235,9 +265,10 @@
         width: 50%;
     }
     .a-title {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         font-size: 20px;
         color: #1d1d1d;
+        font-family: pfb;
     }
 
     .a-art {

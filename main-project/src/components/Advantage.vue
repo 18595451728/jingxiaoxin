@@ -6,7 +6,14 @@
         <!--</div>-->
         <div class="swiper-container product">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(item,index) in advantage" :style="{background:'url('+item.pic+') center center no-repeat'}">
+                <div class="swiper-slide">
+                    <img :src="introPic" class="show" alt="">
+                    <div class="upDown" @click="nextSlide">
+                        <img src="/static/images/upDown.png" alt="">
+                    </div>
+                </div>
+                <!--<div class="swiper-slide" v-for="(item,index) in advantage" :style="{background:'url('+item.param_pic+') center center no-repeat'}">-->
+                <div class="swiper-slide" v-for="(item,index) in advantage">
                     <div class="advantage" v-if="index%2==1">
                         <div class="a-con">
                             <img src="" width="49%" alt="">
@@ -14,11 +21,11 @@
                                 <div class="tt">
                                     <div class="t-num">{{index+1}}</div>
                                     <div>
-                                        <p class="t-name">{{item.title}}</p>
+                                        <p class="t-name">{{item.param_name}}</p>
                                         <p class="t-desc">{{item.subtitle}}</p>
                                     </div>
                                 </div>
-                                <div class="t-intro">净水器按过滤效果分为微滤、超滤、RO 反渗透净水器，微滤、超滤虽常见，但无法彻底滤除水垢、重金属及有害有机物。净小新净水器采用过滤等级最高的 RO 反渗透技术，它能拦截大于 0.0001 微米的物质是超滤净水器精度的 100 倍。</div>
+                                <div class="t-intro" v-html="item.param_content"></div>
                                 <div class="t-buy" @click="tobuy">点击购买</div>
                             </div>
                         </div>
@@ -29,15 +36,23 @@
                                 <div class="tt">
                                     <div class="t-num">{{index+1}}</div>
                                     <div>
-                                        <p class="t-name">{{item.title}}</p>
+                                        <p class="t-name">{{item.param_name}}</p>
                                         <p class="t-desc">{{item.subtitle}}</p>
                                     </div>
                                 </div>
-                                <div class="t-intro">净水器按过滤效果分为微滤、超滤、RO 反渗透净水器，微滤、超滤虽常见，但无法彻底滤除水垢、重金属及有害有机物。净小新净水器采用过滤等级最高的 RO 反渗透技术，它能拦截大于 0.0001 微米的物质是超滤净水器精度的 100 倍。</div>
+                                <div class="t-intro" v-html="item.param_content"></div>
                                 <div class="t-buy" @click="tobuy">点击购买</div>
                             </div>
                             <img src="" width="49%"  alt="">
                         </div>
+                    </div>
+                    <div style="position:absolute;width:100%;height: 100%;display: flex;align-items: center;justify-content: center; left: 0;top: 0;z-index: -1"><video :src="item.param_pic" autoplay muted loop width="100%"></video></div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="/static/images/last.png" class="last" alt="">
+                    <div class="lxfs">
+                        <p>净小新的服务</p>
+                        <p>全国服务热线: 400-080-5680</p>
                     </div>
                 </div>
             </div>
@@ -57,40 +72,11 @@
     },
     data:function () {
       return {
-        idx:0,
-        advantage:[
-          {
-            title:'7寸液晶显示屏',
-            subtitle: '净小新的水质实时监控TDS值监控+滤芯更换提醒',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/1-2.gif'
-          },{
-            title:'步进式加热系统',
-            subtitle: '全自动智能控制，每次加热一层水 冷热水分层不混合 快速沸腾  大开水量 连续出开水不会越接越凉',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/2-2.gif'
-          },{
-            title:'净小新采用UV抑菌',
-            subtitle: '净小新采用UV抑菌+光源保鲜技术 水经过高温灭菌后再由UV冷光源抑菌保鲜，保证每一滴鲜活好水',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/3-2.gif'
-          },{
-            title:'净小新三代卡接滤芯',
-            subtitle: '净小新三代卡接滤芯，轻轻一转即可实现轻松换芯，无需专业人员上门更换，维护成本大大降低',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/7-2.gif'
-          },{
-            title:'热交换系统',
-            subtitle: '烧开后再降温，时刻饮用凉白开 水烧开后不仅能有效灭菌，且白开水更加温和有益于保护肠胃',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/5-2.gif'
-          },{
-            title:'0.0001微米过滤',
-            subtitle: '过滤是制出好水的第一步，净小新采用0.0001微米高精度反渗透过滤，原装进口陶氏RO膜片（参考图册过滤技术作动效）',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/6-2.gif'
-          },{
-            title:'净小新采用UV抑菌',
-            subtitle: '净小新采用UV抑菌+光源保鲜技术 水经过高温灭菌后再由UV冷光源抑菌保鲜，保证每一滴鲜活好水',
-            pic:'http://shop.jingxiaoxin.com/static/vue/images/4-2.gif'
-
-          },
-        ],
-        goods_id:''
+        idx:-1,
+        advantage:[],
+        introPic:'',
+        goods_id:'',
+        ns:''
       }
     },
     mounted(){
@@ -98,20 +84,20 @@
       console.log(id)
       this.goods_id = this.$route.query.goods_id
       var that =this
+      that.initData()
       this.$nextTick(function () {
-        var ns = new Swiper('.product', {
+        this.ns = new Swiper('.product', {
           // loop: true,
           direction: 'vertical',
+          observer:true,
           mousewheelControl : true,
           pagination : '.swiper-pagination',
           paginationClickable :true,
           onSlideChangeStart:function (e) {
             console.log(e.activeIndex)
-            that.idx = e.activeIndex
+            that.idx = e.activeIndex-1
           }
         })
-        ns.slideTo(id,0)
-        this.idx = id
       })
     },
     methods:{
@@ -121,6 +107,25 @@
           query:{
             id:this.goods_id
           }
+        })
+      },
+      nextSlide(){
+        this.ns.slideTo(1)
+      },
+      initData(){
+        var that = this
+        this.$axios.post('/Goods/goodsParam',{
+          goods_id:this.goods_id
+        }).then(res=>{
+
+          if(res.data.status==1){
+            that.advantage = res.data.data.goods_param
+            that.introPic = res.data.data.goods.goods_big_logo
+            console.log(res.data.data)
+          }else{
+            that.$layer.msg(res.data.msg)
+          }
+
         })
       }
     }
@@ -158,11 +163,11 @@
         overflow: hidden;
     }
     .advantage{
-
+        width: 1200px;
     }
 
     .a-con{
-        width: 73%;
+        width: 90%;
         margin: 30px auto;
         display: flex;
         align-items: center;
@@ -174,12 +179,14 @@
     .tt{
         display: flex;
         color: #333;
+        align-items: center;
     }
     .t-num{
-        font-size: 80px;
+        font-size: 60px;
         margin-right: 20px;
     }
     .t-name{
+        font-family: pfb;
         font-size: 30px;
     }
     .t-desc{
@@ -189,7 +196,8 @@
         font-size: 14px;
         color: #6e6e6f;
         line-height: 36px;
-        margin-top: 30px;
+        margin-top: 10px;
+        font-family: pfb;
     }
     .t-buy{
         width: 286px;
@@ -201,13 +209,62 @@
         margin-top: 25px;
         cursor: pointer;
     }
-
+.show{
+    width: 1000px;
+}
+.swiper-slide{
+    position: relative;
+}
+.upDown{
+    position: absolute;
+    bottom: 30px;
+    animation: myani 1s infinite;
+    -webkit-transition: all 1s ease-in;
+    -moz-transition: all 1s ease-in;
+    -ms-transition: all 1s ease-in;
+    -o-transition: all 1s ease-in;
+    transition: all 1s ease-in;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+}
+@keyframes myani {
+    0%{
+        bottom: 30px;
+    }
+    50%{
+        bottom: 35px;
+    }
+    100%{
+        bottom: 30px;
+    }
+}
+.lxfs{
+    position: absolute;
+    left: 30%;
+    top: 80px;
+    color: #333333;
+}
+.lxfs p:first-child{
+    font-size: 36px;
+}
+    .lxfs p:last-child{
+    font-size: 24px;
+}
+    @media screen and (max-width: 1400px){
+        .lxfs{
+            left: 25%;
+        }
+    }
     @media screen and (max-width: 1200px){
         .t-name{
             font-size: 25px;
         }
         .t-desc{
             font-size: 16px;
+        }
+        .last{
+            width: 90%;
         }
     }
 </style>
@@ -217,14 +274,14 @@
     }
 
     .swiper-pagination-bullet {
-        width: 16px;
-        height: 16px;
+        width: 10px;
+        height: 10px;
         background: #d5d5d5;
         opacity: 1;
     }
 
     .swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
-        margin: 34px 0;
+        margin: 20px 0;
     }
 
     .swiper-pagination-bullet-active {

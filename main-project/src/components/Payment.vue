@@ -394,6 +394,7 @@
     .main-con {
         width: 1170px;
         margin: 50px auto;
+        /*font-family: pfb;*/
     }
 
     .main-con::after {
@@ -516,6 +517,7 @@
 
     .c-left {
         display: flex;
+        align-items: center;
     }
 
     .c-right {

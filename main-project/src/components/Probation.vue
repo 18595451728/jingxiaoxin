@@ -203,10 +203,16 @@
         }).then(res=>{
             console.log(res)
           if(res.data.status==1){
-            that.$layer.msg(res.data.msg)
-            setTimeout(()=>{
-              that.$router.push('/Product')
-            },1000)
+            // that.$layer.msg(res.data.msg)
+            // setTimeout(()=>{
+            //   that.$router.push('/Product')
+            // },1000)
+            that.$router.push({
+              path:'/Code',
+              query:{
+                status:0
+              }
+            })
           }else{
             that.$layer.msg(res.data.msg)
           }
@@ -275,6 +281,7 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
+        font-family: pfb;
     }
     .partner_left{
         width: 50%;

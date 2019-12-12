@@ -352,6 +352,7 @@
         line-height: 25px;
         color: #0099cc;
         width: 70%;
+        margin: 0 auto;
         cursor: pointer;
     }
     .moren span.grey{

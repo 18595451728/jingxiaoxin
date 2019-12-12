@@ -2,10 +2,10 @@
 <div>
     <Nav></Nav>
     <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
-    <div class="detail">
+    <div class="detail abcdef">
         <div class="d-name"><span>「新闻资讯」</span>{{news.title}}</div>
         <div class="d-time">发表于{{news.year}}年{{news.month}}月{{news.day}}日</div>
-        <img src="/static/images/newsDetail.png" alt="">
+        <!--<img src="/static/images/newsDetail.png" alt="">-->
         <div v-html="news.content">
         </div>
         <div class="pages">
@@ -80,9 +80,13 @@
         width: 10px;
     }
 .detail{
-    width: 1400px;
+    width: 1200px;
     margin: 0 auto;
+    font-size: 14px;
+    color: #696969;
+    line-height: 25px;
 }
+
 .detail::after{
     content: "";
     height: 0;
@@ -108,12 +112,7 @@
         color: #999999;
         margin-bottom: 20px;
     }
-    .detail p{
-        font-size: 14px;
-        color: #696969;
-        line-height: 25px;
-        margin:40px 0 50px;
-    }
+
     .pages{
         font-size: 14px;
         color: #999;
@@ -129,4 +128,12 @@
             width: 80%;
         }
     }
+</style>
+<style>
+    .detail.abcdef p{
+        margin:40px 0 50px;
+    }
+    /*.detail.abcdef img{*/
+        /*width: 100%;*/
+    /*}*/
 </style>

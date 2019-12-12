@@ -18,17 +18,30 @@ export default {
     background: none;
     outline: none;
   }
+  /*@font-face {*/
+    /*font-family: 'pfr';*/
+    /*src: url("/static/Fonts/PingFang.ttc");*/
+    /*font-weight: bold;*/
+    /*font-style: normal;*/
+  /*}*/
+  @font-face {
+    font-family: 'pfb';
+    src: url("/static/Fonts/PingFang Bold.ttf");
+    font-weight: normal;
+    font-style: normal;
+  }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 body{
   padding-top: 70px;
-
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  /*font-family: 'pfb';*/
 }
 ul{
   list-style: none;

@@ -13,7 +13,7 @@
                             <div class="p-white">
                                 <img :src="items.pic" alt="">
                                 <div class="p-con">
-                                    <p class="n-name"><span>「项目案例」</span>{{items.title}}</p>
+                                    <p class="n-name"><span>「{{items.sub_title}}」</span>{{items.title}}</p>
                                     <p class="n-detail">{{items.describe}}</p>
                                     <div class="lookmore" @click="lookDetail(index,index1)">查看详情</div>
                                 </div>
@@ -24,25 +24,7 @@
             </div>
             <div class="swiper-pagination"></div>
         </div>
-        <div class="detais" v-if="showDetail">
-            <div class="bgm" @click="cancle"></div>
-            <div class="main">
-                <div class="swiper-container imgs">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="item in choosedImgs">
-                            <img width="100%" :src="item.pic" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-container thumb_imgs">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="item in choosedImgs">
-                            <img width="100%" :src="item.pic" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -59,7 +41,7 @@
     data: function () {
       return {
         cases:[],
-        showDetail:!1,
+
         choosedImgs:[]
       }
     },
@@ -103,30 +85,37 @@
         if(this.cases[index][index1].banner_pic.length==0){
           this.$layer.msg('该案例暂无详情图')
         }else{
-          this.showDetail = !0
-          console.log(this.cases[index][index1].banner_pic)
-          this.choosedImgs = this.cases[index][index1].banner_pic
-          this.$nextTick(()=>{
-
-            var sss = new Swiper('.thumb_imgs', {
-              spaceBetween: 10,
-              centeredSlides: true,
-              slidesPerView: 4,
-              touchRatio: 0.2,
-              slideToClickedSlide: true
+            this.$router.push({
+              path:'/CaseDetail',
+              query:{
+                choosedImgs: JSON.stringify(this.cases[index][index1].banner_pic)
+              }
             })
-
-            var ss = new Swiper('.imgs', {
-
-            })
-            sss.params.control = ss;
-            ss.params.control = sss;
-          })
+          // this.showDetail = !0
+          // console.log(this.cases[index][index1].banner_pic)
+          // this.choosedImgs = this.cases[index][index1].banner_pic
+          // this.$nextTick(()=>{
+          //
+          //   var sss = new Swiper('.thumb_imgs', {
+          //     direction:'vertical',
+          //     spaceBetween: 10,
+          //     centeredSlides: true,
+          //     slidesPerView: 4,
+          //     touchRatio: 0.2,
+          //     slideToClickedSlide: true,
+          //     mousewheelControl : true,
+          //   })
+          //
+          //   var ss = new Swiper('.imgs', {
+          //       direction:'vertical',
+          //     mousewheelControl : true,
+          //   })
+          //   sss.params.control = ss;
+          //   ss.params.control = sss;
+          // })
         }
       },
-      cancle(){
-        this.showDetail = !1
-      },
+
       back(){
         this.$router.go(-1)
       }
@@ -135,52 +124,7 @@
 </script>
 
 <style scoped>
-    .detais{
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-    }
-    .bgm{
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,.9);
-        z-index: 10;
-    }
-    .main{
-        width: 60%;
-        height: 800px;
-        position: absolute;
-        left: 20%;
-        top: calc(50% - 400px);
-        z-index: 11;
-        /*background: #fff;*/
-    }
-.imgs{
-    height: 600px;
-    background: #fff;
-}
-.thumb_imgs{
-    height: 150px;
-    margin-top: 50px;
-}
-.thumb_imgs img{
-    width: 100%;
-}
 
-    .thumb_imgs .swiper-slide {
-        width: 25%;
-        height: 100%;
-        opacity: 0.4;
-    }
-    .thumb_imgs .swiper-slide-active {
-        opacity: 1;
-    }
 /*.imgs .swiper-slide img{*/
     /*width: 100%;*/
 /*}*/
@@ -226,7 +170,7 @@
         z-index: 8;
     }
 
-    .swiper-slide {
+    .product .swiper-slide {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -284,12 +228,14 @@
 
     .n-name span {
         color: #252525;
+        font-family: pfb;
     }
 
     .n-detail {
         font-size: 14px;
         color: #696969;
         line-height: 23px;
+        min-height: 200px;
     }
 
     .lookmore {

@@ -1,11 +1,11 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>招聘城市合伙人</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>加入城市合伙人</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">
-                    <div class="partner_title">招聘城市合伙人</div>
+                    <div class="partner_title">加入城市合伙人</div>
                     <img src="/static/images/partner.png" alt="">
                 </div>
                 <div class="partner_right">
@@ -206,12 +206,12 @@
       },
       send () {
         var that = this
-        if(!this.$storage.session.get('token')){
-          this.$router.push('/Mine/Login')
-          return false;
-        }
+        // if(!this.$storage.session.get('token')){
+        //   this.$router.push('/Mine/Login')
+        //   return false;
+        // }
         that.$axios.post('/Partner/apply', {
-          token:that.$storage.session.get('token'),
+          // token:that.$storage.session.get('token'),
           name:this.user_name,
           tel:this.tel,
           email:this.email,
@@ -223,10 +223,15 @@
         }).then(res => {
           console.log(res)
           if(res.data.status==1){
-            that.$layer.msg('提交成功，请等待审核')
-            setTimeout(()=>{
-              that.$router.push('/')
-            },1000)
+            // that.$layer.msg('提交成功，请等待审核')
+            // setTimeout(()=>{
+              that.$router.push({
+                path:'/Code',
+                query:{
+                  status:1
+                }
+              })
+            // },1000)
           }else{
             that.$layer.msg(res.data.msg)
           }
@@ -299,6 +304,7 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
+        font-family: pfb;
     }
 
     .partner_left {

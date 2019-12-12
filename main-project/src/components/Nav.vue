@@ -10,7 +10,7 @@
                 <router-link to="/Product" tag="div">产品中心</router-link>
                 <router-link to="/Case" tag="div">项目案例</router-link>
                 <router-link to="/News" tag="div">新闻资讯</router-link>
-                <router-link to="/Partner" tag="div">成为城市合伙人</router-link>
+                <router-link to="/Partner" tag="div">加入城市合伙人</router-link>
                 <router-link to="/AboutUs" tag="div">
                     <div @mouseover="showus" @mouseout="hideus">
                         <p>关于我们</p>
@@ -19,10 +19,10 @@
                             <div @click="navhash(0)">品牌介绍</div>
                             <div @click="navhash(1)">品牌文化</div>
                             <div @click="navhash(2)">公司发展历程</div>
-                            <router-link to="/Contact" tag="div">联系我们</router-link>
                         </div>
                     </div>
                 </router-link>
+                <router-link to="/Contact" tag="div">联系我们</router-link>
                 <div @click="gosearch"><img src="/static/images/search.png" alt=""></div>
                 <router-link to="/ShopCart" tag="div"><img src="/static/images/cart.png" alt=""></router-link>
                 <router-link to="/Mine/UserMessage?mine_status=0" tag="div"><img src="/static/images/user.png" alt=""></router-link>
@@ -167,7 +167,7 @@ export default {
     .logo img{
         width: 125px;
     }
-    @media screen and (max-width: 1400px){
+    @media screen and (max-width: 1500px){
         .navlist>div{
             padding: 0 15px;
             -webkit-box-sizing: border-box;

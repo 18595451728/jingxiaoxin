@@ -26,9 +26,11 @@ import OffLine from '@/components/Mine/OffLine'
 import Login from '@/components/Mine/Login'
 import Comment from '@/components/Mine/Comment'
 import Contact from '@/components/Contact'
+import Code from '@/components/Code'
+import CaseDetail from '@/components/CaseDetail'
 
 Vue.use(Router)
-
+// const HomePage = ()=>import("@/components/HomePage")
 const router = new Router({
   // mode:'history',
   routes: [
@@ -115,7 +117,7 @@ const router = new Router({
       component: Probation,
       meta: {
         title: '商品试用',
-        needLogin: !0
+        needLogin: !1
       }
     },
     {
@@ -251,6 +253,16 @@ const router = new Router({
         title: '联系我们',
         needLogin: !1
       }
+    },
+    {
+      path: '/Code',
+      name: 'Code',
+      component: Code
+    },
+    {
+      path: '/CaseDetail',
+      name: 'CaseDetail',
+      component: CaseDetail
     }
   ]
 })

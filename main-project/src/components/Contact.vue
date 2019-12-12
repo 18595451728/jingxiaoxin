@@ -6,29 +6,34 @@
             <div class="partner_main">
                 <div class="partner_left">
                     <div class="partner_title">联系我们</div>
-                    <img src="/static/images/maps.png" alt="">
+                    <div id="baiduMap" style="height: 520px;">
+                        <img src="/static/images/maps.png" alt="">
+                    </div>
                 </div>
                 <div class="partner_right">
                     <div class="partner_right_main">
                         <img src="/static/images/logo_black.png" alt="">
                         <div class="name">{{mes.title}}</div>
-                        <p>公司地址：{{mes.sub_title}}</p>
-                        <p>公司座机：{{mes.describe}}</p>
-                        <p>客服电话：{{mes.link}}</p>
+                        <p><span>公司地址：</span>{{mes.sub_title}}</p>
+                        <p><span>公司座机：</span>{{mes.describe}}</p>
+                        <p><span>客服电话：</span>{{mes.link}}</p>
                     </div>
                 </div>
             </div>
         </div>
+        <Bside></Bside>
     </div>
 </template>
 
 <script>
   import Nav from './Nav'
+  import Bside from './Bside'
 
   export default {
     name: 'Contact',
     components: {
-      Nav
+      Nav,
+      Bside
     },
     data: function () {
       return {
@@ -49,7 +54,11 @@
         content:'',
         level:'',
         suggest:'',
-        mes:''
+        mes:'',
+        CityInfo: {
+          longitude: 120.1241,
+          latitude: 30.3033
+        },
       }
     },
     mounted () {
@@ -60,11 +69,43 @@
           that.mes = res.data.data.contact[0]
         }
       })
+
+      this.initBaiduMap()
     },
     methods: {
       back(){
         this.$router.go(-1)
-      }
+      },
+      initBaiduMap() {
+        let that = this
+        let script = document.createElement("script")
+        script.src = "http://api.map.baidu.com/api?v=2.0&ak=kqqFs4t7NNk639q5Iv0WSyQK9Upa1QmM&callback=createMap"
+        document.head.appendChild(script)
+        window.createMap = () => {
+          //创建Map实例
+          var map = new BMap.Map("baiduMap"); // 创建Map实例
+          map.centerAndZoom(new BMap.Point(this.CityInfo.longitude, this.CityInfo.latitude), 11); // 创建点坐标,初始化地图,设置中心点坐标和地图级别
+          map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+          map.addControl(new BMap.ScaleControl({
+            anchor: BMAP_ANCHOR_BOTTOM_LEFT
+          }));
+          map.addControl(new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+          }));
+          map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+          map.enableInertialDragging(); //两秒后开启惯性拖拽
+
+          var point = new BMap.Point(this.CityInfo.longitude, this.CityInfo.latitude);
+          var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25));
+          var marker2 = new BMap.Marker(point, {icon: myIcon});
+          map.addOverlay(marker2);
+          var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>浙江省杭州市拱墅区登云路518号3号楼12楼</p>");  //弹出窗口
+          marker2.addEventListener("click", function(){
+            this.openInfoWindow(infoWindow);
+          });
+        }
+      },
+
     }
   }
 </script>
@@ -158,22 +199,30 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 0;
     }
 
     .partner_right_main {
         width: 78.7%;
     }
     .name{
-        font-size: 25px;
+        font-size: 23px;
         color: #1d1d1d;
         margin: 65px 0 50px;
     }
     .partner_right_main p{
-        font-size: 20px;
+        font-size: 16px;
         color: #383838;
         margin-top: 30px;
     }
-
+    .partner_right_main p span{
+        /*font-weight: bold;*/
+        font-family: pfb;
+    }
+    .footer{
+        position: absolute;
+        top: 100%;
+    }
     @media screen and (max-width: 1300px) {
         .partner_main {
             width: 95%;

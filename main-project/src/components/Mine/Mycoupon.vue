@@ -151,13 +151,17 @@
     .c-top{
         display: flex;
         align-items: center;
+        padding: 0 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
     .c-top>p{
         font-size: 26px;
         margin-right: 20px;
     }
     .c-top>p span{
-        font-size: 74px;
+        font-size: 60px;
     }
     .c-top>div p:first-child{
         color: #3c3c3c;
