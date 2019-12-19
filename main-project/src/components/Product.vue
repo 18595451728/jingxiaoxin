@@ -9,18 +9,24 @@
         </div>
         <div class="product" v-else>
             <div class="pro" v-for="item,index in products">
-                <div class="pro_left">
+                <div class="pro_right">
                     <div class="pro_name">{{item.goods_name}}</div>
                     <div class="pro_name">{{item.goods_code}}</div>
+                    <img src="/static/images/products.png" alt="">
+                    <p @click="goDetail(item.id)">查看详情</p>
+                </div>
+                <div class="pro_left">
+                    <div class="g_price"><span>￥</span>{{item.cost_price}}</div>
                     <p v-for="items in item.goods_param">
                         <span>{{items.key}}：</span>
                         <span>{{items.value}}</span>
                     </p>
+                    <div class="fnc">
+                        <div @click="tryUse(item.id)" class="try">申请试用</div>
+                        <div @click="toBuy(item.id)" class="buyNow">立即购买</div>
+                    </div>
                 </div>
-                <div class="pro_right">
-                    <img :src="item.goods_logo" alt="">
-                    <p @click="goDetail(item.id)">查看详情</p>
-                </div>
+
             </div>
         </div>
     </div>
@@ -66,6 +72,22 @@
 
     },
     methods: {
+      tryUse(e){
+        this.$router.push({
+          path: '/Probation',
+          query: {
+            id: e
+          }
+        })
+      },
+      toBuy(e){
+        this.$router.push({
+          path: '/ProductDetail',
+          query: {
+            id: e
+          }
+        })
+      },
       toshow (e) {
         this.$router.push({
           path: '/ProductShow',
@@ -124,22 +146,42 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        min-height: 460px;
+        min-height: 530px;
         margin-bottom: 36px;
     }
     .pro_left{
-        width: 295px;
+        width: 330px;
         padding: 25px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         background: #f8f8f8;
+        position: relative;
+    }
+    .g_price{
+        font-size: 40px;
+        color: #191919;
+        font-family: noodle;
+        margin-bottom: 10px;
+        padding-left: 25px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+
+    }
+    .g_price span{
+        font-size: 22px;
     }
     .pro_left p{
-        line-height: 30px;
+        line-height: 32px;
         display: flex;
-        font-size: 15px;
+        font-size: 16px;
         color: #a9a9a9;
+        font-family: pfb;
+        padding-left: 25px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
     .pro_left p span:first-child{
         width: 100px;
@@ -149,20 +191,24 @@
     }
     .pro_name{
         color: #0099cc;
-        font-size: 18px;
-        margin-bottom: 15px;
-        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 25px;
+       font-family: pfb;
     }
     .pro_name:first-child{
         margin-bottom: 0;
     }
     .pro_right {
-        width: 330px;
+        width: 295px;
         text-align: center;
+        padding-top: 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
 
     .pro_right img {
-        margin-bottom: -20px;
+        margin-bottom: 35px;
     }
 
     .pro_right p{
@@ -172,20 +218,42 @@
         text-align: center;
         line-height: 39px;
         font-size: 16px;
-        color: #333333;
-        border: 3px solid #8d8d8d;
+        color: #0095c6;
+        border: 2px solid #0095c6;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         cursor: pointer;
         font-family: pfb;
     }
-    .pro_right p:hover{
+    .fnc div:hover{
         color: #0095c6;
-        border: 3px solid #0095c6;
+        border: 2px solid #0095c6;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+    }
+    .fnc{
+        position: absolute;
+        bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 280px;
+        margin-top: 25px;
+        font-family: pfb;
+    }
+    .fnc>div{
+        cursor: pointer;
+        width: 130px;
+        line-height: 41px;
+        text-align: center;
+        border: 2px solid #333333;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #333333;
     }
     @media screen and (max-width: 1200px) {
 

@@ -18,15 +18,21 @@ export default {
     background: none;
     outline: none;
   }
-  /*@font-face {*/
-    /*font-family: 'pfr';*/
-    /*src: url("/static/Fonts/PingFang.ttc");*/
-    /*font-weight: bold;*/
-    /*font-style: normal;*/
-  /*}*/
+  @font-face {
+    font-family: 'pfr';
+    src: url("/static/Fonts/PingFang Regular.otf");
+    font-weight: bold;
+    font-style: normal;
+  }
   @font-face {
     font-family: 'pfb';
     src: url("/static/Fonts/PingFang Bold.ttf");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'noodle';
+    src: url("/static/Fonts/noodle.ttf");
     font-weight: normal;
     font-style: normal;
   }

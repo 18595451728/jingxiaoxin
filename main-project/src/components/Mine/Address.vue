@@ -37,13 +37,13 @@
                     <div class="name">
                         <p><span>*</span>收货人</p>
                         <div class="contain">
-                            <input type="text" v-model="username">
+                            <input type="text" v-model="username" placeholder="请输入收货人姓名">
                         </div>
                     </div>
                     <div class="name">
                         <p><span>*</span>收货地址</p>
                         <div class="contain" @click="getProvince(0)">
-                            <input type="text" v-model="content" readonly style="cursor: pointer;">
+                            <input type="text" v-model="content" readonly style="cursor: pointer;" placeholder="请输入收货地址">
                             <img src="/static/images/arrow-bottom.png" alt="">
                             <div class="addresslist" v-if="showaddress">
                                 <p v-for="item in provinceList" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
@@ -53,13 +53,13 @@
                     <div class="name">
                         <p><span>*</span>详细地址</p>
                         <div class="contain">
-                            <input type="text" v-model="details">
+                            <input type="text" v-model="details" placeholder="请输入详细地址">
                         </div>
                     </div>
                     <div class="name">
                         <p><span>*</span>手机号码</p>
                         <div class="contain">
-                            <input type="text" v-model="telephone">
+                            <input type="text" v-model="telephone" placeholder="请输入手机号">
                         </div>
                     </div>
                     <div class="sure" @click="sure">确定</div>

@@ -15,6 +15,7 @@
                         <img src="/static/images/logo_black.png" alt="">
                         <div class="name">{{mes.title}}</div>
                         <p><span>公司地址：</span>{{mes.sub_title}}</p>
+                        <p><span>生产基地地址：</span>浙江省慈溪市周巷镇</p>
                         <p><span>公司座机：</span>{{mes.describe}}</p>
                         <p><span>客服电话：</span>{{mes.link}}</p>
                     </div>

@@ -3,14 +3,14 @@
         <Nav @goscroll="Navhash"></Nav>
         <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con" id="about1">
-            <img :src="about[0].pic" alt="">
+            <img :src="pic1" alt="">
             <div class="a-art">
                 <img src="/static/images/a-intro.png" style="margin-bottom: 35px" alt="">
                 <div class="a-title">杭州再想科技有限公司</div>
-                <p>{{about[0].describe}}</p>
+                <p>{{desc1}}</p>
             </div>
         </div>
-        <div class="main-con" style="margin-top: 30px" id="about2">
+        <div class="main-con" style="margin-top: 220px" id="about2">
             <div class="a-art b-art">
                 <img src="/static/images/b-intro.png" style="margin-bottom: 44px" alt="">
                 <div class="a-title">净小新.愿景：</div>
@@ -22,7 +22,25 @@
                 <div class="a-title">净小新.社会责任：</div>
                 <p>做有口碑的好产品</p>
             </div>
-            <img :src="about[1].pic" style="margin-left: 82px" alt="" >
+            <img :src="pic2" style="position: absolute;right: 0;top: -220px;" alt="" >
+            <img :src="pic2" style="margin-left: 82px;opacity: 0;" alt="" >
+            <img src="/static/images/b-bg.png" class="b_bg" alt="">
+        </div>
+        <div class="jd" id="about5">
+            <div class="l-title" ><img src="/static/images/jd.png" alt=""></div>
+            <p>{{product.describe}}</p>
+            <div class="jd_container swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="item in product.multiple_pic">
+                        <img :src="item.pic" alt="">
+                    </div>
+                </div>
+                <div class="jd_btn">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+                <img src="/static/images/jd_bg.png" class="jd_bg" alt="">
+            </div>
         </div>
         <div class="licheng" id="about3">
             <div class="l-title" ><img src="/static/images/develop.png" alt=""></div>
@@ -72,7 +90,11 @@
       return {
         about:'',
         development:'',
-        qualification:''
+        qualification:'',
+        pic1:'',
+        pic2:'',
+        desc1:'',
+        product:''
       }
     },
     mounted(){
@@ -84,14 +106,25 @@
         console.log(res)
         if(res.data.status==1){
           that.about = res.data.data.about
+          that.pic1 = res.data.data.about[0].pic
+          that.pic2 = res.data.data.about[1].pic
+          that.desc1 = res.data.data.about[0].describe
           that.development = res.data.data.development
           that.qualification = res.data.data.qualification
+          that.product = res.data.data.product[0]
 
 
           this.$nextTick(function () {
             var ns = new Swiper('.lis', {
               loop: true,
               slidesPerView: 3,
+              spaceBetween: 40,
+              prevButton: '.swiper-button-prev',
+              nextButton: '.swiper-button-next',
+            })
+            var ss = new Swiper('.jd_container', {
+              loop: true,
+              slidesPerView: 3.5,
               spaceBetween: 40,
               prevButton: '.swiper-button-prev',
               nextButton: '.swiper-button-next',
@@ -104,6 +137,7 @@
     },
     methods:{
       Navhash(e){
+        console.log(e)
         switch (e) {
           case 0:
             var anchorEle = document.querySelector("#about1");
@@ -119,6 +153,20 @@
             break;
           case 2:
             var anchorEle = document.querySelector("#about3");
+            if (!!anchorEle) {
+              anchorEle.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            }
+            break;
+          case 3:
+            var anchorEle = document.querySelector("#about4");
+            if (!!anchorEle) {
+              anchorEle.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            }
+            break;
+          case 4:
+
+            var anchorEle = document.querySelector("#about5");
+            console.log(anchorEle)
             if (!!anchorEle) {
               anchorEle.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             }
@@ -257,12 +305,10 @@
         width: 1200px;
         margin: 30px auto 0;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        box-shadow: 10px 10px 10px -4px rgba(130, 130, 130, .1);
+        /*box-shadow: 10px 10px 10px -4px rgba(130, 130, 130, .1);*/
 
-    }
-    .main-con>img{
-        width: 50%;
     }
     .a-title {
         margin-bottom: 20px;
@@ -273,7 +319,7 @@
 
     .a-art {
         width: 440px;
-        margin-left: 75px;
+        margin-left: 145px;
     }
 
     .a-art p {
@@ -286,6 +332,79 @@
     }
     .a-art.b-art p{
         margin-bottom: 20px;
+    }
+
+    #about2{
+        position: relative;
+        margin-bottom: 70px;
+    }
+    .main-con>img.b_bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+    }
+
+
+    .jd>p{
+        width: 780px;
+        margin: 0 auto;
+        line-height: 44px;
+        font-size: 14px;
+        color: #000;
+        /*font-family: pfb;*/
+        text-align: center;
+    }
+    .jd .l-title{
+        margin-bottom: 55px;
+    }
+
+    .jd_container{
+        width: 100%;
+        margin-right: 0;
+        padding-bottom: 115px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-top: 70px;
+    }
+    .jd_container .swiper-slide img{
+        width: 100%;
+    }
+    .jd_bg{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 73%;
+    }
+    .jd_btn{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 27%;
+        height: 115px;
+    }
+    .jd_container .swiper-button-prev{
+        left: 50px;
+    }
+    .jd_container .swiper-button-next{
+        right: 50px;
+    }
+    .jd_container .swiper-button-prev, .swiper-container-rtl .swiper-button-next{
+        background-image:url("/static/images/zuo1.png");
+        background-size: 100%;
+        width: 20px;
+        height: 30px;
+        margin-top: -15px;
+    }
+    .jd_container .swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+        background-image:url("/static/images/you1.png");
+        background-size: 100%;
+        width: 20px;
+        height: 30px;
+        margin-top: -15px;
     }
     @media screen and (max-width: 1300px){
         .main-con{

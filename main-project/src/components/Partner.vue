@@ -19,7 +19,7 @@
                                         src="/static/images/sure.png" v-if="confirmName" alt=""></div>
                             </div>
                             <div class="each_mes">
-                                <p>邮箱</p>
+                                <p>邮箱*</p>
                                 <div :class="{active:focus=='email'}"><input type="text" @focus="changeFocus('email')"
                                                                              @blur="emailBlur()" v-model="email"><img
                                         src="/static/images/sure.png" v-if="confirmEmail" alt=""></div>
@@ -96,6 +96,10 @@
         level:'',
         suggest:''
       }
+    },
+    created(){
+      let toIndex = this.$storage.session.get('toIndex')
+      toIndex?this.$router.push('/'):''
     },
     mounted () {
     },

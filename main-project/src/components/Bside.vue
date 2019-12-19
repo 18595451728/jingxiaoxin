@@ -17,7 +17,7 @@
                 <div class="ca">
                     <img src="/static/images/online.png" alt=""><span>全国服务热线：</span><p>400-080-5680</p>
                 </div>
-                <div class="copyright">ICP备案号： 湘ICP备05004535号-16</div>
+                <div class="copyright">@Copyright 2019 杭州再想科技有限公司 ICP备案编号: <a href="http://www.beian.miit.gov.cn" target="_blank">浙ICP备13022929号-2</a>  技术支持:<a href="http://123bingo.cn/" target="_blank"> 缤构网络</a></div>
             </div>
             <img src="/static/images/code.png" width="165" alt="">
         </div>
@@ -104,6 +104,10 @@
         font-size: 12px;
         margin-top: 30px;
         margin-bottom: 20px;
+    }
+    .copyright a{
+        color: #666;
+        font-weight: bold;
     }
     @media screen and (max-width: 1600px){
     }

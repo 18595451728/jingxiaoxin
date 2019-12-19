@@ -18,7 +18,9 @@
                             <!--<div @click="navhash(0)">关于我们</div>-->
                             <div @click="navhash(0)">品牌介绍</div>
                             <div @click="navhash(1)">品牌文化</div>
-                            <div @click="navhash(2)">公司发展历程</div>
+                            <div @click="navhash(4)">生产基地</div>
+                            <div @click="navhash(2)">发展历程</div>
+                            <div @click="navhash(3)">资质认证</div>
                         </div>
                     </div>
                 </router-link>

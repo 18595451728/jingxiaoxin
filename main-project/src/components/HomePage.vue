@@ -215,6 +215,7 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
         margin: 22px auto 30px;
     }
     .home-con img:first-child{

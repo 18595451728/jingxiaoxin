@@ -1,27 +1,95 @@
 <template>
-    <div>
+    <div class="payment">
         <Nav></Nav>
         <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
-        <div class="main-con">
-            <div class="address">
-                <div class="a-title">地址</div>
-                <div class="lineOne">
-                    <div><input type="text" v-model="name" placeholder="姓名"></div>
-                    <div style="position: relative" @click="getprovince(0)">
-                        <input type="text" readonly placeholder="浙江省杭州市" v-model="area" style="cursor: pointer;">
-                        <img src="/static/images/arrow-bottom.png" style="cursor: pointer;" alt="">
-                        <transition name="fade">
-                            <div class="addcontainer" v-if="showaddress">
-                                <p v-for="item in provinces" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
-                            </div>
-                        </transition>
+        <div class="changeAddress" v-show="exchangeAddress">
+            <div class="main">
+                <div class="c-title">
+                    <p>更换收货地址</p>
+                    <img src="/static/images/close.png" @click="exchange" alt="">
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>收货人</td>
+                        <td class="address">收货地址</td>
+                        <td class="tel">联系电话</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in alist">
+                        <td>{{item.consignee}}</td>
+                        <td class="address">{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
+                        <td class="tel">{{item.telephone}}</td>
+                        <td class="moren"><span @click="chooseMoren(index,1)">更换</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="changeAddress" v-show="editAddress">
+            <div class="main">
+                <div class="c-title">
+                    <p>添加收货地址</p>
+                    <img src="/static/images/close.png" @click="exit" alt="">
+                </div>
+                <div class="c-con">
+                    <div class="name">
+                        <p><span>*</span>收货人</p>
+                        <div class="contain">
+                            <input type="text" v-model="username" placeholder="请输入收货人姓名">
+                        </div>
                     </div>
+                    <div class="name">
+                        <p><span>*</span>收货地址</p>
+                        <div class="contain" @click="getProvince(0)">
+                            <input type="text" v-model="content" readonly style="cursor: pointer;" placeholder="请选择收货地址">
+                            <img src="/static/images/arrow-bottom.png" alt="">
+                            <div class="addresslist" v-if="showaddress">
+                                <p v-for="item in provinceList" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name">
+                        <p><span>*</span>详细地址</p>
+                        <div class="contain">
+                            <input type="text" v-model="details" placeholder="请输入详细地址">
+                        </div>
+                    </div>
+                    <div class="name">
+                        <p><span>*</span>手机号码</p>
+                        <div class="contain">
+                            <input type="number" v-model="telephone" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="sure" @click="sure">确定</div>
                 </div>
-                <div class="lineOne lineTwo">
-                    <div><input type="text" v-model="details" placeholder="详细地址"></div>
-                    <div><input type="text" v-model="phone" placeholder="电话号"></div>
-                </div>
-                <div class="save" @click="addAddress()">保存</div>
+            </div>
+        </div>
+        <div class="main-con">
+            <div class="a-right">
+                <table>
+                    <thead>
+                    <tr>
+                        <td>收货人</td>
+                        <td class="address">收货地址</td>
+                        <td class="tel">联系电话</td>
+                        <td class="fnc">操作</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in morenaddress">
+                        <td>{{item.consignee}}</td>
+                        <td class="address">{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
+                        <td class="tel">{{item.telephone}}</td>
+                        <td class="fnc"><span @click="edit(item)">修改</span>|<span @click="chooseAddress(index)">选择地址</span></td>
+                        <td class="moren"><span @click="chooseMoren(index)" :class="{grey:item.is_default==0}">默认地址</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="addAddress" @click="add">+新增收货地址</div>
             </div>
             <div class="cart">
                 <div class="cart-title">
@@ -115,10 +183,19 @@
         money:'',
         wxpay:'',
         showwx:!1,
-        tt:''
+        tt:'',
+        alist:'',
+        editAddress:!1,
+        exchangeAddress:!1,
+        username:'',
+        content:'',
+        telephone:'',
+        provinceList:'',
+        morenaddress:[]
       }
     },
     mounted () {
+      this.initAddress()
       this.cart_type = this.$route.query.type
       console.log(this.cart_type)
       var that = this
@@ -130,6 +207,13 @@
         console.log(res)
         if (res.data.status == 1) {
           that.list = res.data.data.cartList
+
+          if(that.list.length==0){
+            that.$layer.msg('订单已生成，再看看其他的吧')
+            setTimeout(()=>{
+              that.$router.push('/Product')
+            },1500)
+          }
           if(res.data.data.address){
             that.address = res.data.data.address
             that.name = res.data.data.address.consignee
@@ -154,48 +238,41 @@
       })
     },
     methods: {
-      changeStyle(e){
-        this.payStyle = e
-      },
-      getprovince (e) {
-        console.log(11,this.showaddress)
-        var that=this
+      getProvince(e){
         this.showaddress = !this.showaddress
-        console.log(11,this.showaddress)
         if(this.showaddress){
-          console.log(222)
-            that.getMessage(e)
+          this.getMessage(e)
         }else{
-          this.pp = ''
-          this.cc=''
-          this.xx = ''
-          this.ppp = ''
-          this.ccc=''
-          this.xxx = ''
+          this.provinceId = ''
+          this.province = ''
+          this.cityId=''
+          this.city=''
+          this.areaId = ''
+          this.area = ''
           this.level = 0
         }
       },
       getMessage(e,name){
-        console.log(name)
+        console.log(name,this.level)
         this.level++;
         switch (this.level) {
           case 2 :
-            this.pp = e
-            this.ppp = name
+            this.provinceId = e
+            this.province = name
             break;
           case 3 :
-            this.cc=e
-            this.ccc=name
+            this.cityId=e
+            this.city=name
             break;
           case 4 :
-            this.xx = e
-            this.xxx = name
+            this.areaId = e
+            this.area = name
             break;
         }
         if(this.level >= 4){
           this.showaddress = !1
           this.level = 0
-          this.area = this.ppp+' '+this.ccc+' '+this.xxx
+          this.content = this.province+' '+this.city+' '+this.area
           return false;
         }
         var that =this
@@ -204,48 +281,126 @@
         }).then(res => {
           console.log(res)
           if(res.data.status==1){
-            that.provinces = res.data.data
+            that.provinceList = res.data.data
           }
         })
       },
-      addAddress(){
-        var name = this.name,details = this.details,phone = this.phone,area =this.area,reg = /^1[3456789]\d{9}$/
-        if(!name){
+      add(){
+        this.editAddress = !0
+        this.isEdit = !1
+        this.chooseId = ''
+        this.choosedAdress = ''
+        this.username = ''
+        this.details = ''
+        this.telephone = ''
+        this.provinceId = ''
+        this.cityId = ''
+        this.areaId = ''
+        this.content = ''
+      },
+      chooseMoren(i,m){
+        var that=this
+        this.$axios.post('/User/defaultAddress',{
+          token:this.$storage.session.get('token'),
+          address_id: m ? this.alist[i].id : i || i == 0 ? this.morenaddress[i].id : this.chooseId
+        }).then(res=>{
+          console.log(res)
+          this.exchangeAddress = !1
+          that.$layer.msg(res.data.msg)
+          if(res.data.status==1){
+            that.initAddress()
+          }
+        })
+      },
+      edit(e){
+        console.log(e)
+        this.editAddress = !0
+        this.isEdit = !0
+        this.chooseId = e.id
+        this.choosedAdress = e
+        this.username = e.consignee
+        this.details = e.address
+        this.telephone = e.telephone
+        this.provinceId = e.province_id
+        this.cityId = e.city_id
+        this.areaId = e.district_id
+        this.content = e.province+e.city+e.district
+      },
+      exit(){
+        this.editAddress = !1
+      },
+      exchange(){
+        this.exchangeAddress = !1
+      },
+      sure(){
+        var username =this.username,content=this.content,details=this.details,telephone=this.telephone,reg = /^1[3456789]\d{9}$/
+        if(!username){
           this.$layer.msg('姓名不能为空')
+          return false;
+        }
+        if(!content){
+          this.$layer.msg('地址不能为空')
           return false;
         }
         if(!details){
           this.$layer.msg('详细地址不能为空')
           return false;
         }
-        if(!area){
-          this.$layer.msg('地址不能为空')
-          return false;
-        }
-        if(!phone){
+
+        if(!telephone){
           this.$layer.msg('手机号不能为空')
           return false;
         }
-        if(!reg.test(phone)){
+        if(!reg.test(telephone)){
           this.$layer.msg('手机号格式错误')
           return false;
         }
         var that =this
-        this.$axios.post('/User/addAddress',{
+        var data ={
           token:this.$storage.session.get('token'),
-          consignee:name,
-          telephone:phone,
+          consignee:username,
+          telephone:telephone,
           address:details,
           is_default:0,
-          province_id:this.pp,
-          city_id:this.cc,
-          district_id:this.xx
-        }).then(res=>{
-            console.log(res)
-          that.$layer.msg(res.data.msg)
-          location.reload(true)
+          province_id:this.provinceId,
+          city_id:this.cityId,
+          district_id:this.areaId
+        }
+        if(this.isEdit){
+          data.address_id = this.chooseId
+        }
+        this.$axios.post('/User/addAddress',data).then(res=>{
+          console.log(res)
+          // that.$layer.msg(res.data.msg)
+          that.editAddress = !1
+          that.chooseMoren()
         })
       },
+      chooseAddress(e){
+        this.exchangeAddress = !0
+      },
+      initAddress(){
+        var that =this
+        this.$axios.post('/User/addressList',{
+          token:this.$storage.session.get('token')
+        }).then(res=>{
+          console.log(res)
+          if(res.data.status==1){
+            that.alist = res.data.data.list
+            var morenaddress = []
+            for(var i in that.alist){
+              morenaddress[0] = that.alist[i].is_default ? that.alist[i] : that.alist[0]
+            }
+            that.morenaddress = morenaddress
+            console.log(that.morenaddress)
+          }
+        })
+      },
+
+      changeStyle(e){
+        this.payStyle = e
+      },
+
       jiesuan(){
         var that=this
         if(!this.address.id){
@@ -342,6 +497,10 @@
 </script>
 
 <style scoped>
+
+    .payment{
+        /*font-family: pfb;*/
+    }
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
@@ -404,61 +563,82 @@
         visibility: hidden;
         clear: both;
     }
-
-    .a-title {
-        width: 45%;
-        line-height: 55px;
-        border-bottom: 1px solid #cfcfcf;
-        margin-bottom: 20px;
+    .a-right{
+        width: 100%;
+        margin-bottom: 50px;
+    }
+    table{
+        width: 100%;
         font-size: 16px;
-        color: #000;
+        color: #000000;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
     }
-
-    .lineOne {
-        display: flex;
-        align-items: center;
+    .changeAddress table{
+        width: 90%;
+        margin: 30px auto;
     }
-
-    .lineOne > div {
-        width: 45%;
-        border: 1px solid #cfcfcf;
+    table tr{
+        line-height: 50px;
+        border-bottom: 1px solid #cccccc;
+    }
+    table tbody{
+        font-size: 16px;
+    }
+    table tbody tr td{
+        padding: 15px 0;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        padding: 0 22px;
-        color: #999999;
-        font-size: 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
-
-    .lineOne input {
-        width: 80%;
-        line-height: 53px;
-    }
-
-    .lineOne > div:first-child {
-        margin-right: 10%;
-    }
-
-    .lineTwo {
-        margin-top: 25px;
-    }
-
-    .save {
-        width: 170px;
-        height: 55px;
-        border: 1px solid #cfcfcf;
+    table tr td:first-child{
+        padding-left: 20px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        line-height: 53px;
+    }
+    .tel,.fnc,.moren{
         text-align: center;
-        font-size: 14px;
-        color: #000;
+    }
+
+    table tbody .fnc{
+        color: #bbbbbb;
+    }
+    .fnc span{
+        margin: 0 5px;
+        vertical-align: middle;
         cursor: pointer;
-        margin: 45px 0 60px;
+    }
+
+    .moren span{
+        display: block;
+        padding: 7.5px 15px;
+        border: 1px solid #0099cc;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        line-height: 25px;
+        color: #0099cc;
+        width: 70%;
+        margin: 0 auto;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .moren span.grey{
+        color: #bbb;
+        border-color: #bbb;
+    }
+    .address{
+        width: 23.5%;
+        line-height: 30px;
+    }
+    .addAddress{
+        margin-top: 33px;
+        text-align: right;
+        margin-right: 10px;
+        font-size: 16px;
+        color: #0099cc;
+        cursor: pointer;
     }
 
     .cart {
@@ -673,6 +853,112 @@
     }
     .wxpay img{
         width: 250px;
+    }
+
+
+    .changeAddress{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.21);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+    .main{
+        width: 810px;
+        height: 710px;
+        background: #fff;
+    }
+    .c-title{
+        line-height: 70px;
+        padding: 0 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #f2f2f2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 18px;
+        color: #221815;
+    }
+    .c-title img{
+        width: 20px;
+        cursor: pointer;
+    }
+    .c-con{
+        padding: 15px 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .c-con>div{
+        margin-top: 30px;
+        font-size: 16px;
+        color: #9fa0a0;
+    }
+    .c-con>div.sure{
+        width: 215px;
+        line-height: 50px;
+        text-align: center;
+        background: #0099cc;
+        color: white;
+        font-size: 16px;
+        margin: 30px auto 0;
+        cursor: pointer;
+    }
+    .c-con>div>p span{
+        color: #e60012;
+        font-size: 18px;
+    }
+    .contain{
+        margin-top: 20px;
+        height: 50px;
+        border: 1px solid #dddddd;
+        padding: 0 20px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+    }
+    .contain input{
+        line-height: 48px;
+        width: 100%;
+        padding-right: 50px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .addresslist{
+        position: absolute;
+        width: 100%;
+        height: 390px;
+        overflow-y: scroll;
+        -ms-overflow-style:none;
+        overflow:-moz-scrollbars-none;
+        left: -1px;
+        top: 100%;
+        background: white;
+        border: 1px solid #cfcfcf;
+        z-index: 9;
+    }
+    .addresslist::-webkit-scrollbar{width:0px}
+    .addresslist p{
+        line-height: 55px;
+        border-bottom: 1px solid #cfcfcf;
+        padding: 0 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        cursor: pointer;
     }
     @media screen and (max-width: 1200px) {
         .main-con {

@@ -1,11 +1,13 @@
 <template>
     <div class="contain">
-        <div class="title">提交成功</div>
-        <div class="wrp_code">
-            <img src="/static/images/qrcode.jpg" width="280" alt="">
-        </div>
-        <div class="js">
-            <p>{{wenan}}</p>
+        <div>
+            <div class="title">{{title}}</div>
+            <div class="wrp_code">
+                <img src="/static/images/qrcode.jpg" width="280" alt="">
+            </div>
+            <div class="js">
+                <p>{{wenan}}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -15,12 +17,13 @@
     name: 'Code',
     data(){
       return {
-        wenan:''
+        wenan:'',
+        title:''
       }
     },
     mounted () {
       let status = this.$route.query.status
-      status==0?this.wenan='扫码进入小程序查看试用审核结果':this.wenan='扫码进入净小新商城查看详情'
+      status==0?(this.wenan='扫码进入小程序查看试用审核结果',this.title='试用申请已提交'):(this.wenan='提交成功，净小新工作人员会在24小时内联系您，请耐心等待',this.title='合伙人申请已提交')
     }
   }
 </script>
@@ -34,6 +37,15 @@
         left: 0;
         top: 0;
         padding: 50px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .contain>div{
+        margin-top: -100px;
     }
     .title{
         text-align: center;

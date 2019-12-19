@@ -268,6 +268,8 @@ const router = new Router({
 })
 router.beforeEach((to,from,next)=>{
 
+  console.log(from.fullPath.indexOf('?'))
+  from.fullPath.indexOf('?') && from.fullPath.split('?')[0] == '/Code'?storage.session.set('toIndex',!0):storage.session.set('toIndex',!1)
   if (to.meta.title) {
     document.title = to.meta.title
   }
@@ -275,11 +277,9 @@ router.beforeEach((to,from,next)=>{
   var needLogin = to.meta.needLogin
   if(needLogin){
     var token = storage.session.get('token')
-    console.log(token)
     if(token){
       next();
     }else{
-      console.log(to.fullPath,Login.data.prototype)
       storage.session.set('paths',to.fullPath)
       next({
         path:'/Mine/Login'

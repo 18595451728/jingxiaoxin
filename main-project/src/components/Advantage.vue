@@ -8,13 +8,19 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <img :src="introPic" class="show" alt="">
-                    <div class="upDown" @click="nextSlide">
+                    <div class="upDown" @click="nextSlide(1)">
                         <img src="/static/images/upDown.png" alt="">
                     </div>
                 </div>
                 <!--<div class="swiper-slide" v-for="(item,index) in advantage" :style="{background:'url('+item.param_pic+') center center no-repeat'}">-->
                 <div class="swiper-slide" v-for="(item,index) in advantage">
                     <div class="advantage" v-if="index%2==1">
+                        <div class="upDown downUp" @click="prevSlide(index)">
+                            <img src="/static/images/upDown.png" alt="">
+                        </div>
+                        <div class="upDown" @click="nextSlide(index+2)">
+                            <img src="/static/images/upDown.png" alt="">
+                        </div>
                         <div class="a-con">
                             <img src="" width="49%" alt="">
                             <div class="a-right" :class="{'animated':idx==index,'bounceInRight':idx==index}">
@@ -26,11 +32,20 @@
                                     </div>
                                 </div>
                                 <div class="t-intro" v-html="item.param_content"></div>
-                                <div class="t-buy" @click="tobuy">点击购买</div>
+                                <div style="margin-top: 25px;display: flex;align-items: center">
+                                    <div class="t-buy" @click="tobuy">点击购买</div>
+                                    <div class="t-buy" @click="tryUse">申请试用</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="advantage advantage-odd" v-else>
+                        <div class="upDown downUp" @click="prevSlide(index)">
+                            <img src="/static/images/upDown.png" alt="">
+                        </div>
+                        <div class="upDown" @click="nextSlide(index+2)">
+                            <img src="/static/images/upDown.png" alt="">
+                        </div>
                         <div class="a-con">
                             <div class="a-right" :class="{'animated':idx==index,'bounceInLeft':idx==index}">
                                 <div class="tt">
@@ -41,7 +56,10 @@
                                     </div>
                                 </div>
                                 <div class="t-intro" v-html="item.param_content"></div>
-                                <div class="t-buy" @click="tobuy">点击购买</div>
+                                <div style="margin-top: 25px;display: flex;align-items: center">
+                                    <div class="t-buy" @click="tobuy">点击购买</div>
+                                    <div class="t-buy" @click="tryUse">申请试用</div>
+                                </div>
                             </div>
                             <img src="" width="49%"  alt="">
                         </div>
@@ -49,6 +67,12 @@
                     <div style="position:absolute;width:100%;height: 100%;display: flex;align-items: center;justify-content: center; left: 0;top: 0;z-index: -1"><video :src="item.param_pic" autoplay muted loop width="100%"></video></div>
                 </div>
                 <div class="swiper-slide">
+                    <div class="upDown downUp" @click="prevSlide(7)">
+                        <img src="/static/images/upDown.png" alt="">
+                    </div>
+                    <div class="upDown" @click="back">
+                        <img src="/static/images/lastBack.png" width="35" alt="">
+                    </div>
                     <img src="/static/images/last.png" class="last" alt="">
                     <div class="lxfs">
                         <p>净小新的服务</p>
@@ -101,6 +125,14 @@
       })
     },
     methods:{
+      tryUse(){
+        this.$router.push({
+          path:'/Probation',
+          query:{
+            id:this.goods_id
+          }
+        })
+      },
       tobuy(){
         this.$router.push({
           path:'/ProductDetail',
@@ -109,8 +141,12 @@
           }
         })
       },
-      nextSlide(){
-        this.ns.slideTo(1)
+      nextSlide(e){
+        console.log(e)
+        this.ns.slideTo(e)
+      },
+      prevSlide(e){
+        this.ns.slideTo(e)
       },
       initData(){
         var that = this
@@ -127,6 +163,9 @@
           }
 
         })
+      },
+      back(){
+        this.$router.go(-1)
       }
     }
   }
@@ -144,13 +183,14 @@
         justify-content: center;
         padding: 30px 0;
     }
+
     .product{
         position: absolute;
         left: 0;
         top: 70px;
         width: 100%;
         height: calc(100% - 70px);
-        z-index: 999;
+        z-index: 6;
         display: flex;
         align-items: center;
     }
@@ -200,7 +240,7 @@
         font-family: pfb;
     }
     .t-buy{
-        width: 286px;
+        width: 170px;
         line-height: 55px;
         text-align: center;
         background: #333;
@@ -208,6 +248,7 @@
         font-size: 16px;
         margin-top: 25px;
         cursor: pointer;
+        margin-right: 20px;
     }
 .show{
     width: 1000px;
@@ -218,6 +259,7 @@
 .upDown{
     position: absolute;
     bottom: 30px;
+    left: calc(50% - 50px);
     animation: myani 1s infinite;
     -webkit-transition: all 1s ease-in;
     -moz-transition: all 1s ease-in;
@@ -228,6 +270,21 @@
     width: 100px;
     text-align: center;
 }
+    .upDown.downUp{
+        bottom: auto;
+        top: 30px;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        animation: myanis 1s infinite;
+        -webkit-transition: all 1s ease-in;
+        -moz-transition: all 1s ease-in;
+        -ms-transition: all 1s ease-in;
+        -o-transition: all 1s ease-in;
+        transition: all 1s ease-in;
+    }
 @keyframes myani {
     0%{
         bottom: 30px;
@@ -239,6 +296,17 @@
         bottom: 30px;
     }
 }
+    @keyframes myanis {
+        0%{
+            top: 30px;
+        }
+        50%{
+            top: 35px;
+        }
+        100%{
+            top: 30px;
+        }
+    }
 .lxfs{
     position: absolute;
     left: 30%;

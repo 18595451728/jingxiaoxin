@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="buy-btn">
-                        <div @click="gotry">申请试用</div>
+                        <!--<div @click="gotry">申请试用</div>-->
                         <div @click="addcart">加入购物车</div>
                         <div @click="buynow()">立即购买</div>
                     </div>
@@ -153,6 +153,7 @@
         this.spec[idx].choosemode = item.item
         this.spec[idx].sku_id = item.item_id
         this.spec[idx].tochoose = !this.spec[idx].tochoose
+        this.spec[idx].haschoose = !0
         console.log(this.spec)
         this.getSkuid()
       },
@@ -195,6 +196,13 @@
           this.$router.push('/Mine/Login')
           return false;
         }
+        for(let i in this.spec){
+          if(!this.spec[i].haschoose){
+            this.$layer.msg('请先选择商品规格')
+            return false;
+          }
+        }
+
         console.log(this.sku_id)
         this.$axios.post('/Cart/addCart',{
           goods_id:this.goodsid,
@@ -211,6 +219,12 @@
         if(!this.$storage.session.get('token')){
           this.$router.push('/Mine/Login')
           return false;
+        }
+        for(let i in this.spec){
+          if(!this.spec[i].haschoose){
+            this.$layer.msg('请先选择商品规格')
+            return false;
+          }
         }
         that.$axios.post('/Cart/addCart',{
           goods_id:this.goodsid,
@@ -491,7 +505,7 @@
     }
 
     .buy-btn > div {
-        width: 30%;
+        width: 48%;
         font-size: 14px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
