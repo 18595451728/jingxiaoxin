@@ -1,7 +1,7 @@
 <template>
     <div class="payment">
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
+        <div class=""><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
         <div class="changeAddress" v-show="exchangeAddress">
             <div class="main">
                 <div class="c-title">
@@ -373,7 +373,7 @@
           console.log(res)
           // that.$layer.msg(res.data.msg)
           that.editAddress = !1
-          that.chooseMoren()
+          that.initAddress()
         })
       },
       chooseAddress(e){
@@ -422,7 +422,7 @@
             }).then(rr=>{
               if(rr.data.status==1){
                 if(that.payStyle==0){
-                  window.location.href='http://jingxiaoxin.123bingo.cn/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
+                  window.location.href='http://www.jingxiaoxin.com/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
                 }else if(that.payStyle==1){
                   that.$axios.post('/Pay/wxPay',{
                     order_no:rr.data.data.order_no,
@@ -529,9 +529,9 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-    .emei {
+    . {
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -543,10 +543,10 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
-    .emei img {
+    . img {
         width: 10px;
     }
 
@@ -931,6 +931,7 @@
     }
     .contain input{
         line-height: 48px;
+        height: 48px;
         width: 100%;
         padding-right: 50px;
         -webkit-box-sizing: border-box;

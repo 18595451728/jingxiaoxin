@@ -9,7 +9,7 @@
                 <div class="login-div" v-if="is_login">
                     <div class="username"><span :class="{active:focus=='username'}">账号</span><input
                             @focus="changeFocus('username')" @blur="changeFocus()" v-model="login_phone" type="text"
-                            placeholder="请输入您的账号">
+                            placeholder="请输入您的账号" id="login_name">
                     </div>
                     <div class="password"><span :class="{active:focus=='password'}">密码</span><input
                             @focus="changeFocus('password')" @blur="changeFocus()" v-model="login_password"
@@ -86,6 +86,9 @@
         this.remember = !0
       }
       console.log(this.remember)
+      this.$nextTick(function () {
+        console.log(123456)
+      })
     },
     methods: {
       openLogin () {
@@ -162,8 +165,9 @@
               }).then(res => {
                 console.log(res)
                 if (res.data.status == 1 || res.data.status ==2) {
+                  that.$layer.msg(res.data.msg)
                   setTimeout(() => {
-                    that.$router.push({path: that.paths})
+                    that.$router.push({path: that.paths,query:{probation:!0}})
                   }, 1500)
                 } else {
                   that.$layer.msg(res.data.msg)
@@ -171,7 +175,7 @@
               })
             }else{
               setTimeout(() => {
-                that.$router.push({path: that.paths})
+                that.$router.push({path: that.paths || '/'})
               }, 1500)
             }
 
@@ -220,8 +224,8 @@
           that.$layer.msg('手机号格式错误')
           return false
         }
-        if (password.length < 8) {
-          that.$layer.msg('密码长度不能少于8位')
+        if (password.length < 6) {
+          that.$layer.msg('密码长度不能少于6位')
           return false
         }
         var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/)
@@ -368,6 +372,7 @@
         width: 80%;
         margin-left: 10px;
         line-height: 54px;
+        height: 54px;
     }
 
     .login-div > div.changeword {

@@ -446,6 +446,7 @@
     }
     .contain input{
         line-height: 48px;
+        height: 48px;
         width: 100%;
         padding-right: 50px;
         -webkit-box-sizing: border-box;

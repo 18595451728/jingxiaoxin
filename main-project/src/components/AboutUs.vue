@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav @goscroll="Navhash"></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con" id="about1">
             <img :src="pic1" alt="">
             <div class="a-art">
@@ -48,7 +48,7 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in development">
                         <p>{{item.title}}年</p>
-                        <p><img src="/static/images/yuan.png" alt=""></p>
+                        <p style="height: 78px;display: flex;align-items: center;justify-content: center"><img src="/static/images/yuan.png" alt=""></p>
                         <p>{{item.describe}}</p>
                     </div>
                 </div>
@@ -244,6 +244,7 @@
     .lis .swiper-slide p:first-child{
         font-size: 20px;
         color: #000;
+        line-height: 26px;
     }
     .lis .swiper-slide p:last-child{
         font-size: 14px;
@@ -279,9 +280,9 @@
         margin: 0 0 140px;
         text-align: center;
     }
-    .emei {
+    . {
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -293,10 +294,10 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
-    .emei img {
+    . img {
         width: 10px;
     }
 

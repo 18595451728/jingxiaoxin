@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>联系我们</span></div>
+        <div class=""><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>联系我们</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">
@@ -15,9 +15,9 @@
                         <img src="/static/images/logo_black.png" alt="">
                         <div class="name">{{mes.title}}</div>
                         <p><span>公司地址：</span>{{mes.sub_title}}</p>
-                        <p><span>生产基地地址：</span>浙江省慈溪市周巷镇</p>
+                        <p><span>生产基地地址：</span>{{mes.scjd}}</p>
                         <p><span>公司座机：</span>{{mes.describe}}</p>
-                        <p><span>客服电话：</span>{{mes.link}}</p>
+                        <p><span>客服电话：</span>{{mes.kf}}</p>
                     </div>
                 </div>
             </div>
@@ -67,6 +67,8 @@
       that.$axios.post('/Content/contact',{}).then(res=>{
         console.log(res)
         if(res.data.status==1){
+          res.data.data.contact[0].kf = res.data.data.contact[0].link
+          res.data.data.contact[0].scjd = '浙江省慈溪市周巷镇'
           that.mes = res.data.data.contact[0]
         }
       })
@@ -135,9 +137,9 @@
         box-sizing: border-box;
         cursor: pointer;
     }
-    .emei {
+    . {
         width: 100%;
-        line-height:60px;
+        line-height:40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -149,10 +151,10 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
-    .emei img {
+    . img {
         width: 10px;
     }
 

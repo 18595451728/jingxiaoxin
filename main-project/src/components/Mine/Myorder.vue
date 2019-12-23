@@ -151,7 +151,7 @@
         }).then(rr=>{
          if(rr.data.status==1){
            if(that.payStyle==0){
-             window.location.href='http://jingxiaoxin.123bingo.cn/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
+             window.location.href='http://www.jingxiaoxin.com/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
            }else if(that.payStyle==1){
              that.$axios.post('/Pay/wxPay',{
                order_no:rr.data.data.order_no,
@@ -279,6 +279,16 @@
               that.no_order = !0
             }else{
               that.no_order = !1
+            }
+          }else{
+            if(res.data.status==-1){
+              this.$layer.msg('登录失效，请重新登录')
+              that.$storage.session.set('paths',that.$route.fullPath)
+              setTimeout(function () {
+                that.$router.push('/Mine/Login')
+              },1500)
+            }else{
+              this.$layer.msg(res.data.msg)
             }
           }
         })

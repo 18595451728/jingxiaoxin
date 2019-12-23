@@ -1,7 +1,9 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>加入城市合伙人</span></div>
+        <Popup :showp="showit" :con="tc_con" @closePop="closePop"></Popup>
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
+                               alt=""><span>加入城市合伙人</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">
@@ -19,7 +21,7 @@
                                         src="/static/images/sure.png" v-if="confirmName" alt=""></div>
                             </div>
                             <div class="each_mes">
-                                <p>邮箱*</p>
+                                <p>邮箱</p>
                                 <div :class="{active:focus=='email'}"><input type="text" @focus="changeFocus('email')"
                                                                              @blur="emailBlur()" v-model="email"><img
                                         src="/static/images/sure.png" v-if="confirmEmail" alt=""></div>
@@ -36,16 +38,18 @@
                         <div class="partner_list">
                             <div class="each_mes">
                                 <p>地址*</p>
-                                <div :class="{active:focus=='address'}" @click="getProvince(0)" style="position:relative;">
+                                <div :class="{active:focus=='address'}" @click="getProvince(0)"
+                                     style="position:relative;">
                                     <input type="text" readonly v-model="content">
                                     <img src="/static/images/arrow-bottom.png" alt="">
                                     <div class="chooseAddress" v-if="showAddress">
-                                        <p v-for="item in provinceList" @click.stop="getMessage(item.id,item.name)">{{item.name}}</p>
+                                        <p v-for="item in provinceList" @click.stop="getMessage(item.id,item.name)">
+                                            {{item.name}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="each_mes">
-                                <p>详细地址*</p>
+                                <p>详细地址</p>
                                 <div :class="{active:focus=='detail_address'}"><input type="text" @blur="addressBlur()"
                                                                                       @focus="changeFocus('detail_address')"
                                                                                       v-model="detail_address"><img
@@ -54,7 +58,7 @@
                         </div>
                         <div class="partner_list">
                             <div class="leave_message">
-                                <p>简介留言*</p>
+                                <p>简介留言</p>
                                 <textarea name="leave_message" v-model="suggest" id="leave_message"></textarea>
                             </div>
                         </div>
@@ -70,48 +74,57 @@
 
 <script>
   import Nav from './Nav'
+  import Popup from './Code'
 
   export default {
     name: 'Partner',
     components: {
-      Nav
+      Nav,
+      Popup
     },
     data: function () {
       return {
-        user_name:'',
-        email:'',
-        tel:'',
-        detail_address:'',
+        showit: !1,
+        tc_con: {
+          title: '合伙人申请已提交',
+          desc: '提交成功，净小新工作人员会在24小时内联系您，请耐心等待'
+        },
+        user_name: '',
+        email: '',
+        tel: '',
+        detail_address: '',
         focus: '',
         confirmName: !1,
         confirmEmail: !1,
         confirmTel: !1,
         confirmAddress: !1,
-        showAddress:!1,
-        provinceList:[],
-        provinceId:'',
-        cityId:'',
-        areaId:'',
-        content:'',
-        level:'',
-        suggest:''
+        showAddress: !1,
+        provinceList: [],
+        provinceId: '',
+        cityId: '',
+        areaId: '',
+        content: '',
+        level: '',
+        suggest: ''
       }
     },
-    created(){
+    created () {
       let toIndex = this.$storage.session.get('toIndex')
-      toIndex?this.$router.push('/'):''
+      toIndex ? this.$router.push('/') : ''
     },
     mounted () {
     },
     methods: {
+      closePop (e) {
+        this.showit = e
+      },
 
-
-      getProvince(e){
+      getProvince (e) {
         this.showAddress = !this.showAddress
-        if(this.showAddress){
+        if (this.showAddress) {
           this.focus = 'address'
           this.getMessage(e)
-        }else{
+        } else {
           this.focus = ''
           this.provinceId = ''
           this.cityId = ''
@@ -120,36 +133,36 @@
           this.level = 0
         }
       },
-      getMessage(e,name){
-        console.log(name,this.level)
-        this.level++;
+      getMessage (e, name) {
+        console.log(name, this.level)
+        this.level++
         switch (this.level) {
           case 2 :
             this.provinceId = e
             this.province = name
-            break;
+            break
           case 3 :
-            this.cityId=e
-            this.city=name
-            break;
+            this.cityId = e
+            this.city = name
+            break
           case 4 :
             this.areaId = e
             this.area = name
-            break;
+            break
         }
-        if(this.level >= 4){
+        if (this.level >= 4) {
           this.showAddress = !1
           this.level = 0
-          this.content = this.province+' '+this.city+' '+this.area
+          this.content = this.province + ' ' + this.city + ' ' + this.area
           this.focus = ''
-          return false;
+          return false
         }
-        var that =this
+        var that = this
         this.$axios.post('/Index/getRegion', {
           parent_id: e
         }).then(res => {
           console.log(res)
-          if(res.data.status==1){
+          if (res.data.status == 1) {
             that.provinceList = res.data.data
           }
         })
@@ -178,10 +191,11 @@
           } else {
             this.$layer.msg('邮箱格式错误')
           }
-        } else {
-          this.$layer.msg('邮箱不能为空')
-          this.confirmEmail = !1
         }
+        // else {
+        //   this.$layer.msg('邮箱不能为空')
+        //   this.confirmEmail = !1
+        // }
       },
       telBlur: function () {
         var tel = this.tel
@@ -203,10 +217,11 @@
         console.log(detail_address)
         if (detail_address && detail_address.replace(/(^\s*)|(\s*$)/g, '') && detail_address.replace(/(^\s*)|(\s*$)/g, '') != '') {
           this.confirmAddress = !0
-        } else {
-          this.$layer.msg('详细地址不能为空')
-          this.confirmAddress = !1
         }
+        // else {
+        //   this.$layer.msg('详细地址不能为空')
+        //   this.confirmAddress = !1
+        // }
       },
       send () {
         var that = this
@@ -216,32 +231,33 @@
         // }
         that.$axios.post('/Partner/apply', {
           // token:that.$storage.session.get('token'),
-          name:this.user_name,
-          tel:this.tel,
-          email:this.email,
-          address:this.content,
-          suggest:this.suggest,
-          province_id:this.provinceId,
-          city_id:this.cityId,
-          district_id:this.areaId,
+          name: this.user_name,
+          tel: this.tel,
+          email: this.email,
+          address: this.content,
+          suggest: this.suggest,
+          province_id: this.provinceId,
+          city_id: this.cityId,
+          district_id: this.areaId,
         }).then(res => {
           console.log(res)
-          if(res.data.status==1){
+          if (res.data.status == 1) {
             // that.$layer.msg('提交成功，请等待审核')
             // setTimeout(()=>{
-              that.$router.push({
-                path:'/Code',
-                query:{
-                  status:1
-                }
-              })
+            //   that.$router.push({
+            //     path:'/Code',
+            //     query:{
+            //       status:1
+            //     }
+            //   })
+            that.showit = !0
             // },1000)
-          }else{
+          } else {
             that.$layer.msg(res.data.msg)
           }
         })
       },
-      back(){
+      back () {
         this.$router.go(-1)
       }
     }
@@ -249,21 +265,25 @@
 </script>
 
 <style scoped>
-    .each_mes div.chooseAddress{
+    .each_mes div.chooseAddress {
         position: absolute;
         width: calc(100% + 4px);
         height: 390px;
         overflow-y: scroll;
-        -ms-overflow-style:none;
-        overflow:-moz-scrollbars-none;
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
         left: -2px;
         top: calc(100% + 2px);
         background: #ececec;
         display: block;
         z-index: 11;
     }
-    .each_mes div.chooseAddress::-webkit-scrollbar{width:0px}
-    .each_mes div.chooseAddress p{
+
+    .each_mes div.chooseAddress::-webkit-scrollbar {
+        width: 0px
+    }
+
+    .each_mes div.chooseAddress p {
         line-height: 55px;
         border-bottom: 1px solid #cfcfcf;
         padding: 0 10px;
@@ -272,9 +292,10 @@
         box-sizing: border-box;
         cursor: pointer;
     }
-    .emei {
+
+    . {
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -286,11 +307,11 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
 
-    .emei img {
+    . img {
         width: 10px;
     }
 
@@ -339,6 +360,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 5;
     }
 
     .partner_right_main {
@@ -383,6 +405,7 @@
 
     .each_mes div input {
         height: 45px;
+        width: 100%;
     }
 
     .leave_message {
@@ -454,4 +477,5 @@
             margin: 20px 0 10px;
         }
     }
+
 </style>

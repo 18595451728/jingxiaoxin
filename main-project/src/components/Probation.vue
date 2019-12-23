@@ -1,7 +1,8 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;"
+        <Popup :con="tc_con" :showp="showit" @closePop="closePop"></Popup>
+        <div class=""><img src="/static/images/back.png" @click="back" style="cursor: pointer;"
                                alt=""><span>申请试用</span></div>
         <div class="partner">
             <div class="partner_main">
@@ -62,14 +63,21 @@
 
 <script>
   import Nav from './Nav'
+  import Popup from './Code'
 
   export default {
     name: 'Probation',
     components: {
-      Nav
+      Nav,
+      Popup
     },
     data: function () {
       return {
+        showit:!1,
+        tc_con:{
+          title:'试用申请已提交',
+          desc:'扫码进入小程序查看试用审核结果'
+        },
         goods_id: '',
         focus: '',
         username: '',
@@ -98,9 +106,17 @@
     },
     mounted () {
       this.goods_id = this.$route.query.id
-      console.log(this.goods_id)
+      this.probation = this.$route.query.probation
+      if(this.probation){
+        this.showit = !0
+      }
     },
     methods: {
+
+      closePop(e){
+        this.showit = e
+      },
+
       changeFocus: function (e) {
         console.log(e)
         this.focus = e
@@ -202,7 +218,7 @@
         }
         if (!this.$storage.session.get('token')) {
           console.log(this.$route.fullPath)
-          this.$storage.session.set('paths', '/Code?status=0')
+          this.$storage.session.set('paths', this.$route.fullPath)
           this.$storage.session.set('probateMes', {
             username: username,
             telephone: telephone,
@@ -227,18 +243,17 @@
         }).then(res => {
           console.log(res)
           if (res.data.status == 1 || res.data.status == 2) {
-            // that.$layer.msg(res.data.msg)
-            // setTimeout(()=>{
-            //   that.$router.push('/Product')
-            // },1000)
-            that.$router.push({
-              path: '/Code',
-              query: {
-                status: 0
-              }
-            })
+            that.showit = !0
           } else {
-            that.$layer.msg(res.data.msg)
+            if(res.data.status==-1){
+              that.$layer.msg('登录失效，请重新登录')
+              that.$storage.session.set('paths',that.$route.fullPath)
+              setTimeout(function () {
+                that.$router.push('/Mine/Login')
+              },1500)
+            }else{
+              this.$layer.msg(res.data.msg)
+            }
           }
         })
       },
@@ -278,9 +293,9 @@
         cursor: pointer;
     }
 
-    .emei {
+    . {
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -292,11 +307,11 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
 
-    .emei img {
+    . img {
         width: 10px;
     }
 
@@ -345,6 +360,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 5;
     }
 
     .partner_right_main {

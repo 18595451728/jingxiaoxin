@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -128,11 +128,11 @@
 /*.imgs .swiper-slide img{*/
     /*width: 100%;*/
 /*}*/
-    .emei {
+    . {
         position: fixed;
         z-index: 8;
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -143,10 +143,10 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei img{
+    . img{
         width: 10px;
     }
-    .emei span {
+    . span {
         margin-left: 43px;
     }
 
@@ -235,7 +235,12 @@
         font-size: 14px;
         color: #696969;
         line-height: 23px;
-        min-height: 200px;
+        height: 161px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
     }
 
     .lookmore {
@@ -248,6 +253,9 @@
         float: right;
         margin-top: 45px;
         cursor: pointer;
+        position: absolute;
+        right: 42px;
+        bottom: 5%;
     }
 
     @media screen and (max-width: 1400px) {

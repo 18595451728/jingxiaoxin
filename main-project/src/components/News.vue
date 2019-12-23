@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
                                alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
@@ -89,11 +89,11 @@
 </script>
 
 <style scoped>
-    .emei {
+    . {
         position: fixed;
         z-index: 2;
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -105,11 +105,11 @@
         font-size: 16px;
     }
 
-    .emei span {
+    . span {
         margin-left: 43px;
     }
 
-    .emei img {
+    . img {
         width: 10px;
     }
 
@@ -198,6 +198,7 @@
         font-size: 14px;
         color: #696969;
         line-height: 23px;
+        height: 69px;
         /*min-height: 200px;*/
         overflow: hidden;
         text-overflow: ellipsis;
@@ -216,6 +217,9 @@
         float: right;
         margin-top: 45px;
         cursor: pointer;
+        position: absolute;
+        right: 42px;
+        bottom: 5%;
     }
 
     @media screen and (max-width: 1400px) {

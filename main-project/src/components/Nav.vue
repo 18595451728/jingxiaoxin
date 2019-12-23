@@ -96,7 +96,8 @@ export default {
     }
     .search input{
         width: 100%;
-        line-height: 62px;
+        line-height: 45px;
+        height: 45px;
         padding: 0 30px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -110,7 +111,7 @@ export default {
         top: 0;
         z-index: 9;
         width: 100%;
-        height: 70px;
+        height: 50px;
 
         background: #333;
     }
@@ -140,9 +141,9 @@ export default {
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 15px;
         position: relative;
-        line-height: 70px;
+        line-height: 50px;
     }
     .navlist>div .subnav{
         position: absolute;
@@ -167,7 +168,7 @@ export default {
         cursor: pointer;
     }
     .logo img{
-        width: 125px;
+        width: 100px;
     }
     @media screen and (max-width: 1500px){
         .navlist>div{

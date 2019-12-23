@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
 
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
         <div class="nocart" v-if="nocart">
             <div>
                 <img src="/static/images/no_cart.png" alt="">
@@ -85,6 +85,16 @@
             }else{
               that.nocart = !1
             }
+          }else{
+            if(res.data.status==-1){
+              that.$layer.msg('登录失效，请重新登录')
+              that.$storage.session.set('paths',that.$route.fullPath)
+              setTimeout(function () {
+                that.$router.push('/Mine/Login')
+              },1500)
+            }else{
+              this.$layer.msg(res.data.msg)
+            }
           }
         })
       },
@@ -134,6 +144,8 @@
           console.log(res)
           if(res.data.status==1){
             that.clist[index].goods_fee = this.clist[index].goods_num*this.clist[index].goods_price
+          }else{
+            that.$layer.msg(res.data.msg)
           }
         })
       },
@@ -171,9 +183,9 @@
     .nocart>div>img{
         margin-bottom: 60px;
     }
-    .emei{
+    .{
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -184,10 +196,10 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei span{
+    . span{
         margin-left: 43px;
     }
-    .emei img{
+    . img{
         width: 10px;
     }
     .main-con{

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>支付成功</span></div>
+        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>支付成功</span></div>
         <div class="main-con">
             <div class="congratulation">
                 <p>恭喜您。交易成功</p>
@@ -86,9 +86,9 @@
 
 <style scoped>
 
-    .emei{
+    .{
         width: 100%;
-        line-height: 60px;
+        line-height: 40px;
         padding: 0 115px 0 100px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -99,10 +99,10 @@
         align-items: center;
         font-size: 16px;
     }
-    .emei span{
+    . span{
         margin-left: 43px;
     }
-    .emei img{
+    . img{
         width: 10px;
     }
     .main-con{

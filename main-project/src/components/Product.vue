@@ -151,6 +151,7 @@
     }
     .pro_left{
         width: 330px;
+        min-height: 530px;
         padding: 25px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -205,6 +206,7 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+        position: relative;
     }
 
     .pro_right img {
@@ -212,6 +214,7 @@
     }
 
     .pro_right p{
+        position: absolute;
         width: 130px;
         margin: 0 auto;
         height: 45px;
@@ -225,6 +228,9 @@
         box-sizing: border-box;
         cursor: pointer;
         font-family: pfb;
+        left: 50%;
+        margin-left: -65px;
+        bottom: 25px;
     }
     .fnc div:hover{
         color: #0095c6;
@@ -255,11 +261,41 @@
         font-size: 16px;
         color: #333333;
     }
-    @media screen and (max-width: 1200px) {
-
+    @media screen and (max-width: 1300px) {
+        .product{
+            width: 1200px;
+        }
+        .pro_left{
+            width: 310px;
+            padding: 25px 15px;
+        }
+        .pro_right{
+            width: 270px;
+        }
     }
 
-    @media screen and (max-width: 1100px) {
-
+    @media screen and (max-width: 1200px) {
+        .product{
+            width: 900px;
+            margin: 36px auto;
+        }
+        .pro{
+            width: 900px;
+            margin: 0 auto 36px;
+        }
+        .pro_right{
+            width: 50%;
+        }
+        .pro_left{
+            width: 50%;
+            padding: 25px;
+        }
+        .fnc{
+            width: calc(100% - 50px);
+            justify-content: flex-start;
+        }
+        .fnc>div:first-child{
+            margin-right: 50px;
+        }
     }
 </style>

@@ -237,7 +237,15 @@
           if(res.data.status==1){
             that.$router.push({path: '/Payment', query: {type: 1}})
           }else{
-            this.$layer.msg(res.data.msg)
+            if(res.data.status==-1){
+              this.$layer.msg('登录失效，请重新登录')
+              that.$storage.session.set('paths',that.$route.fullPath)
+              setTimeout(function () {
+                that.$router.push('/Mine/Login')
+              },1500)
+            }else{
+              this.$layer.msg(res.data.msg)
+            }
           }
         })
 

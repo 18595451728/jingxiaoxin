@@ -8,6 +8,8 @@ import layer from 'vue-layer'
 import 'vue-layer/lib/vue-layer.css'
 import getMyConfig from './assets/js/config'
 import storage from 'good-storage'
+import 'ie-placeholder'
+import 'jquery'
 
 Vue.prototype.$axios = Axios
 Vue.prototype.$layer = layer(Vue)
