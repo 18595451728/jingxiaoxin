@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>联系我们</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>联系我们</span></div>
         <div class="partner">
             <div class="partner_main">
                 <div class="partner_left">
@@ -15,9 +15,10 @@
                         <img src="/static/images/logo_black.png" alt="">
                         <div class="name">{{mes.title}}</div>
                         <p><span>公司地址：</span>{{mes.sub_title}}</p>
-                        <p><span>生产基地地址：</span>{{mes.scjd}}</p>
-                        <p><span>公司座机：</span>{{mes.describe}}</p>
-                        <p><span>客服电话：</span>{{mes.kf}}</p>
+                        <p><span>生产基地：</span>{{mes.scjd}}</p>
+                        <!--<p><span>公司座机：</span>{{mes.describe}}</p>-->
+                        <!--<p><span>客服电话：</span>{{mes.kf}}</p>-->
+                        <p><span>全国服务热线：</span>{{mes.kf}} <i>{{mes.describe}}</i></p>
                     </div>
                 </div>
             </div>
@@ -137,7 +138,7 @@
         box-sizing: border-box;
         cursor: pointer;
     }
-    . {
+    .emei {
         width: 100%;
         line-height:40px;
         padding: 0 115px 0 100px;
@@ -151,10 +152,10 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
-    . img {
+    .emei img {
         width: 10px;
     }
 
@@ -221,6 +222,10 @@
     .partner_right_main p span{
         /*font-weight: bold;*/
         font-family: pfb;
+    }
+    .partner_right_main p i{
+        font-style: normal;
+        margin-left: 10px;
     }
     .footer{
         position: absolute;

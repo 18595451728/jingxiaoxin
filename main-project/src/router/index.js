@@ -39,7 +39,7 @@ const router = new Router({
       name: 'HomePage',
       component: HomePage,
       meta: {
-        title: '首页',
+        title: '净小新',
         needLogin: !1
       }
     },
@@ -53,7 +53,7 @@ const router = new Router({
       name: 'Product',
       component: Product,
       meta: {
-        title: '产品中心',
+        title: '产品中心-净小新',
         needLogin: !1
       }
     },
@@ -62,7 +62,7 @@ const router = new Router({
       name: 'Advantage',
       component: Advantage,
       meta: {
-        title: '产品优势',
+        title: '产品优势-净小新',
         needLogin: !1
       }
     },
@@ -71,7 +71,7 @@ const router = new Router({
       name: 'AboutUs',
       component: AboutUs,
       meta: {
-        title: '关于我们',
+        title: '关于我们-净小新',
         needLogin: !1
       }
     },
@@ -80,7 +80,7 @@ const router = new Router({
       name: 'News',
       component: News,
       meta: {
-        title: '新闻资讯',
+        title: '新闻资讯-净小新',
         needLogin: !1
       }
     },
@@ -89,7 +89,7 @@ const router = new Router({
       name: 'ShopCart',
       component: ShopCart,
       meta: {
-        title: '我的购物车',
+        title: '我的购物车-净小新',
         needLogin: !0
       }
     },
@@ -98,7 +98,7 @@ const router = new Router({
       name: 'Payment',
       component: Payment,
       meta: {
-        title: '商品购买',
+        title: '商品购买-净小新',
         needLogin: !0
       }
     },
@@ -107,7 +107,7 @@ const router = new Router({
       name: 'Afterpay',
       component: Afterpay,
       meta: {
-        title: '支付成功',
+        title: '支付成功-净小新',
         needLogin: !1
       }
     },
@@ -116,7 +116,7 @@ const router = new Router({
       name: 'Probation',
       component: Probation,
       meta: {
-        title: '商品试用',
+        title: '商品试用-净小新',
         needLogin: !1
       }
     },
@@ -125,7 +125,7 @@ const router = new Router({
       name: 'Case',
       component: Case,
       meta: {
-        title: '项目案例',
+        title: '项目案例-净小新',
         needLogin: !1
       }
     },
@@ -134,7 +134,7 @@ const router = new Router({
       name: 'NewsDetail',
       component: NewsDetail,
       meta: {
-        title: '新闻详情',
+        title: '新闻详情-净小新',
         needLogin: !1
       }
     },
@@ -143,7 +143,7 @@ const router = new Router({
       name: 'Partner',
       component: Partner,
       meta: {
-        title: '城市合伙人',
+        title: '城市合伙人-净小新',
         needLogin: !1
       }
     },
@@ -152,7 +152,7 @@ const router = new Router({
       name: 'ProductDetail',
       component: ProductDetail,
       meta: {
-        title: '商品详情',
+        title: '商品详情-净小新',
         needLogin: !1
       }
     },{
@@ -160,7 +160,7 @@ const router = new Router({
       name: 'ProductShow',
       component: ProductShow,
       meta: {
-        title: '商品优势',
+        title: '商品优势-净小新',
         needLogin: !1
       }
     },
@@ -168,9 +168,9 @@ const router = new Router({
       path: '/Mine/UserMessage',
       name: 'UserMessage',
       component: UserMessage,
-      meta:{
-        title:'个人信息',
-        needLogin:!0
+      meta: {
+        title: '个人信息-净小新',
+        needLogin: !0
       }
     },
     {
@@ -178,7 +178,7 @@ const router = new Router({
       name: 'Myorder',
       component: Myorder,
       meta: {
-        title: '我的订单',
+        title: '我的订单-净小新',
         needLogin: !0
       }
     },
@@ -187,7 +187,7 @@ const router = new Router({
       name: 'Mycoupon',
       component: Mycoupon,
       meta: {
-        title: '我的优惠券',
+        title: '我的优惠券-净小新',
         needLogin: !0
       }
     },
@@ -196,7 +196,7 @@ const router = new Router({
       name: 'Address',
       component: Address,
       meta: {
-        title: '我的地址',
+        title: '我的地址-净小新',
         needLogin: !0
       }
     },
@@ -205,7 +205,7 @@ const router = new Router({
       name: 'Logistics',
       component: Logistics,
       meta: {
-        title: '我的物流',
+        title: '我的物流-净小新',
         needLogin: !1
       }
     },
@@ -214,7 +214,7 @@ const router = new Router({
       name: 'Refund',
       component: Refund,
       meta: {
-        title: '退款',
+        title: '退款-净小新',
         needLogin: !1
       }
     },
@@ -223,7 +223,7 @@ const router = new Router({
       name: 'Login',
       component: Login,
       meta: {
-        title: '登录',
+        title: '登录-净小新',
         needLogin: !1
       }
     },
@@ -232,7 +232,7 @@ const router = new Router({
       name: 'OffLine',
       component: OffLine,
       meta: {
-        title: '线下支付',
+        title: '线下支付-净小新',
         needLogin: !1
       }
     },
@@ -241,7 +241,7 @@ const router = new Router({
       name: 'Comment',
       component: Comment,
       meta: {
-        title: '评论',
+        title: '评论-净小新',
         needLogin: !1
       }
     },
@@ -250,19 +250,27 @@ const router = new Router({
       name: 'Contact',
       component: Contact,
       meta: {
-        title: '联系我们',
+        title: '联系我们-净小新',
         needLogin: !1
       }
     },
     {
       path: '/Code',
       name: 'Code',
-      component: Code
+      component: Code,
+      meta: {
+        title: '状态查询-净小新',
+        needLogin: !1
+      }
     },
     {
       path: '/CaseDetail',
       name: 'CaseDetail',
-      component: CaseDetail
+      component: CaseDetail,
+      meta: {
+        title: '案例详情-净小新',
+        needLogin: !1
+      }
     }
   ]
 })

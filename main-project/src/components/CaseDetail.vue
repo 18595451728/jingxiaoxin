@@ -120,7 +120,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,.9);
+        background: rgba(0,0,0,.21);
         z-index: 10;
     }
     .close_white{

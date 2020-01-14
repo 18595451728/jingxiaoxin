@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" alt=""><span>退款</span></div>
+        <div class="emei"><img src="/static/images/back.png" alt=""><span>退款</span></div>
         <div class="main-con">
             <div class="refund">
                 <div class="backmes">
@@ -230,7 +230,7 @@
 </script>
 
 <style scoped>
-    .{
+    .emei{
         width: 100%;
         line-height: 60px;
         padding: 0 115px 0 100px;
@@ -243,10 +243,10 @@
         align-items: center;
         font-size: 16px;
     }
-    . span{
+    .emei span{
         margin-left: 43px;
     }
-    . img{
+    .emei img{
         width: 10px;
     }
     .main-con{

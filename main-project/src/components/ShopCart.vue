@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
 
-        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>购物车</span></div>
         <div class="nocart" v-if="nocart">
             <div>
                 <img src="/static/images/no_cart.png" alt="">
@@ -99,8 +99,12 @@
         })
       },
       deleteItem(index){
-        var cart_id = [this.clist[index].id]
-        this.deleteCart(cart_id)
+        this.$layer.confirm('确认删除？',(layerid)=>{
+          var cart_id = [this.clist[index].id]
+          this.deleteCart(cart_id)
+          this.$layer.close(layerid);
+        })
+
       },
       deleteAll(){
         var cart_id = []
@@ -183,7 +187,7 @@
     .nocart>div>img{
         margin-bottom: 60px;
     }
-    .{
+    .emei{
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -196,10 +200,10 @@
         align-items: center;
         font-size: 16px;
     }
-    . span{
+    .emei span{
         margin-left: 43px;
     }
-    . img{
+    .emei img{
         width: 10px;
     }
     .main-con{

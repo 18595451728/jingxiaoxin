@@ -1,7 +1,7 @@
 <template>
     <div class="payment">
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>支付</span></div>
         <div class="changeAddress" v-show="exchangeAddress">
             <div class="main">
                 <div class="c-title">
@@ -126,7 +126,7 @@
                     </div>
                     <div class="wx" :class="{active:payStyle==1}" @click="changeStyle(1)">
                         <div><img src="/static/images/wx.png" alt="">
-                            <p>微信支付支付</p></div>
+                            <p>微信支付</p></div>
                     </div>
                     <div class="xx"  :class="{active:payStyle==2}" @click="changeStyle(2)">
                         <div><img src="/static/images/xx.png" alt="">
@@ -149,7 +149,13 @@
                 <div class="t-bottom" @click="jiesuan()">结算</div>
             </div>
         </div>
-        <div class="wxpay" @click="hidewx" v-show="showwx" v-html="wxpay"></div>
+        <div class="wxpay" @click="hidewx" v-show="showwx">
+            <div>
+                <p>应付金额：<span>{{money.order_amount}}元</span></p>
+                <div v-html="wxpay"></div>
+                <p>使用微信扫码付款</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -191,7 +197,8 @@
         content:'',
         telephone:'',
         provinceList:'',
-        morenaddress:[]
+        morenaddress:[],
+        paytimes:0
       }
     },
     mounted () {
@@ -226,8 +233,6 @@
       this.$axios.post('/Order/orderBuy', {
         token: this.$storage.session.get('token'),
         cart_type: this.cart_type,
-        pay_integral: '',
-        coupon_id: '',
         address_id: this.address.id
       }).then(res => {
         console.log(res)
@@ -387,6 +392,9 @@
           console.log(res)
           if(res.data.status==1){
             that.alist = res.data.data.list
+              if(!that.address && res.data.data.list.length>0){
+                  that.address = res.data.data.list[0]
+              }
             var morenaddress = []
             for(var i in that.alist){
               morenaddress[0] = that.alist[i].is_default ? that.alist[i] : that.alist[0]
@@ -401,12 +409,55 @@
         this.payStyle = e
       },
 
+        topay(){
+          let that= this
+            that.$axios.post('/pay/toPay',{
+                order_no:this.order_no,
+                token:this.$storage.session.get('token')
+            }).then(rr=>{
+                if(rr.data.status==1){
+                    if(that.payStyle==0){
+                        window.location.href='http://www.jingxiaoxin.com/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
+                    }else if(that.payStyle==1){
+                        that.$axios.post('/Pay/wxPay',{
+                            order_no:rr.data.data.order_no,
+                            token:that.$storage.session.get('token')
+                        }).then(r=>{
+                            console.log(r)
+                            if(r.data.status==1){
+                                that.wxpay = r.data.data.code_url
+                                that.showwx = !0
+                                that.judgeHasPay(rr.data.data.order_no)
+                            }
+                        })
+                    }else{
+                        that.$axios.post('/Pay/certificate',{
+                            pay_type:4,
+                            order_no:rr.data.data.order_no
+                        }).then(cc=>{
+                            if(cc.data.status==1){
+                                that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
+                            }
+                        })
+                    }
+                }
+
+            })
+        },
       jiesuan(){
         var that=this
+          console.log(this.address)
         if(!this.address.id){
           this.$layer.msg('请先添加收货地址')
           return false;
         }
+        if(this.paytimes==0){
+
+        }else{
+            this.topay();
+            return false;
+        }
+        this.paytimes++;
         this.$axios.post('/Order/addOrder',{
           cart_type:this.cart_type,
           address_id:this.address.id,
@@ -415,44 +466,14 @@
         }).then(res=>{
           console.log(res)
           if(res.data.status == 1){
-            var order_no = res.data.data.order_no
-            that.$axios.post('/pay/toPay',{
-              order_no:order_no,
-              token:that.$storage.session.get('token')
-            }).then(rr=>{
-              if(rr.data.status==1){
-                if(that.payStyle==0){
-                  window.location.href='http://www.jingxiaoxin.com/api/Pay/aliPay?order_no='+rr.data.data.order_no+'&token='+that.$storage.session.get('token')
-                }else if(that.payStyle==1){
-                  that.$axios.post('/Pay/wxPay',{
-                    order_no:rr.data.data.order_no,
-                    token:that.$storage.session.get('token')
-                  }).then(r=>{
-                    console.log(r)
-                    if(r.data.status==1){
-                      that.wxpay = r.data.data.code_url
-                      that.showwx = !0
-                      that.judgeHasPay(rr.data.data.order_no)
-                    }
-                  })
-                }else{
-                  that.$axios.post('/Pay/certificate',{
-                    pay_type:4,
-                    order_no:rr.data.data.order_no
-                  }).then(cc=>{
-                    if(cc.data.status==1){
-                      that.$router.push({path:'/Mine/OffLine',query:{order_no:rr.data.data.order_no}})
-                    }
-                  })
-                }
-              }
-
-            })
+            that.order_no = res.data.data.order_no
+           that.topay()
           }else{
             that.$layer.msg(res.data.msg)
           }
         })
       },
+
       judgeHasPay(e){
         var that =this
         var times = 0
@@ -460,7 +481,12 @@
           times++;
           if(times>=50){
             clearInterval(this.tt)
-            that.$router.push('/Mine?Myorder?mine_status=1')
+            that.$router.push({
+                path:'/Mine/Myorder',
+                query:{
+                    mine_status:1
+                }
+            })
           }
           console.log(e)
           this.$axios.post('/Pay/orderRequest',{
@@ -529,7 +555,7 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-    . {
+    .emei {
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -543,10 +569,10 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
-    . img {
+    .emei img {
         width: 10px;
     }
 
@@ -849,7 +875,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(0,0,0,.9);
+        background: rgba(0,0,0,.21);
+    }
+    .wxpay>div{
+        text-align: center;
+        padding: 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #fff;
+        font-size: 16px;
+        color: rgba(0,0,0,1);
+    }
+    .wxpay span{
+        font-size: 24px;
+        color: #FF470A;
     }
     .wxpay img{
         width: 250px;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>项目案例</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
         </div>
@@ -128,7 +128,7 @@
 /*.imgs .swiper-slide img{*/
     /*width: 100%;*/
 /*}*/
-    . {
+    .emei {
         position: fixed;
         z-index: 8;
         width: 100%;
@@ -143,10 +143,10 @@
         align-items: center;
         font-size: 16px;
     }
-    . img{
+    .emei img{
         width: 10px;
     }
-    . span {
+    .emei span {
         margin-left: 43px;
     }
 
@@ -267,8 +267,17 @@
         .p-list {
             height: 73.5%;
         }
-    }
 
+    }
+@media screen and (max-width: 1440px) {
+    .p-list{
+        width: 47%;
+    }
+    .n-detail{
+        -webkit-line-clamp: 3;
+        height: 69px;
+    }
+}
     @media screen and (max-width: 1200px) {
         .lookmore {
             width: 180px;

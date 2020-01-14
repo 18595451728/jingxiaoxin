@@ -75,7 +75,13 @@
                 <div class="t-bottom" @click="jiesuan">结算</div>
             </div>
         </div>
-        <div class="wxpay" @click="hidewx" v-show="showwx" v-html="wxpay"></div>
+        <div class="wxpay" @click="hidewx" v-show="showwx">
+            <div>
+                <p>应付金额：<span>{{paymoney}}元</span></p>
+                <div v-html="wxpay"></div>
+                <p>使用微信扫码付款</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -99,7 +105,8 @@
         order_no:'',
         wxpay:'',
         showwx:!1,
-        no_order:''
+        no_order:'',
+        paymoney:0
       }
     },
     mounted(){
@@ -175,7 +182,12 @@
           times++;
           if(times>=50){
             clearInterval(tt)
-            that.$router.push('/Mine?Myorder?mine_status=1')
+            that.$router.push({
+              path:'/Mine/Myorder',
+              query:{
+                mine_status:1
+              }
+            })
           }
           console.log(e)
           this.$axios.post('/Pay/orderRequest',{
@@ -219,6 +231,7 @@
         console.log(this.orderlist[index].order_no)
         this.topay = !0
         this.order_no  = this.orderlist[index].order_no
+        this.paymoney  = this.orderlist[index].total_fee
       },
 
       closepay(){
@@ -313,7 +326,7 @@
         left: 0;
         top: 0;
         z-index: 13;
-        background: rgba(0,0,0,.9);
+        background: rgba(0,0,0,.21);
     }
     .main{
         width: 70%;
@@ -545,8 +558,25 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(0,0,0,.9);
-        z-index: 14;
+        background: rgba(0,0,0,.21);
+        z-index: 99;
+    }
+    .wxpay>div{
+        text-align: center;
+        padding: 30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #fff;
+        font-size: 16px;
+        color: rgba(0,0,0,1);
+    }
+    .wxpay span{
+        font-size: 24px;
+        color: #FF470A;
+    }
+    .wxpay img{
+        width: 250px;
     }
     @media screen and (max-width: 1400px) {
         .l-left{

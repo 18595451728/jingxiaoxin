@@ -1,5 +1,6 @@
 <template>
     <div>
+        <img src="http://www.jingxiaoxin.com/static/images/newlogo.jpg" style="display: none" alt="">
         <Nav></Nav>
         <div class="banner swiper-container">
             <div class="swiper-wrapper">
@@ -226,6 +227,5 @@
         width: 66%;
         cursor: pointer;
     }
-
 
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>线下支付</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;" alt=""><span>线下支付</span></div>
         <div class="main-con">
             <div class="refund">
                 <div class="voucher">
@@ -28,13 +28,13 @@
                         <p>*姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
                         <div class="kuang"><input type="text" ref="username"></div>
                     </div>
-                    <div>
-                        <p></p>
+                    <div class="ceer">
+                        <p>*上传凭证：</p>
                         <div class="upload">
                             <img src="/static/images/add.png" alt="">
-                            <p>上传凭证</p>
+                            <p>上传图片</p>
                             <p>（最多1张）</p>
-                            <input type="file" @change="uploadImgs">
+                            <input type="file"  @change="uploadImgs" accept="image/*"/>
                         </div>
 
                     </div>
@@ -42,6 +42,7 @@
                         <p></p>
                         <div v-for="item in imgs" class="imglist">
                             <img :src="item" alt="">
+                            <span @click="deleteImg">×</span>
                         </div>
                     </div>
                     <div class="send" @click="sendCer">提交</div>
@@ -145,6 +146,8 @@
             setTimeout(()=>{
               that.$router.push('/Mine/Myorder?mine_status=1')
             },1000)
+          }else{
+              that.$layer.msg(res.data.msg)
           }
         })
       },
@@ -176,13 +179,21 @@
             }
           })
         }
-      }
+      },
+        deleteImg(){
+          let that =this
+          this.$layer.confirm('确认删除？',(layerid)=>{
+              console.log(111)
+              that.imgs = []
+              this.$layer.close(layerid);
+          })
+        }
     }
   }
 </script>
 
 <style scoped>
-    .{
+    .emei{
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -195,10 +206,10 @@
         align-items: center;
         font-size: 16px;
     }
-    . span{
+    .emei span{
         margin-left: 43px;
     }
-    . img{
+    .emei img{
         width: 10px;
     }
     .main-con{
@@ -280,6 +291,12 @@
         align-items: center;
         margin-bottom: 15px;
     }
+    .PayInfo>div.ceer{
+        align-items: flex-start;
+    }
+    .PayInfo>div.ceer>p{
+        margin-top: 30px;
+    }
     .PayInfo>div>p{
         width: 80px;
         font-size: 14px;
@@ -327,10 +344,30 @@
         height: 120px;
         margin-bottom: 75px;
         margin-right: 10px;
+        position: relative;
     }
     .imglist img{
         width: 100%;
         height: 100%;
+    }
+    .imglist span{
+        width: 16px;
+        height: 16px;
+        /*border: 1px solid #999;*/
+        text-align: center;
+        line-height: 16px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        position: absolute;
+        right: -20px;
+        top: 0;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        color: #999;
+        font-size: 20px;
+        cursor: pointer;
     }
     .PayInfo>div.send{
         display: block;

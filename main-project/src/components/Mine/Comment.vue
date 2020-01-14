@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
+        <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>我的订单</span></div>
         <div class="main-con">
             <div class="refund">
                 <div v-for="(item,index) in goodlist.list">
@@ -196,7 +196,7 @@
 </script>
 
 <style scoped>
-    .{
+    .emei{
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -209,8 +209,11 @@
         align-items: center;
         font-size: 16px;
     }
-    . span{
+    .emei span{
         margin-left: 43px;
+    }
+    .emei img{
+        width: 10px;
     }
     .main-con{
         width: 1400px;

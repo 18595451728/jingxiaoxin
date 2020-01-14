@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Popup :showp="showit" :con="tc_con" @closePop="closePop"></Popup>
-        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
                                alt=""><span>加入城市合伙人</span></div>
         <div class="partner">
             <div class="partner_main">
@@ -117,6 +117,7 @@
     methods: {
       closePop (e) {
         this.showit = e
+        this.$router.go(0);
       },
 
       getProvince (e) {
@@ -293,7 +294,7 @@
         cursor: pointer;
     }
 
-    . {
+    .emei {
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -307,11 +308,11 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
 
-    . img {
+    .emei img {
         width: 10px;
     }
 

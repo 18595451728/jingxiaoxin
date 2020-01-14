@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav></Nav>
-        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back"
                                alt=""><span>新闻资讯</span></div>
         <div class="bgzi">
             <img src="/static/images/bgzi.png" alt="">
@@ -89,7 +89,7 @@
 </script>
 
 <style scoped>
-    . {
+    .emei {
         position: fixed;
         z-index: 2;
         width: 100%;
@@ -105,11 +105,11 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
 
-    . img {
+    .emei img {
         width: 10px;
     }
 
@@ -232,12 +232,17 @@
             height: 73.5%;
         }
     }
-
+    @media screen and (max-width: 1440px) {
+        .p-list{
+            width: 47%;
+        }
+    }
     @media screen and (max-width: 1200px) {
         .lookmore {
             width: 180px;
             line-height: 50px;
         }
+
     }
 
     @media screen and (max-width: 1100px) {

@@ -1,7 +1,7 @@
 <template>
 <div>
     <Nav></Nav>
-    <div class=""><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
+    <div class="emei"><img src="/static/images/back.png" @click="back" alt=""><span>新闻资讯</span></div>
     <div class="detail abcdef">
         <div class="d-name"><span>「新闻资讯」</span>{{news.title}}</div>
         <div class="d-time">发表于{{news.year}}年{{news.month}}月{{news.day}}日</div>
@@ -60,7 +60,7 @@
 </script>
 
 <style scoped>
-    .{
+    .emei{
         width: 100%;
         line-height: 60px;
         padding: 0 115px 0 100px;
@@ -73,10 +73,10 @@
         align-items: center;
         font-size: 16px;
     }
-    . span{
+    .emei span{
         margin-left: 43px;
     }
-    . img{
+    .emei img{
         width: 10px;
     }
 .detail{

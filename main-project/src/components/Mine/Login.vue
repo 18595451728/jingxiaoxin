@@ -165,7 +165,6 @@
               }).then(res => {
                 console.log(res)
                 if (res.data.status == 1 || res.data.status ==2) {
-                  that.$layer.msg(res.data.msg)
                   setTimeout(() => {
                     that.$router.push({path: that.paths,query:{probation:!0}})
                   }, 1500)
@@ -254,9 +253,36 @@
             if (token) {
               that.$storage.session.set('token', token)
               that.$layer.msg('注册成功')
-              setTimeout(() => {
-                that.$router.push({path: that.paths})
-              }, 1500)
+
+
+                console.log(that.$route.query.probation, that.$storage.session.get('probateMes'))
+                if (that.$route.query.probation) {
+                    var mes = that.$storage.session.get('probateMes')
+                    that.$axios.post('/Probation/goodsProbation', {
+                        token: that.$storage.session.get('token'),
+                        username: mes.username,
+                        telephone: mes.telephone,
+                        province_id: mes.province_id,
+                        city_id: mes.city_id,
+                        district_id: mes.district_id,
+                        address_detail: mes.address_detail,
+                        goods_id: mes.goods_id
+                    }).then(res => {
+                        console.log(res)
+                        if (res.data.status == 1 || res.data.status ==2) {
+                            setTimeout(() => {
+                                that.$router.push({path: that.paths,query:{probation:!0}})
+                            }, 1500)
+                        } else {
+                            that.$layer.msg(res.data.msg)
+                        }
+                    })
+                }else{
+                    setTimeout(() => {
+                        that.$router.push({path: that.paths || '/'})
+                    }, 1500)
+                }
+
             }
 
           } else {

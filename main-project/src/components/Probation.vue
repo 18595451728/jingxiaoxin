@@ -2,7 +2,7 @@
     <div>
         <Nav></Nav>
         <Popup :con="tc_con" :showp="showit" @closePop="closePop"></Popup>
-        <div class=""><img src="/static/images/back.png" @click="back" style="cursor: pointer;"
+        <div class="emei"><img src="/static/images/back.png" @click="back" style="cursor: pointer;"
                                alt=""><span>申请试用</span></div>
         <div class="partner">
             <div class="partner_main">
@@ -115,6 +115,7 @@
 
       closePop(e){
         this.showit = e
+        this.$router.go(0)
       },
 
       changeFocus: function (e) {
@@ -293,7 +294,7 @@
         cursor: pointer;
     }
 
-    . {
+    .emei {
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -307,11 +308,11 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
 
-    . img {
+    .emei img {
         width: 10px;
     }
 

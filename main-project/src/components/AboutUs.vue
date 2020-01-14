@@ -1,7 +1,7 @@
 <template>
     <div>
         <Nav @goscroll="Navhash"></Nav>
-        <div class=""><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
+        <div class="emei"><img src="/static/images/back.png" style="cursor: pointer;" @click="back" alt=""><span>关于我们</span></div>
         <div class="main-con" id="about1">
             <img :src="pic1" alt="">
             <div class="a-art">
@@ -280,7 +280,7 @@
         margin: 0 0 140px;
         text-align: center;
     }
-    . {
+    .emei {
         width: 100%;
         line-height: 40px;
         padding: 0 115px 0 100px;
@@ -294,10 +294,10 @@
         font-size: 16px;
     }
 
-    . span {
+    .emei span {
         margin-left: 43px;
     }
-    . img {
+    .emei img {
         width: 10px;
     }
 

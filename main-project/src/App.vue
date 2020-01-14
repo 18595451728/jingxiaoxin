@@ -71,19 +71,19 @@ export default {
   }
   @font-face {
     font-family: 'pfr';
-    src: url("/static/Fonts/PingFang Regular.otf");
+    src: url("http://www.jingxiaoxin.com/static/Fonts/PingFang Regular.otf");
     font-weight: bold;
     font-style: normal;
   }
   @font-face {
     font-family: 'pfb';
-    src: url("/static/Fonts/PingFang Bold.ttf");
+    src: url("http://www.jingxiaoxin.com/static/Fonts/PingFang Bold.ttf");
     font-weight: normal;
     font-style: normal;
   }
   @font-face {
     font-family: 'noodle';
-    src: url("/static/Fonts/noodle.ttf");
+    src: url("http://www.jingxiaoxin.com/static/Fonts/noodle.ttf");
     font-weight: normal;
     font-style: normal;
   }
